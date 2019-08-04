@@ -1,50 +1,50 @@
 <template>
-  <div id="app">
-    <v-app>
-      <grid-container :images="images"></grid-container>
-    </v-app>
-  </div>
+    <div id="app">
+        <v-app id="inspire" :dark="themeModel">
+            <v-container fluid grid-list-md>
+                <v-layout align-center>
+                    <v-flex>Theme</v-flex>
+                    <v-spacer></v-spacer>
+                    <v-flex shrink>
+                        <v-switch v-model="themeModel" label="Dark Theme"></v-switch>
+                    </v-flex>
+                </v-layout>
+                <router-view :key="Math.random(1,100)"></router-view>
+            </v-container>
+        </v-app>
+    </div>
 </template>
 
 <script>
-import DataService from "./dataproviders/DataService";
-import GridContainer from './components/GridContainer.vue'
-
 export default {
-  name: 'app',
-  components: {
-    GridContainer
-  },
-  data(){
-      return {
-          images: []
-      }
-  },
-  methods: {
-      fetchData() {
-          DataService
-              .getImages()
-              .then(response => {
-                  this.images = response.data.images;
-              });
-      }
-  },
-  created() {
-      this.fetchData();
-  }
-}
+    name: "app",
+    components: {},
+    data() {
+        return {};
+    },
+    methods: {},
+    computed: {
+        themeModel: {
+            get() {
+                return this.$vuetify.theme.dark;
+            },
+            set(val) {
+                this.$vuetify.theme.dark = val;
+            }
+        }
+    }
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
 }
 
-.test{
+.test {
     background: red;
-    
 }
 </style>

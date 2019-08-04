@@ -1,15 +1,23 @@
-// http://regaltheme.com/tf/multi/minipo/minipo/index-2.html
-
 import Vue from 'vue'
-import Vuetify from 'vuetify'
 
-import 'vuetify/dist/vuetify.min.css'
+import store from './store'
+import router from './router'
+import vuetify from './vuetify'
+import {
+    initializeFirebase
+} from './firebase'
 
 import App from './App.vue'
 
 Vue.config.productionTip = false
-Vue.use(Vuetify)
 
 new Vue({
-  render: h => h(App),
+    el: '#app',
+    store,
+    router,
+    vuetify,
+    render: h => h(App),
+    created() {
+        initializeFirebase();
+    }
 }).$mount('#app')
