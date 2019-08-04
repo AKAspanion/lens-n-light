@@ -1,6 +1,7 @@
 <template>
     <div id="app">
-        <v-app id="inspire" :dark="themeModel">
+        <v-app id="ankit" :dark="themeModel">
+            <v-progress-linear indeterminate :active="topLoader"></v-progress-linear>
             <v-container fluid grid-list-md>
                 <v-layout align-center>
                     <v-flex>Theme</v-flex>
@@ -30,6 +31,11 @@ export default {
             },
             set(val) {
                 this.$vuetify.theme.dark = val;
+            }
+        },
+        topLoader: {
+            get() {
+                return this.$store.getters.topLoader;
             }
         }
     }

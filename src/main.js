@@ -9,6 +9,8 @@ import {
 
 import App from './App.vue'
 
+import "./assets/style.css";
+
 Vue.config.productionTip = false
 
 new Vue({
