@@ -1,26 +1,25 @@
 <template>
-    <photo-uploader></photo-uploader>
+    <file-uploader @upload="getData" @error="handleError"></file-uploader>
 </template>
 
 <script>
-import PhotoUploader from '../components/PhotoUploader.vue'
+import FileUploader from "../components/FileUploader.vue";
 export default {
     components: {
-        PhotoUploader
+        FileUploader
     },
     data() {
         return {
-            model: false
+            imgUrl: false
         };
     },
-    computed: {
-        themeModel: {
-            get() {
-                return this.$store.getters.loadTheme;
-            },
-            set(val) {
-                this.$store.dispatch("toggleTheme", val);
-            }
+    methods: {
+        getData(uploadData) {
+            console.log(uploadData)
+            this.$store.dispatch('showSnackBar', 'Photo uploaded successfully!');
+        },
+        handleError(err) {
+            this.$store.dispatch('showSnackBar', err.message);
         }
     }
 };

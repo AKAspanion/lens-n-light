@@ -7,7 +7,13 @@ export default new Vuex.Store({
     state: {
         darkTheme: false,
         topLoader: false,
-        images: []
+        snackBar: {
+            model: false,
+            text: ''
+        },
+        photos: {
+            general: []
+        }
     },
     mutations: {
         toggleTheme(state, payload) {
@@ -18,6 +24,9 @@ export default new Vuex.Store({
         },
         setTopLoader(state, payload) {
             state.topLoader = payload;
+        },
+        showSnackBar(state, payload) {
+            state.snackBar = payload;
         }
     },
     actions: {
@@ -35,6 +44,14 @@ export default new Vuex.Store({
             commit
         }, payload) {
             commit('setTopLoader', payload)
+        },
+        showSnackBar({
+            commit
+        }, payload) {
+            commit('showSnackBar', {
+                model: true,
+                text: payload
+            })
         }
     },
     getters: {
@@ -43,6 +60,9 @@ export default new Vuex.Store({
         },
         topLoader(state) {
             return state.topLoader
+        },
+        snackBar(state) {
+            return state.snackBar;
         }
     }
 })

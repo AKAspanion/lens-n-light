@@ -18,7 +18,7 @@ export const uploadFile = (file) => {
     const extension = fileName.slice(fileName.lastIndexOf("."));
     return firebase
         .storage()
-        .ref("photos/" + "abcf" + extension)
+        .ref("photos/" + "aabc." + extension)
         .put(file);
 }
 
