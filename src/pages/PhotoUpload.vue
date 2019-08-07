@@ -4,6 +4,7 @@
 
 <script>
 import FileUploader from "../components/FileUploader.vue";
+import { addPhoto } from "../firebase";
 export default {
     components: {
         FileUploader
@@ -15,8 +16,10 @@ export default {
     },
     methods: {
         getData(uploadData) {
-            console.log(uploadData)
-            this.$store.dispatch('showSnackBar', 'Photo uploaded successfully!');
+            addPhoto(uploadData)
+                .then(()=>{
+                    this.$store.dispatch('showSnackBar', 'Photo uploaded successfully!');
+                })
         },
         handleError(err) {
             this.$store.dispatch('showSnackBar', err.message);

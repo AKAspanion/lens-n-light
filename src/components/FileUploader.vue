@@ -23,7 +23,7 @@
                             <v-autocomplete
                                 outlined
                                 v-model="file.category"
-                                :items="['Nature', 'Animal', 'Portraits', 'Abstract']"
+                                :items="categoryItems"
                                 :disabled="uploading"
                                 label="Category"
                                 :rules="[rules.required]"
@@ -114,7 +114,8 @@ export default {
             },
             rules: {
                 required: value => !!value || "Field is Required."
-            }
+            },
+            categoryItems: ['1', '2']
         };
     },
     methods: {
@@ -148,7 +149,7 @@ export default {
                         return getURL(data.metadata.fullPath.toString());
                     })
                     .then(url => {
-                        this.$emit("upload", { ...this.file, imageUrl: url });
+                        this.$emit("upload", { url, name: this.file.caption, 'category-id': this.file.category });
                     })
                     .catch(err => {
                         this.$emit("error", err);
