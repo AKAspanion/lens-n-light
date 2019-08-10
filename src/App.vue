@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import MainContainer from "./pages/MainContainer.vue";
+import MainContainer from "./containers/MainContainer.vue";
 export default {
     name: "app",
     components: {

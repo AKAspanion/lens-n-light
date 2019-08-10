@@ -19,8 +19,8 @@
                                 @change="onFilePick"
                             ></v-file-input>
                         </v-flex>
-                        <v-flex xs12 md6>
-                            <v-autocomplete
+                        <v-flex xs12 sm6 d-flex>
+                            <v-select
                                 outlined
                                 v-model="file.category"
                                 :items="categoryItems"
@@ -32,7 +32,7 @@
                                 prepend-icon="mdi-format-list-checkbox"
                                 placeholder="Select catogry"
                                 hint="Pick category in which you want to upload the image."
-                            ></v-autocomplete>
+                            ></v-select>
                         </v-flex>
                         <v-flex xs12>
                             <v-text-field
@@ -107,10 +107,10 @@ export default {
             loading: false,
             uploading: false,
             file: {
-                imageUrl: null,
-                category: null,
-                caption: null,
-                description: null
+                imageUrl: "",
+                category: "1",
+                caption: "",
+                description: ""
             },
             rules: {
                 required: value => !!value || "Field is Required."

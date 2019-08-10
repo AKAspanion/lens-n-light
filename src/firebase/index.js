@@ -1,8 +1,9 @@
 import * as firebase from 'firebase'
 
+var auth = null;
 var storage = null;
-var photosRef = null;
 var storageRef = null;
+var photosRef = null;
 var photoCategoryRef = null;
 
 var firebaseConfig = {
@@ -17,10 +18,23 @@ var firebaseConfig = {
 
 export const initializeFirebase = () => {
     firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
     storage = firebase.storage();
     storageRef = firebase.storage().ref();
     photosRef = firebase.firestore().collection("photos");
     photoCategoryRef = firebase.firestore().collection("photo-category");
+}
+
+export const signIn = (user) => {
+    return auth.signInWithEmailAndPassword(user.email, user.password);
+}
+
+export const getUser = () => {
+    return firebase.auth().currentUser;
+}
+
+export const signOut = () => {
+    return auth.signOut();
 }
 
 export const uploadFile = (file) => {
@@ -52,5 +66,5 @@ export const fetchAllCategory = () => {
 }
 
 export const fetchPhotosByCategory = (category) => {
-    return photosRef.where("category-id", '==', category.id).get();
+    return photosRef.where("categoryId", '==', category.id).get();
 }
