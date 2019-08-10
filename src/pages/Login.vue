@@ -5,7 +5,7 @@
                 <v-card outlined width="400">
                     <v-form v-model="signInForm" @submit.prevent="onSignIn">
                         <v-layout column wrap align-center class="pt-4">
-                            <div class="pt-4 title">Lens-N-Light</div>
+                            <div class="pt-4 title">Lens-n-Light</div>
                             <div class="pa-2 caption font-weight-light">Login to admin page</div>
                         </v-layout>
                         <v-card-text class="pb-0">
@@ -70,7 +70,7 @@ export default {
                 this.signingIn = true;
                 signIn(this.user)
                     .then(resp => {
-                        console.log(resp);
+                        this.$store.dispatch("showSnackBar", "Login Success!");                      
                     })
                     .catch(err => {
                         console.log(err);

@@ -2,12 +2,11 @@
     <div>
         This is home page
         <v-btn @click="fetch"></v-btn>
-        <v-btn @click="logout">Sign out</v-btn>
     </div>
 </template>
 
 <script>
-import { fetchPhotosByCategory, signOut } from "../firebase";
+import { fetchPhotosByCategory } from "../firebase";
 export default {
     name: "HomePage",
     data() {
@@ -20,11 +19,6 @@ export default {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
                 });
-            });
-        },
-        logout() {
-            signOut().then(() => {
-                this.$store.dispatch("showSnackBar", "Logout");
             });
         }
     }

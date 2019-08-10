@@ -70,7 +70,7 @@ router.beforeEach((to, from, next) => {
             if (!user) {
                 next({
                     path: '/login',
-                    redirect: to.fullPath
+                    redirect: from.fullPath
                 })
             } else {
                 next();
