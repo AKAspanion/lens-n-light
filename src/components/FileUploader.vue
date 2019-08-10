@@ -1,10 +1,10 @@
 <template>
     <div>
-        <v-card flat outlined>
+        <v-card flat tile>
             <v-card-text>
                 <v-form v-model="uploadForm">
                     <v-layout row wrap>
-                        <v-flex xs12 md6>
+                        <v-flex xs12>
                             <v-file-input
                                 outlined
                                 v-model="file.image"
@@ -18,21 +18,6 @@
                                 :clearable="false"
                                 @change="onFilePick"
                             ></v-file-input>
-                        </v-flex>
-                        <v-flex xs12 sm6 d-flex>
-                            <v-select
-                                outlined
-                                v-model="file.category"
-                                :items="categoryItems"
-                                :disabled="uploading"
-                                label="Category"
-                                :rules="[rules.required]"
-                                persistent-hint
-                                clearable
-                                prepend-icon="mdi-format-list-checkbox"
-                                placeholder="Select catogry"
-                                hint="Pick category in which you want to upload the image."
-                            ></v-select>
                         </v-flex>
                         <v-flex xs12>
                             <v-text-field
@@ -108,14 +93,12 @@ export default {
             uploading: false,
             file: {
                 imageUrl: "",
-                category: "1",
                 caption: "",
                 description: ""
             },
             rules: {
                 required: value => !!value || "Field is Required."
             },
-            categoryItems: ['1', '2']
         };
     },
     methods: {

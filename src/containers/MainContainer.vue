@@ -6,7 +6,7 @@
             {{ snackbar.text }}
             <v-btn dark text @click="snackbar.model = false">Close</v-btn>
         </v-snackbar>
-        <v-container fluid grid-list-md>
+        <v-container fluid grid-list-md class="pa-0">
             <!-- <v-layout align-center>
                 <v-flex>Theme</v-flex>
                 <v-spacer></v-spacer>
