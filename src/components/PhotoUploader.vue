@@ -1,10 +1,10 @@
 <template>
     <div>
         <v-card flat tile>
-            <v-card-text>
+            <v-card-text class="pa-0">
                 <v-form v-model="uploadForm">
                     <v-layout row wrap>
-                        <v-flex xs12>
+                        <v-flex xs12 md6>
                             <v-file-input
                                 outlined
                                 v-model="file.image"
@@ -19,7 +19,7 @@
                                 @change="onFilePick"
                             ></v-file-input>
                         </v-flex>
-                        <v-flex xs12>
+                        <v-flex xs12 md6>
                             <v-text-field
                                 outlined
                                 v-model="file.caption"
@@ -37,8 +37,10 @@
                                 v-model="file.description"
                                 label="Description"
                                 :rules="[rules.required]"
+                                :rows="2"
                                 persistent-hint
                                 clearable
+                                auto-grow
                                 prepend-icon="mdi-file-document-box-outline"
                                 hint="Write a description about the photo."
                             ></v-textarea>
@@ -60,7 +62,6 @@
                     <v-img
                         v-show="!loading"
                         :src="file.imageUrl || ''"
-                        lazy-src="hey"
                         placeholder="hey"
                         max-height="500"
                         :contain="true"
@@ -68,7 +69,7 @@
                     ></v-img>
                 </div>
             </v-card-text>
-            <v-card-actions class="pa-4">
+            <v-card-actions class="pa-0">
                 <v-spacer></v-spacer>
                 <v-btn
                     :disabled="!uploadForm"
@@ -131,8 +132,8 @@ export default {
                     .then(data => {
                         return getURL(data.metadata.fullPath.toString());
                     })
-                    .then(url => {
-                        this.$emit("upload", { url, name: this.file.caption, 'category-id': this.file.category });
+                    .then(src => {
+                        this.$emit("upload", { src, caption: this.file.caption, description: this.file.description });
                     })
                     .catch(err => {
                         this.$emit("error", err);

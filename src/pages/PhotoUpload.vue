@@ -1,13 +1,13 @@
 <template>
-    <file-uploader @upload="getData" @error="handleError"></file-uploader>
+    <photo-uploader @upload="getData" @error="handleError"></photo-uploader>
 </template>
 
 <script>
-import FileUploader from "../components/FileUploader.vue";
+import PhotoUploader from "../components/PhotoUploader.vue";
 import { addPhoto } from "../firebase";
 export default {
     components: {
-        FileUploader
+        PhotoUploader
     },
     data() {
         return {

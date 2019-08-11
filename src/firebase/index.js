@@ -41,7 +41,7 @@ export const uploadFile = (file) => {
     const fileName = file.name;
     const extension = fileName.slice(fileName.lastIndexOf("."));
     return storage
-        .ref("photos/" + "aabc." + extension)
+        .ref("photos/" + _id() + extension)
         .put(file);
 }
 
@@ -67,4 +67,8 @@ export const fetchAllCategory = () => {
 
 export const fetchPhotosByCategory = (category) => {
     return photosRef.where("categoryId", '==', category.id).get();
+}
+
+const _id = () =>{
+    return '_' + Math.random().toString(36).substr(2, 18);
 }

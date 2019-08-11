@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
         <v-layout row fill-height justify-center align-center>
-            <v-card outlined width="400">
+            <v-card outlined width="400" class="pb-4">
                 <v-form v-model="signInForm" @submit.prevent="onSignIn">
                     <v-layout column wrap align-center class="pt-4">
                         <div class="pt-4 title">Lens-n-Light</div>
@@ -32,7 +32,7 @@
                             ></v-text-field>
                         </v-flex>
                     </v-card-text>
-                    <v-card-actions class="pa-4 mx-1">
+                    <v-card-actions class="pa-4 pb-0 mx-1">
                         <v-btn
                             type="submit"
                             block
@@ -45,6 +45,19 @@
                             <v-icon v-else>mdi-check</v-icon>
                         </v-btn>
                     </v-card-actions>
+                    <v-expand-transition>
+                        <v-card-actions v-show="isSignedIn" class="pa-0 pt-4">
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                text
+                                depressed
+                                type="submit"
+                                height="36"
+                                color="primary"
+                            >Go to admin page</v-btn>
+                            <v-spacer></v-spacer>
+                        </v-card-actions>
+                    </v-expand-transition>
                 </v-form>
             </v-card>
         </v-layout>
@@ -76,25 +89,28 @@ export default {
     },
     methods: {
         onSignIn() {
-            if(!this.isSignedIn){
-            if (this.signInForm) {
-                this.signingIn = true;
-                signIn(this.user)
-                    .then(resp => {
-                        this.$store.dispatch("showSnackBar", "Login Success!");
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        this.$store.dispatch(
-                            "showSnackBar",
-                            err.message || "Error"
-                        );
-                    })
-                    .then(() => {
-                        this.signingIn = false;
-                    });
-            } else this.$store.dispatch("showSnackBar", "Please fill form");
-            }else this.$router.replace('/admin')
+            if (!this.isSignedIn) {
+                if (this.signInForm) {
+                    this.signingIn = true;
+                    signIn(this.user)
+                        .then(resp => {
+                            this.$store.dispatch(
+                                "showSnackBar",
+                                "Login Success!"
+                            );
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            this.$store.dispatch(
+                                "showSnackBar",
+                                err.message || "Error"
+                            );
+                        })
+                        .then(() => {
+                            this.signingIn = false;
+                        });
+                } else this.$store.dispatch("showSnackBar", "Please fill form");
+            } else this.$router.replace("/admin");
         }
     }
 };
