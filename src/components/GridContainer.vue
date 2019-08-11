@@ -3,7 +3,7 @@
         <v-layout row wrap class="ma-0">
             <template v-for="(image) in images">
                 <v-flex xs4 :key="image.id">
-                    <v-img :src="image.src" :loading="loading" :height="300" @load="onImageLoad"></v-img>
+                    <l-n-l-photo :image="image"></l-n-l-photo>
                 </v-flex>
             </template>
         </v-layout>
@@ -11,24 +11,17 @@
 </template>
 
 <script>
+
+import LNLPhoto from "../components/LNLPhoto.vue";
 export default {
     name: "GridContainer",
+    components: {
+        LNLPhoto
+    },
     props: {
         images: {
             type: Array,
             default: []
-        }
-    },
-    data() {
-        return {
-            loading: true
-        };
-    },
-    methods: {
-        onImageLoad(val) {
-            setTimeout(() => {
-                this.loading = false;
-            }, 500);
         }
     }
 };

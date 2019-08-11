@@ -12,6 +12,7 @@
                                 label="Title"
                                 :rules="[rules.required]"
                                 hint="Title for the category."
+                                persistent-hint
                             ></v-text-field>
                             <v-textarea
                                 v-model="category.description"
@@ -21,6 +22,7 @@
                                 label="Description"
                                 :rules="[rules.required]"
                                 hint="Description for the category."
+                                persistent-hint
                             ></v-textarea>
                             <v-text-field
                                 v-model="category.icon"
@@ -28,6 +30,7 @@
                                 label="Icon"
                                 hint="A material icon name for the category. <br>Refer to https://materialdesignicons.com/"
                                 :append-icon="iconName"
+                                persistent-hint
                             ></v-text-field>
                         </v-layout>
                     </v-card-text>
@@ -115,14 +118,30 @@
                 </v-flex>
                 <v-flex md10 xs12 class="pa-0">
                     <v-toolbar flat height="56">
+                        <template v-if="event === 'upload'">
+                            <v-btn icon small @click="event = 'photos'">
+                                <v-icon>mdi-arrow-left</v-icon>
+                            </v-btn>
+                            <v-toolbar-title class="px-2">
+                                <v-label>Upload in {{selectedCategory.title}}</v-label>
+                            </v-toolbar-title>
+                        </template>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" depressed @click="goToUpload">
                             <v-icon left>mdi-upload</v-icon>Upload
                         </v-btn>
                     </v-toolbar>
-                    <v-card flat tile class="pa-2 pt-0 nmt-1">
+                    <v-card flat tile min-height="calc(100vh - 170px)" class="pa-2 pt-0 nmt-1">
                         <template v-if="event === 'photos'">
-                            <grid-container :images="photos"></grid-container>
+                            <template v-if="photosLoading || categoryLoading">
+                                <div class="loader-container full-loader">
+                                    <l-n-l-loader :loading="photosLoading || categoryLoading"></l-n-l-loader>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <!-- <grid-container :images="photos"></grid-container> -->
+                                <l-n-l-container :images="photos"></l-n-l-container>
+                            </template>
                         </template>
                         <template v-else-if="event === 'upload'">
                             <div class="pa-2">
@@ -137,7 +156,9 @@
 </template>
 <script>
 import { signOut } from "../firebase";
+import LNLLoader from "../components/LNLLoader.vue";
 import GridContainer from "../components/GridContainer.vue";
+import LNLContainer from "../components/LNLContainer.vue";
 import PhotoUploader from "../components/PhotoUploader.vue";
 import {
     addPhoto,
@@ -148,8 +169,9 @@ import {
 export default {
     name: "Admin",
     components: {
-        GridContainer,
-        PhotoUploader
+        LNLContainer,
+        PhotoUploader,
+        LNLLoader
     },
     data() {
         return {
@@ -157,7 +179,7 @@ export default {
             drawer: true,
             categoryDialog: false,
             addingCategory: false,
-            categoryLoading: false,
+            categoryLoading: true,
             categoryIndex: 0,
             selectedCategory: null,
             panel: [0],

@@ -8,7 +8,7 @@
                             <v-file-input
                                 outlined
                                 v-model="file.image"
-                                label="Upload"
+                                label="File"
                                 :disabled="uploading"
                                 persistent-hint
                                 prepend-icon="mdi-file-upload-outline"
