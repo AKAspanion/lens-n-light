@@ -9,7 +9,7 @@
             <div class="photo-card-shimmer animate"></div>
             <v-list-item>
                 <v-list-item-content>
-                    <div class="title-shimmer animate"></div>
+                    <div class="title-shimmer animate mb-2"></div>
                     <div class="comment-shimmer animate"></div>
                 </v-list-item-content>
                 <v-list-item-action>

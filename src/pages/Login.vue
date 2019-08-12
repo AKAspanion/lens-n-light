@@ -1,6 +1,6 @@
 <template>
     <div class="login-container">
-        <v-layout row fill-height justify-center align-center>
+        <v-layout row fill-height justify-center align-center class="pa-0 pr-3 pl-4">
             <v-card outlined width="400" class="pb-4">
                 <v-form v-model="signInForm" @submit.prevent="onSignIn">
                     <v-layout column wrap align-center class="pt-4">
