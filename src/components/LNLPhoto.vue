@@ -23,7 +23,7 @@
 				:alt="image.caption"
 				@load="onPhotoLoad"
 				aspect-ratio="1"
-				:height="noDetails?'300px':'200px'"
+				:height="noDetails?'':'200px'"
 			></v-img>
 			<v-card-title class="pt-2" v-if="!noDetails">
 				<v-layout row justify-space-between align-center>
