@@ -1,27 +1,70 @@
 <template>
-    <div>
-        This is home page
-        <v-btn @click="fetch"></v-btn>
-    </div>
+	<div>
+		<template v-if="photosLoading">
+			<div class="loader-container page-loader">
+				<l-n-l-loader :loading="photosLoading || categoryLoading"></l-n-l-loader>
+			</div>
+		</template>
+		<template v-if="!photosLoading">
+			<div class="pa-2">
+				<l-n-l-container :images="photos" :no-details="true"></l-n-l-container>
+			</div>
+		</template>
+	</div>
 </template>
 
 <script>
-import { fetchPhotosByCategory } from "../firebase";
+import { fetchAllPhotos } from "../firebase";
+import LNLLoader from "../components/LNLLoader.vue";
+import LNLContainer from "../components/LNLContainer.vue";
 export default {
-    name: "HomePage",
-    data() {
-        return {};
-    },
-    methods: {
-        fetch() {
-            fetchPhotosByCategory({ id: "1" }).then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                });
-            });
-        }
-    }
+	name: "HomePage",
+	components: {
+		LNLContainer,
+		LNLLoader
+	},
+	data() {
+		return {
+			photos: [],
+			photosLoading: false
+		};
+	},
+	methods: {
+		getAllPhotos() {
+			this.photosLoading = true;
+			fetchAllPhotos()
+				.then(snapshot => {
+					return this.parseAllPhotos(snapshot);
+				})
+				.then(photos => {
+					this.photos = photos;
+				})
+				.catch(() => {
+					this.$store.dispatch(
+						"showSnackBar",
+						"Error Getting photos. Please try later!"
+					);
+				})
+				.then(() => {
+					this.photosLoading = false;
+				});
+		},
+		parseAllPhotos(snapshot) {
+			return new Promise((resolve, reject) => {
+				let photos = [];
+				snapshot.forEach(doc => {
+					photos.push({
+						id: doc.id,
+						...doc.data()
+					});
+				});
+				resolve(photos);
+			});
+		}
+	},
+	created() {
+		this.getAllPhotos();
+	}
 };
 </script>
 

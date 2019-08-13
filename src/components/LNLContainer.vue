@@ -13,7 +13,7 @@
                                             class="mx-auto"
                                             :elevation="active || hover ? 5 : 2"
                                         >
-                                            <l-n-l-photo :image="image"></l-n-l-photo>
+                                            <l-n-l-photo :image="image" :no-details="noDetails"></l-n-l-photo>
                                         </v-card>
                                     </v-hover>
                                 </v-item>
@@ -37,7 +37,8 @@ export default {
         images: {
             type: Array,
             default: []
-        }
+        },
+        noDetails: Boolean
     }
 };
 </script>

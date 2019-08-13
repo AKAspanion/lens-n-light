@@ -157,8 +157,8 @@
 <script>
 import { signOut } from "../firebase";
 import LNLLoader from "../components/LNLLoader.vue";
-import GridContainer from "../components/GridContainer.vue";
 import LNLContainer from "../components/LNLContainer.vue";
+import GridContainer from "../components/GridContainer.vue";
 import PhotoUploader from "../components/PhotoUploader.vue";
 import {
     addPhoto,

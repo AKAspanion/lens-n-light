@@ -43,13 +43,15 @@
 .full-loader{
     height: calc(100vh - 170px);
 }
+.page-loader{
+    height: 100vh;
+}
 .photo-loader{
     height: 250px;
 }
 .nmt-5 {
     margin-top: -20px !important;
 }
-
 .card-shimmer {
     width: 100%;
     height: 500px;
@@ -58,7 +60,10 @@
     width: 100%;
     height: 200px;
 }
-
+.photo-shimmer {
+    width: 100%;
+    height: 300px;
+}
 .icon-shimmer {
     height: 24px;
     width: 24px;
