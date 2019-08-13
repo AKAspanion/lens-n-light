@@ -4,8 +4,8 @@
             <v-card outlined width="400" class="pb-4">
                 <v-form v-model="signInForm" @submit.prevent="onSignIn">
                     <v-layout column wrap align-center class="pt-4">
-                        <div class="pt-4 title">Lens-n-Light</div>
-                        <div class="pa-2 caption font-weight-light">Login to admin page</div>
+                        <div class="pt-4 title">{{$t('lens-n-light')}}</div>
+                        <div class="pa-2 caption font-weight-light">{{$t('login.toadmin')}}</div>
                     </v-layout>
                     <v-card-text class="pb-0">
                         <v-flex>
