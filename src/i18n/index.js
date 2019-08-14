@@ -15,7 +15,7 @@ requireContext.keys().forEach((key) => {
 });
 
 const i18n = new VueI18n({
-    locale: 'en',
+    locale: 'hi',
     messages,
 })
 
