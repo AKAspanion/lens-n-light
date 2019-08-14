@@ -33,37 +33,46 @@
 .nmt-4 {
     margin-top: -16px !important;
 }
-
+.selectable{
+    cursor: pointer;
+}
 .loader-container {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.full-loader{
+
+.full-loader {
     height: calc(100vh - 170px);
 }
-.page-loader{
+
+.page-loader {
     height: 100vh;
 }
-.photo-loader{
+
+.photo-loader {
     height: 250px;
 }
+
 .nmt-5 {
     margin-top: -20px !important;
 }
+
 .card-shimmer {
     width: 100%;
     height: 500px;
 }
+
 .photo-card-shimmer {
     width: 100%;
     height: 200px;
 }
+
 .photo-shimmer {
     width: 100%;
-    height: 300px;
 }
+
 .icon-shimmer {
     height: 24px;
     width: 24px;
@@ -81,7 +90,8 @@
     background: #777;
     margin: 6px 0;
 }
-.title-shimmer{
+
+.title-shimmer {
     height: 14px;
     background: #777;
     margin: 6px 0;
@@ -117,5 +127,32 @@
 
     100% {
         background-position: 1000px 0;
+    }
+}
+
+
+@media (min-width: 1264px) {
+    .photo-shimmer {
+        height: calc(100vw / 6 - 12px);
+    }
+}
+
+@media (min-width: 960px) and (max-width: 1264px) {
+    .photo-shimmer {
+        height: calc(100vw / 4 - 14px);
+    }
+
+}
+
+@media (min-width: 600px) and (max-width: 960px) {
+    .photo-shimmer {
+        height: calc(100vw / 3 - 17px);
+    }
+}
+
+
+@media (min-width: 320px) and (max-width: 600px) {
+    .photo-shimmer {
+        height: calc(100vw / 2 - 20px);
     }
 }
