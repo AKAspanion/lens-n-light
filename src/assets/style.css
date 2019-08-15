@@ -1,6 +1,14 @@
 .nml-1 {
     margin-left: -4px !important;
 }
+.nml-0 {
+    margin-left: -2px !important;
+}
+.nmr-0 {
+    margin-right: -2px !important;
+}
+
+
 
 .nml-2 {
     margin-left: -8px !important;
@@ -133,26 +141,26 @@
 
 @media (min-width: 1264px) {
     .photo-shimmer {
-        height: calc(100vw / 6 - 12px);
+        height: calc(100vw / 6 - 40px);
     }
 }
 
 @media (min-width: 960px) and (max-width: 1264px) {
     .photo-shimmer {
-        height: calc(100vw / 4 - 14px);
+        height: calc(100vw / 4 - 44px);
     }
 
 }
 
 @media (min-width: 600px) and (max-width: 960px) {
     .photo-shimmer {
-        height: calc(100vw / 3 - 17px);
+        height: calc(100vw / 3 - 47px);
     }
 }
 
 
 @media (min-width: 320px) and (max-width: 600px) {
     .photo-shimmer {
-        height: calc(100vw / 2 - 20px);
+        height: calc(100vw / 2 - 44px);
     }
 }

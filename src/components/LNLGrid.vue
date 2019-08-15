@@ -2,8 +2,8 @@
     <v-layout>
         <v-flex>
             <v-card flat tile :ripple="false">
-                <v-container grid-list-md fluid class="pa-0">
-                    <v-layout wrap>
+                <v-container fluid class="pa-0" :class="'grid-list-' + gutter">
+                    <v-layout wrap class="">
                         <v-flex
                             v-for="image in images"
                             :key="image.id"
@@ -15,7 +15,7 @@
                             child-flex
                         >
                             <v-hover v-slot:default="{ hover }">
-                                <v-card :ripple="false" class="mx-auto" :elevation="hover ? 5 : 2">
+                                <v-card :ripple="false" class="mx-auto" :elevation="getElevation(flat, hover)">
                                     <l-n-l-photo :image="image" :no-details="noDetails"></l-n-l-photo>
                                 </v-card>
                             </v-hover>
@@ -30,7 +30,7 @@
 <script>
 import LNLPhoto from "../components/LNLPhoto.vue";
 export default {
-    name: "LNLContainer",
+    name: "LNLGrid",
     components: {
         LNLPhoto
     },
@@ -39,7 +39,21 @@ export default {
             type: Array,
             default: []
         },
-        noDetails: Boolean
+        noDetails: Boolean,
+        flat: Boolean,
+        gutter: {
+            type: String,
+            default: 'md'
+        }
+    },
+    methods:{
+        getElevation(flat, hover){
+            if(hover)
+                return 5;
+            if(!flat)
+                return 2;
+            return 0;
+        }
     }
 };
 </script>

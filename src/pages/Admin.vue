@@ -139,8 +139,7 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <!-- <grid-container :images="photos"></grid-container> -->
-                                <l-n-l-container :images="photos"></l-n-l-container>
+                                <l-n-l-grid :images="photos"></l-n-l-grid>
                             </template>
                         </template>
                         <template v-else-if="event === 'upload'">
@@ -157,9 +156,7 @@
 <script>
 import { signOut } from "../firebase";
 import LNLLoader from "../components/LNLLoader.vue";
-import LNLContainer from "../components/LNLContainer.vue";
-import GridContainer from "../components/GridContainer.vue";
-import PhotoUploader from "../components/PhotoUploader.vue";
+import LNLGrid from "../components/LNLGrid.vue";
 import {
     addPhoto,
     addCategory,
@@ -169,8 +166,7 @@ import {
 export default {
     name: "Admin",
     components: {
-        LNLContainer,
-        PhotoUploader,
+        LNLGrid,
         LNLLoader
     },
     data() {

@@ -7,13 +7,13 @@
             <v-btn dark text @click="snackbar.model = false">Close</v-btn>
         </v-snackbar>
         <v-container fluid grid-list-md class="pa-0">
-            <v-layout align-center>
+            <!-- <v-layout align-center>
                 <v-flex>Theme</v-flex>
                 <v-spacer></v-spacer>
                 <v-flex shrink>
                     <v-switch v-model="themeModel" label="Dark Theme"></v-switch>
                 </v-flex>
-            </v-layout>
+            </v-layout> -->
             <router-view :key="Math.random(1,100)"></router-view>
         </v-container>
     </div>
@@ -25,7 +25,16 @@ export default {
     data() {
         return {};
     },
-    methods: {},
+    methods: {
+        handleResize() {
+            this.$store.state.window.width = window.innerWidth;
+            this.$store.state.window.height = window.innerHeight;
+        }
+    },
+    created() {
+        window.addEventListener("resize", this.handleResize);
+        this.handleResize();
+    },
     computed: {
         themeModel: {
             get() {

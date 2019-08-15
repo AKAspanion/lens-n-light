@@ -1,7 +1,7 @@
 <template>
     <v-card flat class="mx-auto">
         <v-scale-transition>
-            <div class="zoom-buttons" v-if="dialog">
+            <div class="zoom-buttons" v-if="dialog && $store.state.window.width > 600">
                 <v-btn-toggle rounded class="elevation-2">
                     <v-btn
                         :disabled="dialogImageHeight <= 40 ? true:false"
@@ -59,7 +59,12 @@
                 </v-toolbar>
                 <div style="height: calc(100vh);">
                     <v-layout column fill-height align-center justify-center>
-                        <v-img :src="image.src" contain :max-height="dialogImageHeight + 'vh'" max-width="100vw">
+                        <v-img
+                            :src="image.src"
+                            contain
+                            :max-height="dialogImageHeight + 'vh'"
+                            max-width="95vw"
+                        >
                             <template #placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                     <l-n-l-loader :loading="true"></l-n-l-loader>
@@ -129,7 +134,7 @@ export default {
             loading: true,
             dialog: false,
             descDialog: false,
-            dialogImageHeight: 70
+            dialogImageHeight: 70,
         };
     },
     methods: {
@@ -139,7 +144,7 @@ export default {
         onImageClick() {
             if (this.noDetails) this.dialog = true;
         }
-    }
+    },
 };
 </script>
 <style scoped>

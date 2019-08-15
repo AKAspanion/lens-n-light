@@ -8,7 +8,6 @@ import '../../node_modules/nprogress/nprogress.css'
 import Admin from '../pages/Admin.vue'
 import Home from '../pages/Home.vue'
 import Login from '../pages/Login.vue'
-import PhotoUpload from '../pages/PhotoUpload.vue'
 import NotFound from '../pages/NotFound.vue'
 
 import {
@@ -38,14 +37,7 @@ const router = new VueRouter({
             component: Admin,
             meta: {
                 admin: true
-            },
-            children: [{
-                    id: 4,
-                    path: 'upload',
-                    name: 'Upload',
-                    component: PhotoUpload
-                },
-            ]
+            }
         },{
             id: 0,
             path: '*',

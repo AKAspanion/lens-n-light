@@ -13,6 +13,9 @@ export default new Vuex.Store({
         },
         photos: {
             general: []
+        },
+        window:{
+            
         }
     },
     mutations: {
