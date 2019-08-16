@@ -46,7 +46,7 @@
             <v-card
                 flat
                 tile
-                :color="$vuetify.theme.dark ? 'rgba(48,48,48,0.95)' :'rgba(255,255,255,0.95)'"
+                :color="$vuetify.theme.dark ? 'rgba(66,66,66)' :'rgba(255,255,255)'"
             >
                 <v-toolbar absolute :elevation="2" class="pr-2">
                     <v-toolbar-title>
