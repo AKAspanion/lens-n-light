@@ -6,83 +6,95 @@
             </div>
         </template>
         <template v-if="!pageLoading">
-            <v-toolbar flat height="64" :color=" themeModel? '#424242':'#fff'" class="toolbar-xs">
-                <v-card-title class="pa-0" style="margin-left: -4.5px;">{{$t('lens-n-light')}}</v-card-title>
-                <v-spacer></v-spacer>
-                <v-menu
-                    bottom
-                    left
-                    nudge-bottom="48"
-                    transition="scroll-y-transition"
-                    style="z-index: 9999"
+            <v-card flat tile class="pt-3" min-height="100vh">
+                <v-toolbar
+                    flat
+                    height="64"
+                    :color=" themeModel? '#424242':'#fff'"
+                    class="toolbar-xs"
                 >
-                    <template v-slot:activator="{ on }">
-                        <v-btn icon small v-on="on">
-                            <v-avatar small tile size="34">
-                                <img class="pa-1" src="../assets/images/logo-fav.png" />
-                            </v-avatar>
-                        </v-btn>
-                    </template>
-                    <v-list>
-                        <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title>{{themeModel? 'Light':'Dark'}}</v-list-item-title>
-                                <v-list-item-subtitle>Toggle theme to {{themeModel? 'light':'dark'}} mode</v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-action>
-                                <v-switch v-model="themeModel"></v-switch>
-                            </v-list-item-action>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title>Language</v-list-item-title>
-                                <v-list-item-subtitle>Change the UI language</v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn-toggle
-                                    v-model="$i18n.locale"
-                                    mandatory
-                                    rounded
-                                    class="lnl-lang-btn"
-                                >
-                                    <v-btn
-                                        v-for="(lang, i) in langs"
-                                        :key="`Lang${i}`"
-                                        :value="lang"
-                                    >{{ lang }}</v-btn>
-                                </v-btn-toggle>
-                            </v-list-item-action>
-                        </v-list-item>
-
-                        <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title>Admin</v-list-item-title>
-                                <v-list-item-subtitle>Go to admin page</v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn icon small @click="routeToAdmin">
-                                    <v-icon>mdi-settings</v-icon>
-                                </v-btn>
-                            </v-list-item-action>
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
-            </v-toolbar>
-            <v-card flat tile class="lnl-tab">
-                <v-tabs
-                    v-model="tab"
-                    :ripple="false"
-                    slider-color="primary"
-                    style="margin-left: -24px; width: calc(100% + 24px);"
-                >
-                    <v-tab v-for="(i, index) in categories" :key="'tab-'+index">{{ i.title }}</v-tab>
-                    <v-tab-item v-for="(j, index) in imagesByCategory" :key="'item-'+index">
-                        <v-divider class="ma-0 pa-0"></v-divider>
-                        <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 114px)">
-                            <l-n-l-grid :images="j" gutter="xl" no-details></l-n-l-grid>
-                        </v-card>
-                    </v-tab-item>
-                </v-tabs>
+                    <v-card-title class="pa-0" style="margin-left: -4.5px;">{{$t('lens-n-light')}}</v-card-title>
+                    <v-spacer></v-spacer>
+                    <v-menu
+                        bottom
+                        left
+                        nudge-bottom="48"
+                        transition="scroll-y-transition"
+                        style="z-index: 9999"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-btn fab small v-on="on" class="mr-n1 elevation-3">
+                                <v-avatar small tile size="34">
+                                    <img class="pa-1" src="../assets/images/logo-fav.png" />
+                                </v-avatar>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title>Language</v-list-item-title>
+                                    <v-list-item-subtitle>Change the UI language</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-btn-toggle
+                                        v-model="$i18n.locale"
+                                        mandatory
+                                        rounded
+                                        class="lnl-lang-btn"
+                                    >
+                                        <v-btn
+                                            v-for="(lang, i) in langs"
+                                            :key="`Lang${i}`"
+                                            :value="lang"
+                                        >{{ lang }}</v-btn>
+                                    </v-btn-toggle>
+                                </v-list-item-action>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title>{{themeModel? 'Light':'Dark'}}</v-list-item-title>
+                                    <v-list-item-subtitle>Toggle {{themeModel? 'light':'dark'}} mode</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-switch v-model="themeModel"></v-switch>
+                                </v-list-item-action>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title>Admin</v-list-item-title>
+                                    <v-list-item-subtitle>Go to admin page</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-btn icon small @click="routeToAdmin">
+                                        <v-icon>mdi-settings</v-icon>
+                                    </v-btn>
+                                </v-list-item-action>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-toolbar>
+                <v-card flat tile class="lnl-tab">
+                    <v-tabs
+                        v-model="tab"
+                        :ripple="false"
+                        slider-color="primary"
+                        style="margin-left: -24px; width: calc(100% + 24px);"
+                    >
+                        <v-tab v-for="(i, index) in categories" :key="'tab-'+index">{{ i.title }}</v-tab>
+                        <v-tab-item v-for="(j, index) in imagesByCategory" :key="'item-'+index">
+                            <v-divider class="ma-0 pa-0"></v-divider>
+                            <v-card flat tile class="home-grid-xs">
+                                <l-n-l-grid
+                                    :images="j"
+                                    gutter="xl"
+                                    no-details
+                                    no-dialog
+                                    @grid-image-clicked="imageClicked"
+                                ></l-n-l-grid>
+                            </v-card>
+                        </v-tab-item>
+                    </v-tabs>
+                </v-card>
             </v-card>
         </template>
     </div>
@@ -133,6 +145,9 @@ export default {
             this.imagesByCategory = this.categories.map(c => {
                 return this.photos.filter(e => e.categoryId === c.id);
             });
+        },
+        imageClicked(val) {
+            this.$router.push({ name: "Photo", params: { id: val.id } });
         }
     },
     mounted() {

@@ -1,7 +1,7 @@
 <template>
     <v-card flat class="mx-auto">
         <v-scale-transition>
-            <div class="zoom-buttons" v-if="dialog && $store.state.window.width > 600">
+            <div class="zoom-buttons" v-if="dialog && $store.state.window.width > 600 && !noDialog">
                 <v-btn-toggle rounded class="elevation-2">
                     <v-btn
                         :disabled="dialogImageHeight <= 40 ? true:false"
@@ -24,8 +24,8 @@
                 </v-btn-toggle>
             </div>
         </v-scale-transition>
-        <v-fab-transition>
-            <div class="desc-button" v-if="dialog">
+        <!-- <v-fab-transition>
+            <div class="desc-button" v-if="dialog && !noDialog">
                 <v-btn
                     fab
                     height="48"
@@ -38,11 +38,11 @@
             </div>
         </v-fab-transition>
         <v-slide-x-reverse-transition origin="bottom left">
-            <div class="desc-container" v-if="descDialog && dialog">
+            <div class="desc-container" v-if="descDialog && dialog && !noDialog">
                 <v-card height="100%" elevation="3" class="pa-2">{{image.description}}</v-card>
             </div>
-        </v-slide-x-reverse-transition>
-        <v-dialog v-model="dialog" fullscreen persistent>
+        </v-slide-x-reverse-transition> -->
+        <v-dialog v-model="dialog" fullscreen persistent v-if="!noDialog">
             <v-card
                 flat
                 tile
@@ -127,7 +127,8 @@ export default {
             type: Object,
             required: true
         },
-        noDetails: Boolean
+        noDetails: Boolean,
+        noDialog: Boolean
     },
     data() {
         return {
@@ -141,8 +142,9 @@ export default {
         onPhotoLoad(event) {
             this.loading = false;
         },
-        onImageClick() {
-            if (this.noDetails) this.dialog = true;
+        onImageClick(e) {
+            if (this.noDetails && !this.noDialog) this.dialog = true;
+            if(this.noDialog) this.$emit('image-clicked')
         }
     },
 };

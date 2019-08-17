@@ -16,7 +16,7 @@
                         >
                             <v-hover v-slot:default="{ hover }">
                                 <v-card :ripple="false" class="mx-auto" :elevation="getElevation(flat, hover)">
-                                    <l-n-l-photo :image="image" :no-details="noDetails"></l-n-l-photo>
+                                    <l-n-l-photo :image="image" :no-details="noDetails" :no-dialog="noDialog" @image-clicked="onImageClick(image)"></l-n-l-photo>
                                 </v-card>
                             </v-hover>
                         </v-flex>
@@ -40,6 +40,7 @@ export default {
             default: []
         },
         noDetails: Boolean,
+        noDialog: Boolean,
         flat: Boolean,
         gutter: {
             type: String,
@@ -53,6 +54,9 @@ export default {
             if(!flat)
                 return 2;
             return 0;
+        },
+        onImageClick(image){            
+            if(this.noDialog) this.$emit('grid-image-clicked', image)
         }
     }
 };

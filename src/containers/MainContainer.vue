@@ -19,7 +19,7 @@ export default {
     name: "MainContainer",
     data() {
         return {
-            transitionName: 'slide-left'
+            transitionName: "slide-left"
         };
     },
     methods: {
@@ -31,6 +31,13 @@ export default {
     created() {
         window.addEventListener("resize", this.handleResize);
         this.handleResize();
+        this.$router.beforeEach((to, from, next) => {
+            const toDepth = to.path.split("/").length;
+            const fromDepth = from.path.split("/").length;
+            this.transitionName =
+                toDepth < fromDepth ? "slide-right" : "slide-left";
+            next();
+        });
     },
     computed: {
         themeModel: {
@@ -51,7 +58,7 @@ export default {
 </script>
 
 <style>
-body{
+body {
     overflow: hidden;
 }
 .slide-left-enter-active,

@@ -17,6 +17,7 @@ import {
 Vue.use(VueRouter)
 
 const router = new VueRouter({
+    mode: 'history',
     routes: [
         {
             id: 0,
