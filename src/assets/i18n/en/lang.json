@@ -1,0 +1,12 @@
+{
+    "lens-n-light": "Lens-n-Light",
+    "login.toadmin": "Login to admin page",
+    "language": "Language",
+    "language.change": "Change the UI language",
+    "light": "Light",
+    "light.toggle": "Toggle light mode",
+    "dark": "Dark",
+    "dark.toggle": "Toggle dark mode",
+    "admin": "Admin",
+    "admin.goto": "Go to admin page"
+}

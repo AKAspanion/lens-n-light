@@ -13,7 +13,7 @@
                     :color=" themeModel? '#424242':'#fff'"
                     class="toolbar-xs"
                 >
-                    <v-card-title class="pa-0" style="margin-left: -4.5px;">{{$t('lens-n-light')}}</v-card-title>
+                    <v-card-title class="pa-0 font-weight-medium" style="margin-left: -4.5px;">{{$t('lens-n-light')}}</v-card-title>
                     <v-spacer></v-spacer>
                     <v-menu
                         bottom
@@ -32,8 +32,8 @@
                         <v-list>
                             <v-list-item>
                                 <v-list-item-content>
-                                    <v-list-item-title>Language</v-list-item-title>
-                                    <v-list-item-subtitle>Change the UI language</v-list-item-subtitle>
+                                    <v-list-item-title>{{$t('language')}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{$t('language.change')}}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
                                     <v-btn-toggle
@@ -52,22 +52,22 @@
                             </v-list-item>
                             <v-list-item>
                                 <v-list-item-content>
-                                    <v-list-item-title>{{themeModel? 'Light':'Dark'}}</v-list-item-title>
-                                    <v-list-item-subtitle>Toggle {{themeModel? 'light':'dark'}} mode</v-list-item-subtitle>
+                                    <v-list-item-title>{{themeModel? $t('light'): $t('dark')}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{themeModel? $t('light.toggle'): $t('dark.toggle')}}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
                                     <v-switch v-model="themeModel"></v-switch>
                                 </v-list-item-action>
                             </v-list-item>
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <v-list-item-title>Admin</v-list-item-title>
-                                    <v-list-item-subtitle>Go to admin page</v-list-item-subtitle>
+                            <v-list-item link>
+                                <v-list-item-content  @click="routeToAdmin">
+                                    <v-list-item-title>{{$t('admin')}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{$t('admin.goto')}}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn icon small @click="routeToAdmin">
+                                    <!-- <v-btn icon small > -->
                                         <v-icon>mdi-settings</v-icon>
-                                    </v-btn>
+                                    <!-- </v-btn> -->
                                 </v-list-item-action>
                             </v-list-item>
                         </v-list>
