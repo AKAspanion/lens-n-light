@@ -143,20 +143,20 @@
 
 @media (min-width: 1264px) {
     .photo-shimmer {
-        height: calc(100vw / 6 - 40px);
+        height: calc(100vw / 6 - 32px);
     }
 }
 
 @media (min-width: 960px) and (max-width: 1264px) {
     .photo-shimmer {
-        height: calc(100vw / 4 - 44px);
+        height: calc(100vw / 4 - 36px);
     }
 
 }
 
 @media (min-width: 600px) and (max-width: 960px) {
     .photo-shimmer {
-        height: calc(100vw / 3 - 47px);
+        height: calc(100vw / 3 - 38px);
     }
 }
 

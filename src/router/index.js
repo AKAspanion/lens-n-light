@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import firebase from "firebase";
 import VueRouter from 'vue-router';
-import NProgress from 'nprogress';
-
-import '../../node_modules/nprogress/nprogress.css'
 
 import Admin from '../pages/Admin.vue'
 import Home from '../pages/Home.vue'
 import Login from '../pages/Login.vue'
+import Photo from '../pages/Photo.vue'
+import Landing from '../pages/Landing.vue'
 import NotFound from '../pages/NotFound.vue'
 
 import {
@@ -18,11 +17,22 @@ import {
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-    routes: [{
-            id: 1,
+    routes: [
+        {
+            id: 0,
             path: '/',
+            component: Landing,
+        },{
+            id: 0,
+            path: '/home',
             name: 'Home',
-            component: Home
+            component: Home,
+        },
+        {
+            id: 1,
+            path: '/photo/:id',
+            name: 'Photo',
+            component: Photo,
         },
         {
             id: 2,
@@ -46,13 +56,6 @@ const router = new VueRouter({
 
     ]
 })
-router.beforeResolve((to, from, next) => {
-    if (to.name) {
-        NProgress.start()
-    }
-    next()
-})
-
 router.beforeEach((to, from, next) => {
     if (!firebase.apps.length) {
         initializeFirebase();
@@ -71,10 +74,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
-})
-
-router.afterEach(() => {
-    NProgress.done()
 })
 
 export default router

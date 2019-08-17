@@ -1,20 +1,15 @@
 <template>
     <div>
-        <v-progress-linear indeterminate :active="topLoader"></v-progress-linear>
+        <!-- <v-progress-linear indeterminate :active="topLoader"></v-progress-linear> -->
         <!-- <v-overlay :value="topLoader" :z-index="100"></v-overlay> -->
         <v-snackbar v-model="snackbar.model" bottom :timeout="6000">
             {{ snackbar.text }}
             <v-btn dark text @click="snackbar.model = false">Close</v-btn>
         </v-snackbar>
         <v-container fluid grid-list-md class="pa-0">
-            <!-- <v-layout align-center>
-                <v-flex>Theme</v-flex>
-                <v-spacer></v-spacer>
-                <v-flex shrink>
-                    <v-switch v-model="themeModel" label="Dark Theme"></v-switch>
-                </v-flex>
-            </v-layout> -->
-            <router-view :key="Math.random(1,100)"></router-view>
+            <transition :name="transitionName" mode="out-in">
+                <router-view></router-view>
+            </transition>
         </v-container>
     </div>
 </template>
@@ -23,7 +18,9 @@
 export default {
     name: "MainContainer",
     data() {
-        return {};
+        return {
+            transitionName: 'slide-left'
+        };
     },
     methods: {
         handleResize() {
@@ -44,11 +41,6 @@ export default {
                 this.$vuetify.theme.dark = val;
             }
         },
-        topLoader: {
-            get() {
-                return this.$store.getters.topLoader;
-            }
-        },
         snackbar: {
             get() {
                 return this.$store.getters.snackBar;
@@ -59,4 +51,25 @@ export default {
 </script>
 
 <style>
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition-duration: 0.5s;
+    transition-property: height, opacity, transform;
+    transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+    overflow: hidden;
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+    opacity: 0;
+    transform: translate(2em, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+    opacity: 0;
+    transform: translate(-2em, 0);
+}
 </style>
