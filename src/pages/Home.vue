@@ -1,18 +1,11 @@
 <template>
-    <div
-        v-touch="{
-            left: () => swipe('LEFT'),
-            right: () => swipe('RIGHT'),
-            up: () => swipe('UP'),
-            down: () => swipe('DOWN')
-        }"
-    >
-        <template v-if="photosLoading">
+    <div>
+        <template v-if="pageLoading">
             <div class="loader-container page-loader">
-                <l-n-l-loader :loading="photosLoading || categoryLoading"></l-n-l-loader>
+                <l-n-l-loader :loading="pageLoading"></l-n-l-loader>
             </div>
         </template>
-        <template v-if="!photosLoading">
+        <template v-if="!pageLoading">
             <v-toolbar flat height="64" :color=" themeModel? '#424242':'#fff'" class="toolbar-xs">
                 <v-card-title class="pa-0" style="margin-left: -4.5px;">{{$t('lens-n-light')}}</v-card-title>
                 <v-spacer></v-spacer>
@@ -33,13 +26,11 @@
                     <v-list>
                         <v-list-item>
                             <v-list-item-content>
-                                <v-list-item-title>Admin</v-list-item-title>
-                                <v-list-item-subtitle>Go to admin page</v-list-item-subtitle>
+                                <v-list-item-title>{{themeModel? 'Light':'Dark'}}</v-list-item-title>
+                                <v-list-item-subtitle>Toggle theme to {{themeModel? 'light':'dark'}} mode</v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn icon small @click="routeToAdmin">
-                                    <v-icon>mdi-settings</v-icon>
-                                </v-btn>
+                                <v-switch v-model="themeModel"></v-switch>
                             </v-list-item-action>
                         </v-list-item>
                         <v-list-item>
@@ -62,13 +53,16 @@
                                 </v-btn-toggle>
                             </v-list-item-action>
                         </v-list-item>
+
                         <v-list-item>
                             <v-list-item-content>
-                                <v-list-item-title>{{themeModel? 'Light':'Dark'}}</v-list-item-title>
-                                <v-list-item-subtitle>Toggle theme to {{themeModel? 'light':'dark'}} mode</v-list-item-subtitle>
+                                <v-list-item-title>Admin</v-list-item-title>
+                                <v-list-item-subtitle>Go to admin page</v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-switch v-model="themeModel"></v-switch>
+                                <v-btn icon small @click="routeToAdmin">
+                                    <v-icon>mdi-settings</v-icon>
+                                </v-btn>
                             </v-list-item-action>
                         </v-list-item>
                     </v-list>
@@ -79,31 +73,28 @@
                     v-model="tab"
                     :ripple="false"
                     slider-color="primary"
-                    style="margin-left: -24px;"
+                    style="margin-left: -24px; width: calc(100% + 24px);"
                 >
-                    <v-tab
-                        v-for="i in tabItems"
-                        :key="i"
-                        :value="i"
-                        @click="changeCategory(i)"
-                    >{{ i }}</v-tab>
+                    <v-tab v-for="(i, index) in categories" :key="'tab-'+index">{{ i.title }}</v-tab>
+                    <v-tab-item v-for="(j, index) in imagesByCategory" :key="'item-'+index">
+                        <v-divider class="ma-0 pa-0"></v-divider>
+                        <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 114px)">
+                            <l-n-l-grid :images="j" gutter="xl" no-details></l-n-l-grid>
+                        </v-card>
+                    </v-tab-item>
                 </v-tabs>
-            </v-card>
-            <v-divider class="ma-0 pa-0"></v-divider>
-            <v-card flat tile class="home-grid-xs">
-                <router-view></router-view>
-                <!-- <l-n-l-grid :images="photos" gutter="xl" no-details></l-n-l-grid> -->
             </v-card>
         </template>
     </div>
 </template>
 
 <script>
-import { fetchAllPhotos } from "../firebase";
+import { getAllPhotos, getAllCategories } from "../helper";
 import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
+import { Promise } from "q";
 export default {
-    name: "HomePage",
+    name: "Home",
     components: {
         LNLGrid,
         LNLLoader
@@ -112,62 +103,15 @@ export default {
         return {
             tab: null,
             menu: false,
-            tabItems: ["Nature", "Animal", "Portrait", "Abstract"],
             langs: ["en", "hi"],
             photos: [],
-            photosLoading: false,
+            categories: [],
+            imagesByCategory: [],
+            pageLoading: false,
             windowWidth: null,
             swipeDirection: "None"
         };
     },
-    methods: {
-        getAllPhotos() {
-            this.photosLoading = true;
-            fetchAllPhotos()
-                .then(snapshot => {
-                    return this.parseAllPhotos(snapshot);
-                })
-                .then(photos => {
-                    this.photos = photos;
-                })
-                .catch(() => {
-                    this.$store.dispatch(
-                        "showSnackBar",
-                        "Error Getting photos. Please try later!"
-                    );
-                })
-                .then(() => {
-                    this.photosLoading = false;
-                });
-        },
-        parseAllPhotos(snapshot) {
-            return new Promise((resolve, reject) => {
-                let photos = [];
-                snapshot.forEach(doc => {
-                    photos.push({
-                        id: doc.id,
-                        ...doc.data()
-                    });
-                });
-                resolve(photos);
-            });
-        },
-        swipe(direction) {
-            this.swipeDirection = direction;
-            if (direction === "RIGHT") this.openMenu;
-        },
-        openMenu() {
-            if (!this.menu) this.menu = true;
-        },
-        changeCategory(val) {
-            console.log(val);
-            this.$router.push({name: 'Category', params: {id: val}})
-        },
-        routeToAdmin() {
-            this.$router.push({ name: "Login" });
-        }
-    },
-
     computed: {
         themeModel: {
             get() {
@@ -178,8 +122,42 @@ export default {
             }
         }
     },
-    created() {
-        // this.getAllPhotos();
+    methods: {
+        routeToAdmin() {
+            this.$router.push({ name: "Login" });
+        },
+        loadPage() {
+            return Promise.all([getAllCategories(), getAllPhotos()]);
+        },
+        parseImages() {
+            this.imagesByCategory = this.categories.map(c => {
+                return this.photos.filter(e => e.categoryId === c.id);
+            });
+        }
+    },
+    mounted() {
+        if (!this.$store.getters.landingVisited) {
+            this.pageLoading = true;
+            this.loadPage()
+                .then(response => {
+                    this.categories = response[0];
+                    this.photos = response[1];
+                    this.$store.dispatch("LOAD_CATEGORIES", response[0]);
+                    this.$store.dispatch("LOAD_PHOTOS", response[1]);
+                    this.$store.dispatch("landingVisited", true);
+                    this.parseImages();
+                })
+                .catch(err => {
+                    this.$store.dispatch("showSnackBar", err);
+                })
+                .then(() => {
+                    this.pageLoading = false;
+                });
+        } else {
+            this.photos = this.$store.getters.photos;
+            this.categories = this.$store.getters.categories;
+            this.parseImages();
+        }
         this.windowWidth = this.$store.state.window.width;
     }
 };

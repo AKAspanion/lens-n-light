@@ -22,12 +22,13 @@ const router = new VueRouter({
             id: 0,
             path: '/',
             component: Landing,
-        },{
+        }, 
+        {
             id: 0,
             path: '/home',
             name: 'Home',
             component: Home,
-        },
+        },  
         {
             id: 1,
             path: '/photo/:id',
@@ -48,7 +49,7 @@ const router = new VueRouter({
             meta: {
                 admin: true
             }
-        },{
+        }, {
             id: 0,
             path: '*',
             component: NotFound

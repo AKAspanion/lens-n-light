@@ -7,20 +7,22 @@ export default new Vuex.Store({
     state: {
         darkTheme: false,
         topLoader: false,
+        landingVisited: false,
         snackBar: {
             model: false,
             text: ''
         },
-        photos: {
-            general: []
-        },
-        window:{
-            
-        }
+        categories: [],
+        photos: [],
+        window: {},
     },
     mutations: {
         toggleTheme(state, payload) {
             state.darkTheme = payload;
+        },
+        
+        landingVisited(state, payload) {
+            state.landingVisited = payload;
         },
         uploadPhoto(state, payload) {
             state.images.push(payload);
@@ -30,9 +32,30 @@ export default new Vuex.Store({
         },
         showSnackBar(state, payload) {
             state.snackBar = payload;
+        },
+        loadCategories(state, payload) {
+            state.categories = payload;
+        },
+        loadPhotos(state, payload) {
+            state.photos = payload;
         }
     },
     actions: {
+        LOAD_CATEGORIES({
+            commit
+        }, payload) {
+            commit('loadCategories', payload)
+        },
+        LOAD_PHOTOS({
+            commit
+        }, payload) {
+            commit('loadPhotos', payload)
+        },
+        landingVisited({
+            commit
+        }, payload) {
+            commit('landingVisited', payload)
+        },
         toggleTheme({
             commit
         }, payload) {
@@ -66,6 +89,15 @@ export default new Vuex.Store({
         },
         snackBar(state) {
             return state.snackBar;
-        }
+        },
+        landingVisited(state){            
+            return state.landingVisited;
+        },        
+        categories(state){            
+            return state.categories;
+        }, 
+        photos(state){            
+            return state.photos;
+        },
     }
 })

@@ -144,7 +144,7 @@
                         </template>
                         <template v-else-if="event === 'upload'">
                             <div class="pa-2">
-                                <photo-uploader @upload="getUploadData" @error="handleError"></photo-uploader>
+                                <l-n-l-uploader @upload="getUploadData" @error="handleError"></l-n-l-uploader>
                             </div>
                         </template>
                     </v-card>
@@ -157,6 +157,7 @@
 import { signOut } from "../firebase";
 import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
+import LNLUploader from "../components/LNLUploader.vue";
 import {
     addPhoto,
     addCategory,
@@ -167,7 +168,8 @@ export default {
     name: "Admin",
     components: {
         LNLGrid,
-        LNLLoader
+        LNLLoader,
+        LNLUploader
     },
     data() {
         return {

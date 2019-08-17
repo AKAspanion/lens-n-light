@@ -51,6 +51,9 @@ export default {
 </script>
 
 <style>
+body{
+    overflow: hidden;
+}
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
