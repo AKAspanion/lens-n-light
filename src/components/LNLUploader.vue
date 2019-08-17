@@ -99,7 +99,7 @@ export default {
             },
             rules: {
                 required: value => !!value || "Field is Required."
-            },
+            }
         };
     },
     methods: {
@@ -133,7 +133,11 @@ export default {
                         return getURL(data.metadata.fullPath.toString());
                     })
                     .then(src => {
-                        this.$emit("upload", { src, caption: this.file.caption, description: this.file.description });
+                        this.$emit("upload", {
+                            src,
+                            caption: this.file.caption,
+                            description: this.file.description
+                        });
                     })
                     .catch(err => {
                         this.$emit("error", err);
