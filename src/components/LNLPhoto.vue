@@ -1,53 +1,7 @@
 <template>
     <v-card flat class="mx-auto">
-        <v-scale-transition>
-            <div class="zoom-buttons" v-if="dialog && $store.state.window.width > 600 && !noDialog">
-                <v-btn-toggle rounded class="elevation-2">
-                    <v-btn
-                        :disabled="dialogImageHeight <= 40 ? true:false"
-                        @click="dialogImageHeight = dialogImageHeight - 10"
-                    >
-                        <v-icon>mdi-minus</v-icon>
-                    </v-btn>
-                    <v-btn
-                        :disabled="dialogImageHeight == 70 ? true:false"
-                        @click="dialogImageHeight = 70"
-                    >
-                        <v-icon>mdi-magnify</v-icon>
-                    </v-btn>
-                    <v-btn
-                        :disabled="dialogImageHeight >= 100 ? true:false"
-                        @click="dialogImageHeight = dialogImageHeight + 10"
-                    >
-                        <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-                </v-btn-toggle>
-            </div>
-        </v-scale-transition>
-        <!-- <v-fab-transition>
-            <div class="desc-button" v-if="dialog && !noDialog">
-                <v-btn
-                    fab
-                    height="48"
-                    width="48"
-                    class="elevation-3"
-                    @click="descDialog = !descDialog"
-                >
-                    <v-icon>mdi-information-variant</v-icon>
-                </v-btn>
-            </div>
-        </v-fab-transition>
-        <v-slide-x-reverse-transition origin="bottom left">
-            <div class="desc-container" v-if="descDialog && dialog && !noDialog">
-                <v-card height="100%" elevation="3" class="pa-2">{{image.description}}</v-card>
-            </div>
-        </v-slide-x-reverse-transition> -->
         <v-dialog v-model="dialog" fullscreen persistent v-if="!noDialog">
-            <v-card
-                flat
-                tile
-                :color="$vuetify.theme.dark ? 'rgba(66,66,66)' :'rgba(255,255,255)'"
-            >
+            <v-card flat tile :color="$vuetify.theme.dark ? 'rgba(66,66,66)' :'rgba(255,255,255)'">
                 <v-toolbar absolute :elevation="2" class="pr-2">
                     <v-toolbar-title>
                         <v-label>{{image.caption}}</v-label>
@@ -57,27 +11,24 @@
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-toolbar>
-                <div style="height: calc(100vh);">
+                <div :class="windowWidth <= 600 ? 'zoom-xs':'zoom'">
                     <v-layout column fill-height align-center justify-center>
-                        <v-img
-                            :src="image.src"
-                            contain
-                            :max-height="dialogImageHeight + 'vh'"
-                            max-width="95vw"
-                        >
-                            <template #placeholder>
-                                <v-row class="fill-height ma-0" align="center" justify="center">
-                                    <l-n-l-loader :loading="true"></l-n-l-loader>
-                                </v-row>
-                            </template>
-                        </v-img>
+                        <v-zoomer style="width: calc(100vw - 32px); height: calc(100vh - 86px)">
+                            <img
+                                :src="image.src"
+                                style="object-fit: contain; width: 100%; height: 100%;"
+                            />
+                        </v-zoomer>
                     </v-layout>
                 </div>
             </v-card>
         </v-dialog>
 
         <div v-if="loading">
-            <div :class="noDetails? 'photo-shimmer':'photo-card-shimmer'" class="animate"></div>
+            <div
+                class="animate"
+                :class="[noDetails? 'photo-shimmer':'photo-card-shimmer', fullHeight?'full-photo-shimmer':'']"
+            ></div>
             <v-list-item v-if="!noDetails">
                 <v-list-item-content>
                     <div class="title-shimmer animate mb-2"></div>
@@ -94,6 +45,7 @@
                 :alt="image.caption"
                 @load="onPhotoLoad"
                 aspect-ratio="1"
+                max-width="400"
                 width="auto"
                 @click="onImageClick"
             ></v-img>
@@ -128,15 +80,20 @@ export default {
             required: true
         },
         noDetails: Boolean,
-        noDialog: Boolean
+        noDialog: Boolean,
+        fullHeight: Boolean
     },
     data() {
         return {
             loading: true,
             dialog: false,
-            descDialog: false,
-            dialogImageHeight: 70,
+            descDialog: false
         };
+    },
+    computed: {
+        windowWidth() {
+            return this.$store.state.window.width;
+        }
     },
     methods: {
         onPhotoLoad(event) {
@@ -144,32 +101,19 @@ export default {
         },
         onImageClick(e) {
             if (this.noDetails && !this.noDialog) this.dialog = true;
-            if(this.noDialog) this.$emit('image-clicked')
+            if (this.noDialog) this.$emit("image-clicked");
         }
-    },
+    }
 };
 </script>
 <style scoped>
 * {
     transition: all 0.3s ease;
 }
-.zoom-buttons {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 9999;
+.zoom{
+    padding-top: 74px;
 }
-.desc-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-}
-.desc-container {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    max-width: 350px;
-    z-index: 9999;
+.zoom-xs{
+    padding-top: 72px;
 }
 </style>

@@ -8,7 +8,7 @@
         <template v-if="!pageLoading">
             <v-card flat tile min-height="100vh" class="pt-3">
                 <v-dialog v-model="shareDialog" max-width="400">
-                    <v-card >
+                    <v-card>
                         <v-layout row align-center class="ma-0 px-4 pt-2">
                             <v-toolbar-title>Share</v-toolbar-title>
                             <v-spacer></v-spacer>
@@ -32,8 +32,55 @@
                         <v-icon>mdi-share</v-icon>
                     </v-btn>
                 </v-toolbar>
-                <v-card flat class="px-7 py-4" style="border-radius: 4px !important;">
-                    <l-n-l-photo :image="photo" no-details></l-n-l-photo>
+                <v-card
+                    flat
+                    class="px-7"
+                    style="border-radius: 4px !important;"
+                    min-height="calc(100vh - 76px)"
+                    v-if="windowWidth >= 960"
+                >
+                    <v-container fluid grid-list-md fill-height class="ma-0 pa-0">
+                        <v-layout row wrap justify-center align-start class="ma-0 pa-0">
+                            <v-flex xs6 class="ma-0 pa-0 text-center">
+                                <v-layout
+                                    row
+                                    justify-center
+                                    align-center
+                                    style="height: calc(100vh - 110px)"
+                                    class="ma-0 pa-0"
+                                >
+                                    <v-flex
+                                        class="ma-0 pa-0"
+                                        style="padding-left: calc(((100vw / 2) - 400px) / 2) !important"
+                                    >
+                                        <l-n-l-photo :image="photo" no-details full-height></l-n-l-photo>
+                                    </v-flex>
+                                </v-layout>
+                            </v-flex>
+                            <v-flex xs6 class="ma-0 pa-0">
+                                <v-layout
+                                    row
+                                    justify-center
+                                    align-center
+                                    style="height: calc(100vh - 110px)"
+                                    class="ma-0 pa-0"
+                                >
+                                    <v-flex class="ma-0 pa-0" style="min-height: 440px;">
+                                        <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
+                                        <v-card-text class="px-0">{{photo.description}}</v-card-text>
+                                    </v-flex>
+                                </v-layout>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card>
+                <v-card
+                    flat
+                    class="px-7 py-4"
+                    style="border-radius: 4px !important;"
+                    v-if="windowWidth < 960"
+                >
+                    <l-n-l-photo :image="photo" no-details full-height></l-n-l-photo>
                     <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
                     <v-card-text class="px-0">{{photo.description}}</v-card-text>
                 </v-card>
@@ -58,6 +105,11 @@ export default {
             shareLink: "amitsahoophotography.xyz",
             photo: {}
         };
+    },
+    computed: {
+        windowWidth() {
+            return this.$store.state.window.width;
+        }
     },
     methods: {
         goBack() {

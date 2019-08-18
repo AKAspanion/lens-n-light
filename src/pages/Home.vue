@@ -11,7 +11,7 @@
                     <v-card-title class="home-title-shimmer animate ml-n1"></v-card-title>
                     <v-list-item-avatar class="avatar-shimmer animate mr-n1"></v-list-item-avatar>
                 </v-toolbar>
-                <v-layout class="px-7 py-4">
+                <v-layout class="px-7 pt-1 pb-2">
                     <div class="tab-shimmer animate"></div>
                     <div class="tab-shimmer animate"></div>
                     <div class="tab-shimmer animate"></div>

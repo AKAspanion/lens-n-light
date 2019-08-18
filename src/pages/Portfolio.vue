@@ -22,8 +22,8 @@
                 </div>
             </v-layout>
             <div class="px-10 pb-3 text-center">
-                <v-chip outlined link class="mr-3">{{$t('facebook')}}</v-chip>
-                <v-chip outlined link class="mr-3">{{$t('instagram')}}</v-chip>
+                <v-chip outlined link class="mr-3" href="https://www.facebook.com/amitphotography/" target="_blank" >{{$t('facebook')}}</v-chip>
+                <v-chip outlined class="mr-3" href="https://www.instagram.com/amitsahoophotography/" target="_blank">{{$t('instagram')}}</v-chip>
             </div>
             <v-divider></v-divider>
             <v-card-text class="px-10 pb-6 pt-3" style="text-align: justify;">{{$t('sahoo.desc')}}</v-card-text>

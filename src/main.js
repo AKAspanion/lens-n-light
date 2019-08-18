@@ -13,6 +13,11 @@ import {
 import App from './App.vue'
 import "./assets/style.css";
 
+import VueZoomer from 'vue-zoomer'
+import 'vue-zoomer/dist/vue-zoomer.css'
+
+Vue.use(VueZoomer)
+
 Vue.config.productionTip = false
 
 new Vue({
