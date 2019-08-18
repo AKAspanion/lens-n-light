@@ -51,6 +51,7 @@
     justify-content: center;
 }
 
+
 .full-loader {
     height: calc(100vh - 170px);
 }
@@ -86,6 +87,25 @@
 .icon-shimmer {
     height: 24px;
     width: 24px;
+    border-radius: 50%;
+}
+
+.home-title-shimmer {
+    height: 24px;
+    background: #777;
+    margin: 6px 0;
+}
+.tab-shimmer{
+    height: 24px;
+    background: #777;
+    margin: 6px 0;
+    margin-right: 48px;
+    width: 48px !important;
+}
+
+.avatar-shimmer {
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
 }
 

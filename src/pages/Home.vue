@@ -1,9 +1,27 @@
 <template>
     <div>
         <template v-if="pageLoading">
-            <div class="loader-container page-loader">
-                <l-n-l-loader :loading="pageLoading"></l-n-l-loader>
-            </div>
+            <v-card flat tile class="pt-3">
+                <v-toolbar
+                    flat
+                    height="64"
+                    :color=" themeModel? '#424242':'#fff'"
+                    class="toolbar-xs"
+                >
+                    <v-card-title class="home-title-shimmer animate ml-n1"></v-card-title>
+                    <v-list-item-avatar class="avatar-shimmer animate mr-n1"></v-list-item-avatar>
+                </v-toolbar>
+                <v-layout class="px-7 py-4">
+                    <div class="tab-shimmer animate"></div>
+                    <div class="tab-shimmer animate"></div>
+                    <div class="tab-shimmer animate"></div>
+                    <div class="tab-shimmer animate"></div>
+                </v-layout>
+                <v-divider></v-divider>
+                <div class="loader-container full-loader">
+                    <l-n-l-loader :loading="pageLoading"></l-n-l-loader>
+                </div>
+            </v-card>
         </template>
         <template v-if="!pageLoading">
             <v-card flat tile class="pt-3" min-height="100vh">
@@ -32,7 +50,7 @@
                                 </v-avatar>
                             </v-btn>
                         </template>
-                        <v-list width="300">
+                        <v-list>
                             <v-subheader>{{$t('links')}}</v-subheader>
                             <v-list-item link @click="routeToPortfolio">
                                 <v-list-item-content>
@@ -56,7 +74,6 @@
                                     </v-avatar>
                                 </v-list-item-avatar>
                             </v-list-item>
-
                             <v-divider></v-divider>
                             <v-subheader>{{$t('settings')}}</v-subheader>
                             <v-list-item>
@@ -133,7 +150,7 @@ export default {
         return {
             tab: null,
             menu: false,
-            langs: ["en", "hi"],
+            langs: ["en", "hi", "ba"],
             photos: [],
             categories: [],
             imagesByCategory: [],
@@ -156,7 +173,7 @@ export default {
         routeToAdmin() {
             this.$router.push({ name: "Login" });
         },
-        routeToPortfolio(){
+        routeToPortfolio() {
             this.$router.push({ name: "Portfolio" });
         },
         loadPage() {
