@@ -8,5 +8,14 @@
     "dark": "डार्क",
     "dark.toggle": "डार्क मोड को टॉगल करें",
     "admin": "एडमिन",
-    "admin.goto": "एडमिन पेज पर जाएं"
+    "admin.goto": "एडमिन पेज पर जाएं",
+    "portfolio": "पोर्टफोलियो",
+    "portfolio.goto": "मेरे बारे में जाने",
+    "links": "लिंक",
+    "settings": "सेटिंग्स",
+    "password": "पासवर्ड",
+    "password.enter": "अपना पासवर्ड डालें",
+    "email": "ईमेल",
+    "email.enter": "अपना ईमेल डालें",
+    "login": "लॉग इन करें"
 }

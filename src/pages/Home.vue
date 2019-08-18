@@ -13,7 +13,10 @@
                     :color=" themeModel? '#424242':'#fff'"
                     class="toolbar-xs"
                 >
-                    <v-card-title class="pa-0 font-weight-medium" style="margin-left: -4.5px;">{{$t('lens-n-light')}}</v-card-title>
+                    <v-card-title
+                        class="pa-0 font-weight-medium"
+                        style="margin-left: -4.5px;"
+                    >{{$t('lens-n-light')}}</v-card-title>
                     <v-spacer></v-spacer>
                     <v-menu
                         bottom
@@ -29,7 +32,42 @@
                                 </v-avatar>
                             </v-btn>
                         </template>
-                        <v-list>
+                        <v-list width="300">
+                            <v-subheader>{{$t('links')}}</v-subheader>
+                            <v-list-item link @click="routeToPortfolio">
+                                <v-list-item-content>
+                                    <v-list-item-title>{{$t('portfolio')}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{$t('portfolio.goto')}}</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-avatar>
+                                    <v-avatar small size="36" class="mr-n1">
+                                        <img src="../assets/images/profile.jpg" />
+                                    </v-avatar>
+                                </v-list-item-avatar>
+                            </v-list-item>
+                            <v-list-item link>
+                                <v-list-item-content @click="routeToAdmin">
+                                    <v-list-item-title>{{$t('admin')}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{$t('admin.goto')}}</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-avatar @click="routeToAdmin">
+                                    <v-avatar small size="36" class="mr-n1">
+                                        <v-icon>mdi-settings</v-icon>
+                                    </v-avatar>
+                                </v-list-item-avatar>
+                            </v-list-item>
+
+                            <v-divider></v-divider>
+                            <v-subheader>{{$t('settings')}}</v-subheader>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title>{{themeModel? $t('light'): $t('dark')}}</v-list-item-title>
+                                    <v-list-item-subtitle>{{themeModel? $t('light.toggle'): $t('dark.toggle')}}</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-switch v-model="themeModel"></v-switch>
+                                </v-list-item-action>
+                            </v-list-item>
                             <v-list-item>
                                 <v-list-item-content>
                                     <v-list-item-title>{{$t('language')}}</v-list-item-title>
@@ -50,26 +88,6 @@
                                     </v-btn-toggle>
                                 </v-list-item-action>
                             </v-list-item>
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <v-list-item-title>{{themeModel? $t('light'): $t('dark')}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{themeModel? $t('light.toggle'): $t('dark.toggle')}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-switch v-model="themeModel"></v-switch>
-                                </v-list-item-action>
-                            </v-list-item>
-                            <v-list-item link>
-                                <v-list-item-content  @click="routeToAdmin">
-                                    <v-list-item-title>{{$t('admin')}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{$t('admin.goto')}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <!-- <v-btn icon small > -->
-                                        <v-icon>mdi-settings</v-icon>
-                                    <!-- </v-btn> -->
-                                </v-list-item-action>
-                            </v-list-item>
                         </v-list>
                     </v-menu>
                 </v-toolbar>
@@ -83,7 +101,7 @@
                         <v-tab v-for="(i, index) in categories" :key="'tab-'+index">{{ i.title }}</v-tab>
                         <v-tab-item v-for="(j, index) in imagesByCategory" :key="'item-'+index">
                             <v-divider class="ma-0 pa-0"></v-divider>
-                            <v-card flat tile class="home-grid-xs">
+                            <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 125px)">
                                 <l-n-l-grid
                                     :images="j"
                                     gutter="xl"
@@ -137,6 +155,9 @@ export default {
     methods: {
         routeToAdmin() {
             this.$router.push({ name: "Login" });
+        },
+        routeToPortfolio(){
+            this.$router.push({ name: "Portfolio" });
         },
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);

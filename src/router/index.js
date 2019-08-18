@@ -7,6 +7,7 @@ import Home from '../pages/Home.vue'
 import Login from '../pages/Login.vue'
 import Photo from '../pages/Photo.vue'
 import Landing from '../pages/Landing.vue'
+import Portfolio from '../pages/Portfolio.vue'
 import NotFound from '../pages/NotFound.vue'
 
 import {
@@ -25,33 +26,40 @@ const router = new VueRouter({
             component: Landing,
         }, 
         {
-            id: 0,
+            id: 1,
             path: '/home',
             name: 'Home',
             component: Home,
         },  
         {
-            id: 1,
+            id: 2,
             path: '/photo/:id',
             name: 'Photo',
             component: Photo,
         },
         {
-            id: 2,
+            id: 3,
             path: '/login',
             name: 'Login',
             component: Login
         },
         {
-            id: 3,
+            id: 4,
             path: '/admin',
             name: 'Admin',
             component: Admin,
             meta: {
                 admin: true
             }
-        }, {
-            id: 0,
+        }, 
+        {
+            id: 5,
+            path: '/portfolio',
+            name: 'Portfolio',
+            component: Portfolio
+        },
+        {
+            id: 6,
             path: '*',
             component: NotFound
         }

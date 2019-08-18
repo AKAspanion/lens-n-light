@@ -7,8 +7,8 @@
         </template>
         <template v-if="!pageLoading">
             <v-card flat tile min-height="100vh" class="pt-3">
-                <v-dialog v-model="shareDialog">
-                    <v-card>
+                <v-dialog v-model="shareDialog" max-width="400">
+                    <v-card >
                         <v-layout row align-center class="ma-0 px-4 pt-2">
                             <v-toolbar-title>Share</v-toolbar-title>
                             <v-spacer></v-spacer>
@@ -16,7 +16,7 @@
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                         </v-layout>
-                        <v-layout row align-center class="ma-0 px-4">
+                        <v-layout row align-baseline class="ma-0 px-4">
                             <v-text-field id="share-link" v-model="shareLink" readonly></v-text-field>
                             <v-spacer></v-spacer>
                             <v-btn depressed color="primary" @click="copyLink">Copy</v-btn>

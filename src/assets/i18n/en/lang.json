@@ -8,5 +8,14 @@
     "dark": "Dark",
     "dark.toggle": "Toggle dark mode",
     "admin": "Admin",
-    "admin.goto": "Go to admin page"
+    "admin.goto": "Go to admin page",
+    "portfolio": "Portfolio",
+    "portfolio.goto": "Get to know about me",
+    "links": "Links",
+    "settings": "Settings",
+    "password": "Password",
+    "password.enter": "Enter your password",
+    "email": "Email",
+    "email.enter": "Enter your email",
+    "login": "Login"
 }
