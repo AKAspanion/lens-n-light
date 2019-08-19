@@ -66,7 +66,7 @@
         </v-toolbar>
         <v-container class="pa-0" fluid>
             <v-layout row wrap class="ma-0">
-                <v-flex md2 xs12 class="pa-0">
+                <v-flex md3 xs12 class="pa-0">
                     <v-toolbar height="56" flat>
                         <v-toolbar-title>
                             <v-label>Category</v-label>
@@ -98,7 +98,15 @@
                                         <v-list-item-title v-text="item.title"></v-list-item-title>
                                     </v-list-item-content>
                                     <v-list-item-action>
-                                        <v-icon v-if="active">mdi-chevron-right</v-icon>
+                                        <v-btn icon small v-if="active" color="primary">
+                                            <v-icon small>mdi-pencil</v-icon>
+                                        </v-btn>
+                                    </v-list-item-action>
+                                    <v-list-item-action>
+                                        <v-icon v-if="active">
+                                            <template v-if="windowWidth >= 960">mdi-chevron-right</template>
+                                            <template v-else>mdi-chevron-down</template>
+                                        </v-icon>
                                     </v-list-item-action>
                                 </template>
                             </v-list-item>
@@ -116,10 +124,10 @@
                         </v-list-item>
                     </v-list>
                 </v-flex>
-                <v-flex md10 xs12 class="pa-0">
+                <v-flex md9 xs12 class="pa-0">
                     <v-toolbar flat height="56">
                         <template v-if="event === 'upload'">
-                            <v-btn icon small @click="event = 'photos'">
+                            <v-btn icon @click="event = 'photos'">
                                 <v-icon>mdi-arrow-left</v-icon>
                             </v-btn>
                             <v-toolbar-title class="px-2">
@@ -139,7 +147,7 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <l-n-l-grid :images="photos"></l-n-l-grid>
+                                <l-n-l-grid :images="photos" ></l-n-l-grid>
                             </template>
                         </template>
                         <template v-else-if="event === 'upload'">
@@ -209,6 +217,9 @@ export default {
         },
         iconName() {
             return "mdi-" + this.category.icon;
+        },
+        windowWidth() {
+            return this.$store.state.window.width;
         }
     },
     methods: {

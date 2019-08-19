@@ -1,9 +1,11 @@
 .nml-1 {
     margin-left: -4px !important;
 }
+
 .nml-0 {
     margin-left: -2px !important;
 }
+
 .nmr-0 {
     margin-right: -2px !important;
 }
@@ -41,9 +43,11 @@
 .nmt-4 {
     margin-top: -16px !important;
 }
-.selectable{
+
+.selectable {
     cursor: pointer;
 }
+
 .loader-container {
     /* width: 100%; */
     display: flex;
@@ -83,7 +87,8 @@
     width: 100%;
     border-radius: 4px;
 }
-.full-photo-shimmer{
+
+.full-photo-shimmer {
     max-width: 400px !important;
     max-height: 400px !important;
     height: calc(100vw - 56px) !important;
@@ -102,7 +107,8 @@
     background: #777;
     margin: 6px 0;
 }
-.tab-shimmer{
+
+.tab-shimmer {
     height: 24px;
     background: #777;
     margin: 6px 0;
@@ -172,11 +178,19 @@
     .photo-shimmer {
         height: calc(100vw / 6 - 32px);
     }
+
+    .photo-card-shimmer {
+        height: calc(((100vw / 12) * 8) / 5 - 24px);
+    }
 }
 
 @media (min-width: 960px) and (max-width: 1264px) {
     .photo-shimmer {
         height: calc(100vw / 4 - 36px);
+    }
+
+    .photo-card-shimmer {
+        height: calc(((100vw / 12) * 8) / 4 + 12px);
     }
 
 }
@@ -185,11 +199,19 @@
     .photo-shimmer {
         height: calc(100vw / 3 - 38px);
     }
+
+    .photo-card-shimmer {
+        height: calc(100vw / 3 - 18px);
+    }
 }
 
 
 @media (min-width: 320px) and (max-width: 600px) {
     .photo-shimmer {
         height: calc(100vw / 2 - 36px);
+    }
+
+    .photo-card-shimmer {
+        height: calc(100vw / 2 - 20px);
     }
 }
