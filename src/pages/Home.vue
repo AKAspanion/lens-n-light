@@ -140,6 +140,7 @@ import { getAllPhotos, getAllCategories } from "../helper";
 import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
 import { Promise } from "q";
+var _ = require('lodash');
 export default {
     name: "Home",
     components: {
@@ -181,7 +182,7 @@ export default {
         },
         parseImages() {
             this.imagesByCategory = this.categories.map(c => {
-                return this.photos.filter(e => e.categoryId === c.id);
+                return _.shuffle(this.photos.filter(e => e.categoryId === c.id));
             });
         },
         imageClicked(val) {

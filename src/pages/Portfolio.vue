@@ -1,12 +1,12 @@
 <template>
     <div>
         <v-card flat tile min-height="100vh" class="pt-3">
-            <v-toolbar flat height="64" class="px-4">
-                <v-btn icon small @click="goBack">
+            <v-toolbar flat height="64" class="px-3">
+                <v-btn icon  @click="goBack">
                     <v-icon style="transform: rotate(135deg)">mdi-arrow-bottom-right</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn icon small @click="shareDialog = !shareDialog; ">
+                <v-btn icon  @click="shareDialog = !shareDialog; ">
                     <v-icon>mdi-information-variant</v-icon>
                 </v-btn>
             </v-toolbar>
@@ -25,8 +25,7 @@
                 <v-chip outlined link class="mr-3" href="https://www.facebook.com/amitphotography/" target="_blank" >{{$t('facebook')}}</v-chip>
                 <v-chip outlined class="mr-3" href="https://www.instagram.com/amitsahoophotography/" target="_blank">{{$t('instagram')}}</v-chip>
             </div>
-            <v-divider></v-divider>
-            <v-card-text class="px-10 pb-6 pt-3" style="text-align: justify;">{{$t('sahoo.desc')}}</v-card-text>
+            <v-card-text class="px-10 pb-6 pt-3" style="text-align: justify; max-width: 600px; margin: 0 auto;">{{$t('sahoo.desc')}}</v-card-text>
         </v-card>
     </div>
 </template>

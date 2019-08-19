@@ -12,7 +12,7 @@
                         <v-layout row align-center class="ma-0 px-4 pt-2">
                             <v-toolbar-title>Share</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-btn icon small @click="shareDialog = !shareDialog">
+                            <v-btn icon  @click="shareDialog = !shareDialog">
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                         </v-layout>
@@ -23,13 +23,13 @@
                         </v-layout>
                     </v-card>
                 </v-dialog>
-                <v-toolbar flat height="64" class="px-4">
-                    <v-btn icon small @click="goBack">
+                <v-toolbar flat height="64" class="px-3">
+                    <v-btn icon @click="goBack">
                         <v-icon style="transform: rotate(135deg)">mdi-arrow-bottom-right</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn icon small @click="shareDialog = !shareDialog; createLink()">
-                        <v-icon>mdi-share</v-icon>
+                    <v-btn icon @click="shareDialog = !shareDialog; createLink()">
+                        <v-icon>mdi-share-variant</v-icon>
                     </v-btn>
                 </v-toolbar>
                 <v-card
@@ -65,7 +65,10 @@
                                     style="height: calc(100vh - 110px)"
                                     class="ma-0 pa-0"
                                 >
-                                    <v-flex class="ma-0 pa-0" style="min-height: 440px;">
+                                    <v-flex
+                                        class="ma-0 pa-0"
+                                        style="min-height: 440px; padding-right: calc((50vw - 400px) / 2) !important;"
+                                    >
                                         <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
                                         <v-card-text class="px-0">{{photo.description}}</v-card-text>
                                     </v-flex>

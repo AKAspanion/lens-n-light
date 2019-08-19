@@ -1,19 +1,17 @@
 <template>
     <v-card flat class="mx-auto">
         <v-dialog v-model="dialog" fullscreen persistent v-if="!noDialog">
-            <v-card flat tile :color="$vuetify.theme.dark ? 'rgba(66,66,66)' :'rgba(255,255,255)'">
-                <v-toolbar absolute :elevation="2" class="pr-2">
-                    <v-toolbar-title>
-                        <v-label>{{image.caption}}</v-label>
-                    </v-toolbar-title>
+            <v-card flat tile min-height="100vh" class="pt-3">
+                <v-toolbar flat height="64" class="px-3">
                     <v-spacer></v-spacer>
-                    <v-btn icon @click="dialog = false; descDialog  = false">
+                    <v-btn icon @click="dialog = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
+                    <v-spacer></v-spacer>
                 </v-toolbar>
-                <div :class="windowWidth <= 600 ? 'zoom-xs':'zoom'">
+                <div>
                     <v-layout column fill-height align-center justify-center>
-                        <v-zoomer style="width: calc(100vw - 32px); height: calc(100vh - 86px)">
+                        <v-zoomer style="width: calc(100vw - 17px); height: calc(100vh - 80px)">
                             <img
                                 :src="image.src"
                                 style="object-fit: contain; width: 100%; height: 100%;"
@@ -86,8 +84,7 @@ export default {
     data() {
         return {
             loading: true,
-            dialog: false,
-            descDialog: false
+            dialog: false
         };
     },
     computed: {
@@ -109,11 +106,5 @@ export default {
 <style scoped>
 * {
     transition: all 0.3s ease;
-}
-.zoom{
-    padding-top: 74px;
-}
-.zoom-xs{
-    padding-top: 72px;
 }
 </style>
