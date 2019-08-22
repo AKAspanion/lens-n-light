@@ -61,7 +61,12 @@ export default {
         setTimeout(() => {
             this.expand = true;
         }, 1000);
-    },
+    },    
+	computed: {
+		windowWidth() {
+			return this.$store.state.window.width;
+		}
+	},
     methods: {
         goHome() {
             this.$router.replace({ path: "/" });
@@ -72,11 +77,12 @@ export default {
 <style scoped>
 .container-404 {
     height: 200px;
-    width: 500px;
+    width: 80vw;
+    text-align: center;
     position: absolute;
     left: 50%;
-    margin-left: -240px;
     top: 50%;
+    transform: translateX(-50%);
     margin-top: 70px;
     z-index: 100;
     z-index: 50;
@@ -92,13 +98,13 @@ export default {
 }
 .cam-flash {
     background: #fff;
-    height: 2000px;
-    width: 2000px;
+    height: 200vh;
+    width: 200vh;
     position: absolute;
     left: 50%;
-    margin-left: -1000px;
+    margin-left: -100vh;
     top: 50%;
-    margin-top: -1000px;
+    margin-top: -100vh;
     z-index: 100;
     border-radius: 50%;
     transform: scale(0);
