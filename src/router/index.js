@@ -24,24 +24,36 @@ const router = new VueRouter({
             id: 0,
             path: '/',
             component: Landing,
+            meta: {
+                index: 0
+            }
         }, 
         {
             id: 1,
             path: '/home',
             name: 'Home',
             component: Home,
+            meta: {
+                index: 1
+            }
         },  
         {
             id: 2,
             path: '/photo/:id',
             name: 'Photo',
             component: Photo,
+            meta: {
+                index: 2
+            }
         },
         {
             id: 3,
             path: '/login',
             name: 'Login',
-            component: Login
+            component: Login,
+            meta: {
+                index: 3
+            }
         },
         {
             id: 4,
@@ -49,19 +61,26 @@ const router = new VueRouter({
             name: 'Admin',
             component: Admin,
             meta: {
-                admin: true
+                admin: true,
+                index: 4
             }
         }, 
         {
             id: 5,
             path: '/portfolio',
             name: 'Portfolio',
-            component: Portfolio
+            component: Portfolio,
+            meta: {
+                index: 5
+            }
         },
         {
             id: 6,
             path: '*',
-            component: NotFound
+            component: NotFound,
+            meta: {
+                index: 10
+            }
         }
 
     ]

@@ -32,8 +32,12 @@ export default {
         window.addEventListener("resize", this.handleResize);
         this.handleResize();
         this.$router.beforeEach((to, from, next) => {
-            const toDepth = to.path.split("/").length;
-            const fromDepth = from.path.split("/").length;
+            let toDepth = to.path.split("/").length;
+            let fromDepth = from.path.split("/").length;
+            if(toDepth === fromDepth){
+                toDepth = to.meta.index;
+                fromDepth = from.meta.index;
+            }
             this.transitionName =
                 toDepth < fromDepth ? "slide-right" : "slide-left";
             next();

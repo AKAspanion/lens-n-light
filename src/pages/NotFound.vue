@@ -69,7 +69,7 @@ export default {
 	},
     methods: {
         goHome() {
-            this.$router.replace({ path: "/" });
+            this.$router.replace({ path: "/home" });
         }
     }
 };
