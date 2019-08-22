@@ -172,7 +172,7 @@ export default {
     },
     methods: {
         routeToAdmin() {
-            this.$router.push({ name: "Login" });
+            this.$router.push({ name: "Admin" });
         },
         routeToPortfolio() {
             this.$router.push({ name: "Portfolio" });

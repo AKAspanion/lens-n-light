@@ -123,12 +123,13 @@
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
+                    <v-divider v-if="windowWidth <= 600"></v-divider>
                 </v-flex>
                 <v-flex md9 xs12 class="pa-0">
                     <v-toolbar flat height="56">
                         <template v-if="event === 'upload'">
                             <v-btn icon @click="event = 'photos'">
-                                <v-icon>mdi-arrow-left</v-icon>
+                                <v-icon>mdi-close</v-icon>
                             </v-btn>
                             <v-toolbar-title class="px-2">
                                 <v-label>Upload in {{selectedCategory.title}}</v-label>

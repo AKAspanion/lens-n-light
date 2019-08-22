@@ -69,7 +69,7 @@
                     ></v-img>
                 </div>
             </v-card-text>
-            <v-card-actions class="pa-0">
+            <v-card-actions class="pa-0 pt-2">
                 <v-spacer></v-spacer>
                 <v-btn
                     :disabled="!uploadForm"
