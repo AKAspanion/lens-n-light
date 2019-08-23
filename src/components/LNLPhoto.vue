@@ -52,8 +52,9 @@
 					<v-spacer></v-spacer>
 					<v-flex shrink class="pa-0">
 						<v-menu
-                            offset-y
-                            nudge-left="10"
+                            offset-x
+                            nudge-left="140"
+                            nudge-top="10"
                             close-on-click
                             close-on-content-click
                             transition="scroll-y-transition"
@@ -63,14 +64,17 @@
 									<v-icon>mdi-dots-vertical</v-icon>
 								</v-btn>
 							</template>
-							<v-list>
-								<v-list-item link @click="onEditClick">
-									<v-list-item-title><v-icon small>mdi-pencil</v-icon></v-list-item-title>
-								</v-list-item>
+							<v-layout style="background: white">
 								<v-list-item link @click="onDeleteClick">
 									<v-list-item-title><v-icon small>mdi-delete</v-icon></v-list-item-title>
 								</v-list-item>
-							</v-list>
+								<v-list-item link @click="onEditClick">
+									<v-list-item-title><v-icon small>mdi-pencil</v-icon></v-list-item-title>
+								</v-list-item>
+								<v-list-item link @click="dialog = !dialog">
+									<v-list-item-title><v-icon small>mdi-fullscreen</v-icon></v-list-item-title>
+								</v-list-item>
+							</v-layout>
 						</v-menu>
 					</v-flex>
 				</v-layout>
@@ -119,7 +123,7 @@ export default {
         },
         onEditClick(){
             if (!this.noDetails) this.$emit("edit-clicked")
-        }
+		}
 	}
 };
 </script>

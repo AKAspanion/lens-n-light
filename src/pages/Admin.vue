@@ -1,9 +1,9 @@
 <template>
     <v-card tile flat>
         <v-dialog persistent v-model="categoryDialog" max-width="450">
-            <v-form v-model="categoryForm">
+            <v-form v-model="categoryForm" ref="formCategory">
                 <v-card>
-                    <v-card-title class="pa-4">Add a category</v-card-title>
+                    <v-card-title class="pa-4">{{isCategoryAdd ? 'Add' : 'Edit'}} category</v-card-title>
                     <v-card-text class="pa-4">
                         <v-layout column>
                             <v-text-field
@@ -39,7 +39,7 @@
                         <v-btn
                             color="primary"
                             text
-                            @click="categoryDialog = false"
+                            @click="clearCategoryForm()"
                             :disabled="addingCategory"
                         >Cancel</v-btn>
                         <v-btn
@@ -48,7 +48,7 @@
                             :loading="addingCategory"
                             @click="addNewCategory()"
                             :disabled="!categoryForm"
-                        >Add</v-btn>
+                        >{{isCategoryAdd ? 'Add' : 'Edit'}}</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-form>
@@ -98,7 +98,7 @@
                                         <v-list-item-title v-text="item.title"></v-list-item-title>
                                     </v-list-item-content>
                                     <v-list-item-action>
-                                        <v-btn icon small v-if="active" color="primary">
+                                        <v-btn icon small v-if="active" color="primary" @click="onCategoryEdit">
                                             <v-icon small>mdi-pencil</v-icon>
                                         </v-btn>
                                     </v-list-item-action>
@@ -112,14 +112,14 @@
                             </v-list-item>
                         </v-list-item-group>
                         <v-list-item
-                            @click="categoryDialog = !categoryDialog"
+                            @click="categoryDialog = !categoryDialog; isCategoryAdd = true;"
                             :disabled="photosLoading || event === 'upload'"
                         >
-                            <v-list-item-icon>
+                            <v-list-item-icon >
                                 <v-icon>mdi-plus</v-icon>
                             </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>Add</v-list-item-title>
+                            <v-list-item-content> 
+                                <v-list-item-title>ADD</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
@@ -148,7 +148,11 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <l-n-l-grid :images="photos" ></l-n-l-grid>
+                                <l-n-l-grid :images="photos" >
+                                    <template #gridMenu>
+                                        HI
+                                    </template>
+                                </l-n-l-grid>
                             </template>
                         </template>
                         <template v-else-if="event === 'upload'">
@@ -184,6 +188,7 @@ export default {
         return {
             event: "photos",
             drawer: true,
+            isCategoryAdd: false,
             categoryDialog: false,
             addingCategory: false,
             categoryLoading: true,
@@ -224,6 +229,15 @@ export default {
         }
     },
     methods: {
+        onCategoryEdit(){
+            this.category = {
+                ...this.selectedCategory,
+                icon: this.selectedCategory.icon.substr(4)
+            };
+            this.isCategoryAdd = false;
+            this.categoryDialog = true;
+        },
+        
         onCategorySelect() {
             this.getPhotosByCategory();
         },
@@ -277,6 +291,10 @@ export default {
                 });
                 resolve(photos);
             });
+        },
+        clearCategoryForm(){
+            this.categoryDialog = false;
+            this.$nextTick(()=>this.$refs.formCategory.reset());
         },
         addNewCategory() {
             this.addingCategory = true;
