@@ -53,8 +53,31 @@ export const addPhoto = (photo) => {
     return photosRef.add(photo);
 }
 
+export const editPhoto = (photo) => {
+    return photosRef.doc(photo.id).update({
+        caption: photo.caption,
+        categoryId: photo.categoryId,
+        description: photo.description
+    });
+}
+
+export const deletePhoto = (id) => {
+    return photosRef.doc(id).delete();
+}
+
+export const deletePhotoFromStorage = (fileName) => {
+    return storageRef.child(fileName).delete();
+}
+
 export const addCategory = (category) => {
     return photoCategoryRef.add(category);
+}
+export const editCategory = (category) => {
+    return photoCategoryRef.doc(category.id).update({
+        description: category.description,
+        title: category.title,
+        icon: category.icon
+    });
 }
 
 export const fetchAllPhotos = () => {

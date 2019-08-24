@@ -128,12 +128,15 @@ export default {
         uploadPhoto() {
             if (this.image !== null) {
                 this.uploading = true;
+                let fullPath = '';
                 uploadFile(this.image)
                     .then(data => {
-                        return getURL(data.metadata.fullPath.toString());
+                        fullPath = data.metadata.fullPath.toString()
+                        return getURL(fullPath);
                     })
                     .then(src => {
                         this.$emit("upload", {
+                            fullPath,
                             src,
                             caption: this.file.caption,
                             description: this.file.description
