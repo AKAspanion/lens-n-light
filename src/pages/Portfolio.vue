@@ -7,7 +7,7 @@
 				</v-btn>
 				<v-spacer></v-spacer>
 				<v-btn icon @click="shareDialog = !shareDialog">
-					<v-icon>mdi-information-variant</v-icon>
+					<v-icon>mdi-message-text</v-icon>
 				</v-btn>
 			</v-toolbar>
 			<v-layout column align-center class="ma-0 pa-0 pb-4">

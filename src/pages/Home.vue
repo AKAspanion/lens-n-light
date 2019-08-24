@@ -25,16 +25,16 @@
         </template>
         <template v-if="!pageLoading">
             <v-card flat tile class="pt-3" min-height="100vh">
-                <v-toolbar
-                    flat
-                    height="64"
-                    :color=" themeModel? '#424242':'#fff'"
-                    class="toolbar-xs"
-                >
-                    <v-card-title
-                        class="pa-0 font-weight-medium"
-                        style="margin-left: -4.5px;"
-                    >{{$t('lens-n-light')}}</v-card-title>
+                <v-toolbar flat height="80" :color=" themeModel? '#424242':'#fff'" class="toolbar-xs">
+                    <v-layout column class="pa-0 mx-0 pt-2">
+                        <v-card-title
+                            class="pa-0 pt-1 font-weight-regular"
+                            style="margin-left: -4.5px;"
+                        >{{$t('lens-n-light')}}</v-card-title>
+                        <v-card-title class="pa-0 pt-1 ml-n1 font-weight-regular subtitle-1">
+                            <v-label>Amit Sahoo Photography</v-label>
+                        </v-card-title>
+                    </v-layout>
                     <v-spacer></v-spacer>
                     <v-menu
                         bottom
@@ -118,7 +118,7 @@
                         <v-tab v-for="(i, index) in categories" :key="'tab-'+index">{{ i.title }}</v-tab>
                         <v-tab-item v-for="(j, index) in imagesByCategory" :key="'item-'+index">
                             <v-divider class="ma-0 pa-0"></v-divider>
-                            <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 125px)">
+                            <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 141px)">
                                 <l-n-l-grid
                                     :images="j"
                                     gutter="xl"
@@ -140,7 +140,7 @@ import { getAllPhotos, getAllCategories } from "../helper";
 import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
 import { Promise } from "q";
-var _ = require('lodash');
+var _ = require("lodash");
 export default {
     name: "Home",
     components: {
@@ -182,7 +182,9 @@ export default {
         },
         parseImages() {
             this.imagesByCategory = this.categories.map(c => {
-                return _.shuffle(this.photos.filter(e => e.categoryId === c.id));
+                return _.shuffle(
+                    this.photos.filter(e => e.categoryId === c.id)
+                );
             });
         },
         imageClicked(val) {

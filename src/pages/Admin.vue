@@ -83,7 +83,7 @@
                                 :items="categories"
                                 item-text="title"
                                 item-value="id"
-                                label="Description"
+                                label="Category"
                                 :rules="[rules.required]"
                                 hint="Category for the photo."
                                 persistent-hint
@@ -131,7 +131,7 @@
             </v-card>
         </v-dialog>
         <v-toolbar flat color="primary" dark>
-            <v-card-title class="pa-0">Lens-n-Light</v-card-title>
+            <v-card-title class="pa-0 selectable" @click="navigateToHome">Lens-n-Light</v-card-title>
             <v-spacer></v-spacer>
             <v-toolbar-title class="px-4">
                 <v-label dark>{{userName}}</v-label>
@@ -152,7 +152,7 @@
                     </v-toolbar>
                     <v-list class="pa-0">
                         <template v-if="categoryLoading">
-                            <v-list-item v-for=" i in 4" :key="i">
+                            <v-list-item v-for=" i in totalCategories" :key="i">
                                 <v-list-item-icon>
                                     <div class="icon-shimmer animate"></div>
                                 </v-list-item-icon>
@@ -161,50 +161,54 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </template>
-                        <v-list-item-group v-model="categoryIndex" mandatory color="primary">
+                        <template v-else>
+                            <v-list-item-group v-model="categoryIndex" mandatory color="primary">
+                                <v-list-item
+                                    v-for="(item, i) in categories"
+                                    :key="i"
+                                    :disabled="photosLoading"
+                                >
+                                    <template v-slot:default="{ active }">
+                                        <v-list-item-icon>
+                                            <v-icon v-text="item.icon"></v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="item.title"></v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-btn
+                                                icon
+                                                small
+                                                v-if="active"
+                                                color="primary"
+                                                @click="onCategoryEdit"
+                                            >
+                                                <v-icon small>mdi-pencil</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                        <v-list-item-action>
+                                            <v-icon v-if="active">
+                                                <template
+                                                    v-if="windowWidth >= 960"
+                                                >mdi-chevron-right</template>
+                                                <template v-else>mdi-chevron-down</template>
+                                            </v-icon>
+                                        </v-list-item-action>
+                                    </template>
+                                </v-list-item>
+                            </v-list-item-group>
                             <v-list-item
-                                v-for="(item, i) in categories"
-                                :key="i"
-                                :disabled="photosLoading"
+                                @click="categoryDialog = !categoryDialog; isCategoryAdd = true;"
+                                :disabled="photosLoading || event === 'upload'"
                             >
-                                <template v-slot:default="{ active }">
-                                    <v-list-item-icon>
-                                        <v-icon v-text="item.icon"></v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="item.title"></v-list-item-title>
-                                    </v-list-item-content>
-                                    <v-list-item-action>
-                                        <v-btn
-                                            icon
-                                            small
-                                            v-if="active"
-                                            color="primary"
-                                            @click="onCategoryEdit"
-                                        >
-                                            <v-icon small>mdi-pencil</v-icon>
-                                        </v-btn>
-                                    </v-list-item-action>
-                                    <v-list-item-action>
-                                        <v-icon v-if="active">
-                                            <template v-if="windowWidth >= 960">mdi-chevron-right</template>
-                                            <template v-else>mdi-chevron-down</template>
-                                        </v-icon>
-                                    </v-list-item-action>
-                                </template>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-title>ADD</v-list-item-title>
+                                </v-list-item-content>
                             </v-list-item>
-                        </v-list-item-group>
-                        <v-list-item
-                            @click="categoryDialog = !categoryDialog; isCategoryAdd = true;"
-                            :disabled="photosLoading || event === 'upload'"
-                        >
-                            <v-list-item-icon>
-                                <v-icon>mdi-plus</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>ADD</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
+                        </template>
                     </v-list>
                     <v-divider v-if="windowWidth <= 600"></v-divider>
                 </v-flex>
@@ -321,6 +325,9 @@ export default {
         },
         iconName() {
             return "mdi-" + this.category.icon;
+        },
+        totalCategories(){
+            return this.categories.length > 3 ? this.categories.length : 3;
         },
         windowWidth() {
             return this.$store.state.window.width;
@@ -601,6 +608,9 @@ export default {
                         "Error Signing out. Please try later!"
                     );
                 });
+        },        
+        navigateToHome(){
+            this.$router.replace("/home");
         }
     },
     mounted() {

@@ -17,8 +17,7 @@
                             </v-btn>
                         </v-layout>
                         <v-layout row align-baseline class="ma-0 px-4">
-                            <v-text-field id="share-link" v-model="shareLink" readonly></v-text-field>
-                            <v-spacer></v-spacer>
+                            <v-text-field id="share-link" v-model="shareLink" readonly class="pr-2"></v-text-field>
                             <v-btn depressed color="primary" @click="copyLink">Copy</v-btn>
                         </v-layout>
                     </v-card>
