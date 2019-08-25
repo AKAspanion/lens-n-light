@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<v-card flat tile min-height="100vh" class="pt-3">
+		<v-card flat tile min-height="100vh" class="pt-2">
 			<v-toolbar flat height="64" class="px-3">
 				<v-btn icon @click="goBack">
 					<v-icon style="transform: rotate(135deg)">mdi-arrow-bottom-right</v-icon>
 				</v-btn>
 				<v-spacer></v-spacer>
-				<v-btn icon @click="shareDialog = !shareDialog">
+				<v-btn icon @click="routeToContact">
 					<v-icon>mdi-message-text</v-icon>
 				</v-btn>
 			</v-toolbar>
@@ -49,7 +49,10 @@ export default {
 	methods: {
 		goBack() {
 			this.$router.push({ path: "/home" });
-		}
+		},
+        routeToContact(){
+            this.$router.push({ name: "Contact" });
+        }
 	},
 	computed: {
 		windowWidth() {

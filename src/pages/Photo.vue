@@ -6,7 +6,7 @@
             </div>
         </template>
         <template v-if="!pageLoading">
-            <v-card flat tile min-height="100vh" class="pt-3">
+            <v-card flat tile min-height="100vh" class="pt-2">
                 <v-dialog v-model="shareDialog" max-width="400">
                     <v-card>
                         <v-layout row align-center class="ma-0 px-4 pt-2">

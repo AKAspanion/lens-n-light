@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- loading shimmer -->
         <template v-if="pageLoading">
             <v-card flat tile class="pt-3">
                 <v-toolbar
@@ -23,13 +24,13 @@
                 </div>
             </v-card>
         </template>
-        <template v-if="!pageLoading">
-            <v-card flat tile class="pt-3" min-height="100vh">
+        <template v-else>
+            <v-card flat tile class="pt-1" min-height="100vh">
                 <v-toolbar
                     flat
                     height="84"
                     :color=" themeModel? '#424242':'#fff'"
-                    class="toolbar-xs"
+                    class="toolbar-xs pr-2"
                 >
                     <v-layout column class="pa-0 mx-0 pt-2">
                         <v-card-title
@@ -37,82 +38,125 @@
                             style="margin-left: -4.5px;"
                         >{{$t('lens-n-light')}}</v-card-title>
                         <v-card-title class="pa-0 ml-n1 font-weight-regular subtitle-1">
-                            <v-label>Amit Sahoo Photography</v-label>
+                            <v-label>{{$t('sahoo.photography')}}</v-label>
                         </v-card-title>
                     </v-layout>
                     <v-spacer></v-spacer>
-                    <v-menu
-                        bottom
-                        left
-                        nudge-bottom="48"
-                        transition="scale-transition"
-                        origin="top right"
-                        style="z-index: 9999"
-                    >
-                        <template v-slot:activator="{ on }">
-                            <v-btn fab small v-on="on" class="mr-n1 elevation-3">
-                                <v-avatar small tile size="34">
-                                    <img class="pa-1" src="../assets/images/logo-fav.png" />
-                                </v-avatar>
-                            </v-btn>
-                        </template>
-                        <v-list>
-                            <v-subheader>{{$t('links')}}</v-subheader>
-                            <v-list-item link @click="routeToPortfolio">
-                                <v-list-item-content>
-                                    <v-list-item-title>{{$t('portfolio')}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{$t('portfolio.goto')}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-avatar>
-                                    <v-avatar small size="36" class="mr-n1">
-                                        <img src="../assets/images/profile.jpg" />
+                    <template v-if="windowWidth > 600">
+                        <div class="px-3">
+                            <v-btn text @click="routeToPortfolio">{{$t('portfolio')}}</v-btn>
+                            <v-btn text @click="routeToContact">{{$t('contact')}}</v-btn>
+                        </div>
+                        <div class="px-1 pr-2">
+                            <v-chip
+                                outlined
+                                ripple
+                                class="mr-3"
+                                href="https://www.facebook.com/amitphotography/"
+                                target="_blank"
+                            >
+                                <v-icon small>mdi-facebook</v-icon>
+                            </v-chip>
+                            <v-chip
+                                outlined
+                                ripple
+                                class="mr-3"
+                                href="https://www.instagram.com/amitsahoophotography/"
+                                target="_blank"
+                            >
+                                <v-icon small>mdi-instagram</v-icon>
+                            </v-chip>
+                        </div>
+                    </template>
+
+                    <div style="width: 40px; height: 40px;">
+                        <v-menu
+                            bottom
+                            left
+                            nudge-bottom="48"
+                            transition="scale-transition"
+                            origin="top right"
+                            z-index="9999"
+                            min-width="346"
+                        >
+                            <template v-slot:activator="{ on }">
+                                <v-btn fab small v-on="on" class="mr-n1 elevation-3">
+                                    <v-avatar small tile size="34">
+                                        <img class="pa-1" src="../assets/images/logo-fav.png" />
                                     </v-avatar>
-                                </v-list-item-avatar>
-                            </v-list-item>
-                            <v-list-item link>
-                                <v-list-item-content @click="routeToAdmin">
-                                    <v-list-item-title>{{$t('admin')}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{$t('admin.goto')}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-avatar @click="routeToAdmin">
-                                    <v-avatar small size="36" class="mr-n1">
-                                        <v-icon>mdi-settings</v-icon>
-                                    </v-avatar>
-                                </v-list-item-avatar>
-                            </v-list-item>
-                            <v-divider></v-divider>
-                            <v-subheader>{{$t('settings')}}</v-subheader>
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <v-list-item-title>{{themeModel? $t('light'): $t('dark')}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{themeModel? $t('light.toggle'): $t('dark.toggle')}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-switch v-model="themeModel"></v-switch>
-                                </v-list-item-action>
-                            </v-list-item>
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <v-list-item-title>{{$t('language')}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{$t('language.change')}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-btn-toggle
-                                        v-model="$i18n.locale"
-                                        mandatory
-                                        rounded
-                                        class="lnl-lang-btn"
-                                    >
-                                        <v-btn
-                                            v-for="(lang, i) in langs"
-                                            :key="`Lang${i}`"
-                                            :value="lang"
-                                        >{{ lang }}</v-btn>
-                                    </v-btn-toggle>
-                                </v-list-item-action>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
+                                </v-btn>
+                            </template>
+                            <v-list>
+                                <template v-if="windowWidth <= 600">
+                                    <v-subheader>{{$t('links')}}</v-subheader>
+                                    <v-list-item link @click="routeToPortfolio">
+                                        <v-list-item-content>
+                                            <v-list-item-title>{{$t('portfolio')}}</v-list-item-title>
+                                            <v-list-item-subtitle>{{$t('portfolio.goto')}}</v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        <v-list-item-avatar @click="routeToPortfolio">
+                                            <v-avatar small size="36" class="mr-n1">
+                                                <v-icon>mdi-face</v-icon>
+                                            </v-avatar>
+                                        </v-list-item-avatar>
+                                    </v-list-item>
+                                    <v-list-item link @click="routeToContact">
+                                        <v-list-item-content>
+                                            <v-list-item-title>{{$t('contact')}}</v-list-item-title>
+                                            <v-list-item-subtitle>{{$t('contact.goto')}}</v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        <v-list-item-avatar @click="routeToContact">
+                                            <v-avatar small size="36" class="mr-n1">
+                                                <v-icon>mdi-message-text</v-icon>
+                                            </v-avatar>
+                                        </v-list-item-avatar>
+                                    </v-list-item>
+                                    <v-divider></v-divider>
+                                </template>
+                                <v-subheader>{{$t('settings')}}</v-subheader>
+                                <v-list-item link>
+                                    <v-list-item-content @click="routeToAdmin">
+                                        <v-list-item-title>{{$t('admin')}}</v-list-item-title>
+                                        <v-list-item-subtitle>{{$t('admin.goto')}}</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    <v-list-item-avatar @click="routeToAdmin">
+                                        <v-avatar small class="mr-n1">
+                                            <v-icon>mdi-settings</v-icon>
+                                        </v-avatar>
+                                    </v-list-item-avatar>
+                                </v-list-item>
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{themeModel? $t('light'): $t('dark')}}</v-list-item-title>
+                                        <v-list-item-subtitle>{{themeModel? $t('light.toggle'): $t('dark.toggle')}}</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    <v-list-item-action>
+                                        <v-switch v-model="themeModel"></v-switch>
+                                    </v-list-item-action>
+                                </v-list-item>
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{$t('language')}}</v-list-item-title>
+                                        <v-list-item-subtitle>{{$t('language.change')}}</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    <v-list-item-action>
+                                        <v-btn-toggle
+                                            v-model="$i18n.locale"
+                                            mandatory
+                                            rounded
+                                            class="lnl-lang-btn"
+                                        >
+                                            <v-btn
+                                                v-for="(lang, i) in langs"
+                                                :key="`Lang${i}`"
+                                                :value="lang"
+                                            >{{ lang }}</v-btn>
+                                        </v-btn-toggle>
+                                    </v-list-item-action>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+                    </div>
                 </v-toolbar>
                 <v-card flat tile class="lnl-tab">
                     <v-tabs
@@ -162,7 +206,6 @@ export default {
             categories: [],
             imagesByCategory: [],
             pageLoading: false,
-            windowWidth: null,
             swipeDirection: "None"
         };
     },
@@ -174,6 +217,9 @@ export default {
             set(val) {
                 this.$vuetify.theme.dark = val;
             }
+        },
+        windowWidth() {
+            return this.$store.state.window.width;
         }
     },
     methods: {
@@ -182,6 +228,9 @@ export default {
         },
         routeToPortfolio() {
             this.$router.push({ name: "Portfolio" });
+        },
+        routeToContact() {
+            this.$router.push({ name: "Contact" });
         },
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);
@@ -220,7 +269,6 @@ export default {
             this.categories = this.$store.getters.categories;
             this.parseImages();
         }
-        this.windowWidth = this.$store.state.window.width;
     }
 };
 </script>

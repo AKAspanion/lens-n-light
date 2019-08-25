@@ -1,5 +1,6 @@
 {
     "lens-n-light": "লেন্স-এন-লাইট",
+    "sahoo.photography": "অমিত সাহু ফটোগ্রাফি",
     "login.toadmin": "অ্যাডমিন পেজ লগইন করুন",
     "language": "ভাষা",
     "language.change": "UI ভাষা পরিবর্তন করুন",
@@ -9,8 +10,10 @@
     "dark.toggle": "ডার্ক মোড টগল করুন",
     "admin": "অ্যাডমিন",
     "admin.goto": "ফটো ম্যানেজ করতে যান",
-    "portfolio": "পোর্টফোলিও",
+    "portfolio": "এবাউট",
     "portfolio.goto": "আমার সম্পর্কে জানতে",
+    "contact": "যোগাযোগ",
+    "contact.goto": "আমার সাথে যোগাযোগ করুন",
     "links": "লিংক",
     "settings": "সেটিংস",
     "password": "পাসওয়ার্ড",

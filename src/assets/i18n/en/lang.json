@@ -1,5 +1,6 @@
 {
     "lens-n-light": "LENS-N-LIGHT",
+    "sahoo.photography": "Amit Sahoo Photography",
     "login.toadmin": "Login to admin page",
     "language": "Language",
     "language.change": "Change the UI language",
@@ -9,8 +10,10 @@
     "dark.toggle": "Toggle dark mode",
     "admin": "Admin",
     "admin.goto": "Go to manage photos",
-    "portfolio": "Portfolio",
+    "portfolio": "About",
     "portfolio.goto": "Get to know about me",
+    "contact": "Contact",
+    "contact.goto": "Get in touch with me",
     "links": "Links",
     "settings": "Settings",
     "password": "Password",

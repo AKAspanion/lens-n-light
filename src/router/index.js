@@ -6,6 +6,7 @@ import Admin from '../pages/Admin.vue'
 import Home from '../pages/Home.vue'
 import Login from '../pages/Login.vue'
 import Photo from '../pages/Photo.vue'
+import Contact from '../pages/Contact.vue'
 import Landing from '../pages/Landing.vue'
 import Portfolio from '../pages/Portfolio.vue'
 import NotFound from '../pages/NotFound.vue'
@@ -76,6 +77,15 @@ const router = new VueRouter({
         },
         {
             id: 6,
+            path: '/contact',
+            name: 'Contact',
+            component: Contact,
+            meta: {
+                index: 6
+            }
+        },
+        {
+            id: 7,
             path: '*',
             component: NotFound,
             meta: {

@@ -1,5 +1,6 @@
 {
     "lens-n-light": "लेंस-एन-लाइट",
+    "sahoo.photography": "अमित साहू फोटोग्राफी",
     "login.toadmin": "एडमिन पेज पर लॉगइन करें",
     "language": "भाषा",
     "language.change": "UI की भाषा बदलें",
@@ -9,8 +10,10 @@
     "dark.toggle": "डार्क मोड को टॉगल करें",
     "admin": "एडमिन",
     "admin.goto": "फ़ोटो मैनेज करने के लिए जाएं",
-    "portfolio": "पोर्टफोलियो",
+    "portfolio": "अबाउट",
     "portfolio.goto": "मेरे बारे में जाने",
+    "contact": "संपर्क",
+    "contact.goto": "मेरे साथ संपर्क करे",
     "links": "लिंक",
     "settings": "सेटिंग्स",
     "password": "पासवर्ड",
