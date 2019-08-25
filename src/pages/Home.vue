@@ -25,13 +25,18 @@
         </template>
         <template v-if="!pageLoading">
             <v-card flat tile class="pt-3" min-height="100vh">
-                <v-toolbar flat height="80" :color=" themeModel? '#424242':'#fff'" class="toolbar-xs">
+                <v-toolbar
+                    flat
+                    height="84"
+                    :color=" themeModel? '#424242':'#fff'"
+                    class="toolbar-xs"
+                >
                     <v-layout column class="pa-0 mx-0 pt-2">
                         <v-card-title
-                            class="pa-0 pt-1 font-weight-regular"
+                            class="pa-0 pt-2 font-weight-medium"
                             style="margin-left: -4.5px;"
                         >{{$t('lens-n-light')}}</v-card-title>
-                        <v-card-title class="pa-0 pt-1 ml-n1 font-weight-regular subtitle-1">
+                        <v-card-title class="pa-0 ml-n1 font-weight-regular subtitle-1">
                             <v-label>Amit Sahoo Photography</v-label>
                         </v-card-title>
                     </v-layout>
@@ -40,7 +45,8 @@
                         bottom
                         left
                         nudge-bottom="48"
-                        transition="scroll-y-transition"
+                        transition="scale-transition"
+                        origin="top right"
                         style="z-index: 9999"
                     >
                         <template v-slot:activator="{ on }">
@@ -118,7 +124,7 @@
                         <v-tab v-for="(i, index) in categories" :key="'tab-'+index">{{ i.title }}</v-tab>
                         <v-tab-item v-for="(j, index) in imagesByCategory" :key="'item-'+index">
                             <v-divider class="ma-0 pa-0"></v-divider>
-                            <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 141px)">
+                            <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 145px)">
                                 <l-n-l-grid
                                     :images="j"
                                     gutter="xl"

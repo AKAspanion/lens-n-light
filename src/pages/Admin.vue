@@ -1,5 +1,6 @@
 <template>
     <v-card tile flat>
+        <!-- dialog for adding/editing category -->
         <v-dialog persistent v-model="categoryDialog" max-width="450">
             <v-form v-model="categoryForm" ref="formCategory">
                 <v-card>
@@ -53,6 +54,7 @@
                 </v-card>
             </v-form>
         </v-dialog>
+        <!-- dialog for editing phot -->
         <v-dialog persistent v-model="photoDialog" max-width="450">
             <v-form v-model="photoForm" ref="formPhoto">
                 <v-card>
@@ -109,6 +111,7 @@
                 </v-card>
             </v-form>
         </v-dialog>
+        <!-- dialog for deleting category -->
         <v-dialog persistent v-model="deleteDialog" max-width="450">
             <v-card>
                 <v-card-title class="pa-4">Delete photo</v-card-title>
@@ -173,7 +176,21 @@
                                             <v-icon v-text="item.icon"></v-icon>
                                         </v-list-item-icon>
                                         <v-list-item-content>
-                                            <v-list-item-title v-text="item.title"></v-list-item-title>
+                                            <v-tooltip
+                                                right
+                                                nudge-left="12"
+                                                offset-overflow
+                                                color="primary"
+                                                transition="scroll-x-transition"
+                                            >
+                                                <template v-slot:activator="{ on }">
+                                                    <v-list-item-title
+                                                        v-text="item.title"
+                                                        v-on="on"
+                                                    ></v-list-item-title>
+                                                </template>
+                                                <span>{{item.description}}</span>
+                                            </v-tooltip>
                                         </v-list-item-content>
                                         <v-list-item-action>
                                             <v-btn
@@ -259,6 +276,7 @@ import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
 import LNLUploader from "../components/LNLUploader.vue";
 import {
+    getUser,
     addPhoto,
     editPhoto,
     deletePhoto,
@@ -308,7 +326,11 @@ export default {
                 description: ""
             },
             photosLoading: false,
-            photos: []
+            photos: [],
+            users: {
+                "panditankit1995@gmail.com": "Ankit Kumar",
+                "amitsahoo94@gmail.com": "Amit Sahoo"
+            }
         };
     },
     watch: {
@@ -321,12 +343,12 @@ export default {
     },
     computed: {
         userName() {
-            return "Ankit Kumar";
+            return this.users[getUser().email] || "Admin";
         },
         iconName() {
             return "mdi-" + this.category.icon;
         },
-        totalCategories(){
+        totalCategories() {
             return this.categories.length > 3 ? this.categories.length : 3;
         },
         windowWidth() {
@@ -524,7 +546,7 @@ export default {
                         "showSnackBar",
                         "Category edited successfully!"
                     );
-                    this.getAllCatgories();
+                    this.getAllCatgories(false);
                 })
                 .catch(() => {
                     this.$store.dispatch(
@@ -564,7 +586,7 @@ export default {
                     this.addingCategory = false;
                 });
         },
-        getAllCatgories() {
+        getAllCatgories(loadPhotos = true) {
             this.categoryLoading = true;
             fetchAllCategory()
                 .then(snapshot => {
@@ -572,8 +594,10 @@ export default {
                 })
                 .then(categories => {
                     this.categories = categories;
-                    this.selectedCategory = categories[0];
-                    this.onCategorySelect();
+                    if (loadPhotos) {
+                        this.selectedCategory = categories[0];
+                        this.onCategorySelect();
+                    }
                 })
                 .catch(() => {
                     this.$store.dispatch(
@@ -608,8 +632,8 @@ export default {
                         "Error Signing out. Please try later!"
                     );
                 });
-        },        
-        navigateToHome(){
+        },
+        navigateToHome() {
             this.$router.replace("/home");
         }
     },
