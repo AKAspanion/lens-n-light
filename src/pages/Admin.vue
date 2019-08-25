@@ -1,5 +1,28 @@
 <template>
     <v-card tile flat>
+        <v-dialog v-model="messagesDialog" max-width="450">
+            <v-card>
+                <v-card-title class="px-4">
+                    All messages
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="messagesDialog = !messagesDialog">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-card-text class="px-4 mt-n2 pb-1">
+                    <template v-if="!messages.length">
+                        <v-card :key="message" class="pa-2 my-3 text-center">No messages yet</v-card>
+                    </template>
+                    <template v-else v-for="(message, index) in messages">
+                        <v-card :key="index" class="pa-2 my-3">
+                            <div class="title font-weight-regular">{{message.name}}</div>
+                            <div class="caption mt-n1">{{message.email}}</div>
+                            <div class="body-2 py-2">{{message.message}}</div>
+                        </v-card>
+                    </template>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
         <!-- dialog for adding/editing category -->
         <v-dialog persistent v-model="categoryDialog" max-width="450">
             <v-form v-model="categoryForm" ref="formCategory">
@@ -142,6 +165,23 @@
             <v-btn light @click="logout">Sign out</v-btn>
             <template #extension>
                 <v-list-item-title>Manage Photos</v-list-item-title>
+                <v-spacer></v-spacer>
+                <div>
+                    <v-tooltip left offset-overflow transition="scroll-x-reverse-transition">
+                        <template v-slot:activator="{ on }">
+                            <v-btn
+                                icon
+                                small
+                                v-on="on"
+                                @click="messagesDialog = !messagesDialog"
+                                :loading="messagesLoading"
+                            >
+                                <v-icon small>mdi-message-text</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>View contact messages.</span>
+                    </v-tooltip>
+                </div>
             </template>
         </v-toolbar>
         <v-container class="pa-0" fluid>
@@ -282,6 +322,7 @@ import {
     deletePhoto,
     addCategory,
     editCategory,
+    fetchAllMessages,
     fetchAllCategory,
     fetchPhotosByCategory,
     deletePhotoFromStorage
@@ -306,6 +347,8 @@ export default {
             addingCategory: false,
             editingCategory: false,
             categoryLoading: true,
+            messagesDialog: false,
+            messagesLoading: false,
             imageToDelete: null,
             categoryIndex: 0,
             selectedCategory: null,
@@ -330,7 +373,8 @@ export default {
             users: {
                 "panditankit1995@gmail.com": "Ankit Kumar",
                 "amitsahoo94@gmail.com": "Amit Sahoo"
-            }
+            },
+            messages: []
         };
     },
     watch: {
@@ -402,6 +446,25 @@ export default {
         },
         goToPhotos() {
             this.event = "photos";
+        },
+        getAllMessages() {
+            this.messagesLoading = true;
+            fetchAllMessages()
+                .then(snapshot => {
+                    return this.parseAllMessages(snapshot);
+                })
+                .then(messages => {
+                    this.messages = messages;
+                })
+                .catch(() => {
+                    this.$store.dispatch(
+                        "showSnackBar",
+                        "Error getting messages. Please try later!"
+                    );
+                })
+                .then(() => {
+                    this.messagesLoading = false;
+                });
         },
         deletePhotoTrace(image) {
             return Promise.all([
@@ -621,6 +684,18 @@ export default {
                 resolve(categories);
             });
         },
+        parseAllMessages(snapshot) {
+            return new Promise(resolve => {
+                let messages = [];
+                snapshot.forEach(doc => {
+                    messages.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                resolve(messages);
+            });
+        },
         logout() {
             signOut()
                 .then(() => {
@@ -639,6 +714,7 @@ export default {
     },
     mounted() {
         this.getAllCatgories();
+        this.getAllMessages();
     }
 };
 </script>

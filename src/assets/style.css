@@ -158,6 +158,40 @@
     background-size: 1000px 100%;
 }
 
+@-webkit-keyframes heartbeat {
+    0% {
+        -webkit-transform: scale(1) translate(0, 1px);
+        transform: scale(1) translate(0, 1px);
+    }
+
+    20% {
+        -webkit-transform: scale(1.5) translate(0, 1px);
+        transform: scale(1.5) translate(0, 1px);
+    }
+
+    100% {
+        -webkit-transform: scale(1) translate(0, 1px);
+        transform: scale(1) translate(0, 1px);
+    }
+}
+
+@keyframes heartbeat {
+    0% {
+        -webkit-transform: scale(1) translate(0, 1px);
+        transform: scale(1) translate(0, 1px);
+    }
+
+    20% {
+        -webkit-transform: scale(1.5) translate(0, 1px);
+        transform: scale(1.5) translate(0, 1px);
+    }
+
+    100% {
+        -webkit-transform: scale(1) translate(0, 1px);
+        transform: scale(1) translate(0, 1px);
+    }
+}
+
 @keyframes fullView {
     100% {
         width: 100%;

@@ -2,7 +2,7 @@
     <div>
         <!-- <v-progress-linear indeterminate :active="topLoader"></v-progress-linear> -->
         <!-- <v-overlay :value="topLoader" :z-index="100"></v-overlay> -->
-        <v-snackbar v-model="snackbar.model" bottom :timeout="6000">
+        <v-snackbar v-model="snackbar.model" bottom :timeout="6000" :multi-line="windowWidth <= 600 ? true:false">
             {{ snackbar.text }}
             <v-btn dark text @click="snackbar.model = false">Close</v-btn>
         </v-snackbar>
@@ -56,6 +56,9 @@ export default {
             get() {
                 return this.$store.getters.snackBar;
             }
+        },
+        windowWidth() {
+            return this.$store.state.window.width;
         }
     }
 };

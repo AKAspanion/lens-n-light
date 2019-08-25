@@ -1,7 +1,23 @@
 import {
     fetchAllPhotos,
-    fetchAllCategory
+    fetchAllCategory,
+    fetchAllMessages
 } from "../firebase";
+
+export const getAllMessages = () => {
+    return new Promise((resolve, reject) => {
+        fetchAllMessages()
+            .then(snapshot => {
+                return parseAllMessages(snapshot);
+            })
+            .then(messages => {
+                resolve(messages);
+            })
+            .catch(() => {
+                reject("Error getting messages. Please try later!")
+            })
+    })
+};
 
 export const getAllPhotos = () => {
     return new Promise((resolve, reject) => {
@@ -30,6 +46,18 @@ export const getAllCategories = () => {
             reject("Error getting all categories. Please try later!")
         })
     })
+}
+const parseAllMessages = (snapshot) => {
+    return new Promise((resolve) => {
+        let messages = [];
+        snapshot.forEach(doc => {
+            messages.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+        resolve(messages);
+    });
 }
 const parseAllCategories = (snapshot) => {
     return new Promise((resolve) => {

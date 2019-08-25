@@ -15,12 +15,25 @@ export default new Vuex.Store({
         categories: [],
         photos: [],
         window: {},
+        socialLinks: [{
+                color: "#3b5998",
+                name: "facebook",
+                iconName: "mdi-facebook",
+                href: "https://www.facebook.com/amitphotography/"
+            },
+            {
+                color: "#dd2a7b",
+                name: "instagram",
+                iconName: "mdi-instagram",
+                href: "https://www.instagram.com/amitsahoophotography/"
+            }
+        ]
     },
     mutations: {
         toggleTheme(state, payload) {
             state.darkTheme = payload;
         },
-        
+
         landingVisited(state, payload) {
             state.landingVisited = payload;
         },
@@ -90,13 +103,13 @@ export default new Vuex.Store({
         snackBar(state) {
             return state.snackBar;
         },
-        landingVisited(state){            
+        landingVisited(state) {
             return state.landingVisited;
-        },        
-        categories(state){            
+        },
+        categories(state) {
             return state.categories;
-        }, 
-        photos(state){            
+        },
+        photos(state) {
             return state.photos;
         },
     }

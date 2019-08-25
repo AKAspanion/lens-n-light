@@ -48,24 +48,20 @@
                             <v-btn text @click="routeToContact">{{$t('contact')}}</v-btn>
                         </div>
                         <div class="px-1 pr-2">
-                            <v-chip
-                                outlined
-                                ripple
-                                class="mr-3"
-                                href="https://www.facebook.com/amitphotography/"
-                                target="_blank"
-                            >
-                                <v-icon small>mdi-facebook</v-icon>
-                            </v-chip>
-                            <v-chip
-                                outlined
-                                ripple
-                                class="mr-3"
-                                href="https://www.instagram.com/amitsahoophotography/"
-                                target="_blank"
-                            >
-                                <v-icon small>mdi-instagram</v-icon>
-                            </v-chip>
+                            <template v-for="(link, index) in socialLinks">
+                                <v-chip
+                                    :key="index"
+                                    outlined
+                                    small
+                                    ripple
+                                    class="mr-3"
+                                    :href="link.href"
+                                    target="_blank"
+                                    :color="link.color"
+                                >
+                                    <v-icon small>{{link.iconName}}</v-icon>
+                                </v-chip>
+                            </template>
                         </div>
                     </template>
 
@@ -154,6 +150,16 @@
                                         </v-btn-toggle>
                                     </v-list-item-action>
                                 </v-list-item>
+                                <v-divider></v-divider>
+                                <v-list-item-content class="pt-5">
+                                    <div class="text-center overline made-by">
+                                        made with
+                                        <span class="px-1">
+                                            <img src="../assets/images/heart-icon.png" />
+                                        </span> by
+                                        <span class="selectable" @click="routeToSpanion">ankit</span>
+                                    </div>
+                                </v-list-item-content>
                             </v-list>
                         </v-menu>
                     </div>
@@ -220,6 +226,9 @@ export default {
         },
         windowWidth() {
             return this.$store.state.window.width;
+        },
+        socialLinks(){
+            return this.$store.state.socialLinks;
         }
     },
     methods: {
@@ -231,6 +240,9 @@ export default {
         },
         routeToContact() {
             this.$router.push({ name: "Contact" });
+        },
+        routeToSpanion() {
+            window.open("http://www.spanion.xyz", "_blank");
         },
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);
@@ -303,5 +315,11 @@ export default {
 }
 .lnl-lang-btn >>> .v-btn {
     height: 36px !important;
+}
+.made-by img {
+    width: 12px;
+    height: 12px;
+    -webkit-animation: heartbeat 1s infinite ease;
+    animation: heartbeat 1s infinite ease;
 }
 </style>

@@ -4,6 +4,7 @@ var auth = null;
 var storage = null;
 var storageRef = null;
 var photosRef = null;
+var messagesRef = null;
 var photoCategoryRef = null;
 
 var firebaseConfig = {
@@ -22,6 +23,7 @@ export const initializeFirebase = () => {
     storage = firebase.storage();
     storageRef = firebase.storage().ref();
     photosRef = firebase.firestore().collection("photos");
+    messagesRef = firebase.firestore().collection("messages");
     photoCategoryRef = firebase.firestore().collection("photo-category");
 }
 
@@ -72,12 +74,17 @@ export const deletePhotoFromStorage = (fileName) => {
 export const addCategory = (category) => {
     return photoCategoryRef.add(category);
 }
+
 export const editCategory = (category) => {
     return photoCategoryRef.doc(category.id).update({
         description: category.description,
         title: category.title,
         icon: category.icon
     });
+}
+
+export const addMessage = (message) => {
+    return messagesRef.add(message);
 }
 
 export const fetchAllPhotos = () => {
@@ -87,6 +94,15 @@ export const fetchAllPhotos = () => {
 export const fetchAllCategory = () => {
     return photoCategoryRef.get();
 }
+
+export const fetchAllMessages = () => {
+    return messagesRef.get();
+}
+
+export const fetchMessageByEmail = (email) => {
+    return messagesRef.where("email", '==', email).get();
+}
+
 
 export const fetchPhotosByCategory = (category) => {
     return photosRef.where("categoryId", '==', category.id).get();
