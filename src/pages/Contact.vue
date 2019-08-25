@@ -33,25 +33,25 @@
                     >
                         <v-form v-model="contactForm" ref="formContact">
                             <v-text-field
-                                label="Name"
+                                :label="$t('name')"
                                 outlined
                                 clearable
                                 v-model="message.name"
                                 :rules="[rules.required]"
-                                hint="Your full name."
+                                :hint="$t('name.full')"
                                 persistent-hint
                             ></v-text-field>
                             <v-text-field
-                                label="Email"
+                                :label="$t('email')"
                                 outlined
                                 clearable
                                 v-model="message.email"
                                 :rules="[rules.required, rules.emailRules]"
-                                hint="Your email address."
+                                :hint="$t('email.address')"
                                 persistent-hint
                             ></v-text-field>
                             <v-textarea
-                                label="Message"
+                                :label="$t('message')"
                                 outlined
                                 auto-grow
                                 no-resize
@@ -60,7 +60,7 @@
                                 counter="200"
                                 v-model="message.message"
                                 :rules="[rules.required]"
-                                hint="Your message for me."
+                                :hint="$t('message.full')"
                                 persistent-hint
                             ></v-textarea>
                             <div class="pt-3">
@@ -70,7 +70,7 @@
                                     :loading="addingMessage"
                                     color="primary"
                                     @click="onAddMessage"
-                                >Send message</v-btn>
+                                >{{$t('message.send')}}</v-btn>
                             </div>
                         </v-form>
                     </v-card-text>
@@ -89,10 +89,10 @@ export default {
             contactForm: false,
             addingMessage: false,
             rules: {
-                required: value => !!value || "Field is Required.",
+                required: value => !!value || $t('field.required'),
                 emailRules: value =>
                     /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ||
-                    "Invalid Email address"
+                    $t('field.email')
             },
             message: {}
         };
