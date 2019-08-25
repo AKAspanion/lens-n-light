@@ -28,7 +28,7 @@
             <v-card flat tile height="calc(100vh - 68px)">
                 <v-layout column fill-height justify-center align-center>
                     <v-card-text
-                        class="mt-n12 px-6"
+                        class="mt-n12 px-8"
                         style="text-align: justify; max-width: 400px; margin: 0 auto;"
                     >
                         <v-form v-model="contactForm" ref="formContact">

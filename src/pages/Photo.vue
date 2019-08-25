@@ -1,5 +1,27 @@
 <template>
     <div>
+        <v-btn
+            fab
+            left
+            absolute
+            :small="windowWidth <= 600"
+            elevation="1"
+            @click="routeToPreviousPhoto"
+            :class=" windowWidth > 600 ?'left-button' :'left-button-xs'"
+        >
+            <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+        <v-btn
+            fab
+            right
+            absolute
+            :small="windowWidth <= 600"
+            elevation="1"
+            @click="routeToNextPhoto"
+            :class=" windowWidth > 600 ?'right-button' :'right-button-xs'"
+        >
+            <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
         <template v-if="pageLoading">
             <div class="loader-container page-loader">
                 <l-n-l-loader :loading="pageLoading"></l-n-l-loader>
@@ -12,7 +34,7 @@
                         <v-layout row align-center class="ma-0 px-4 pt-2">
                             <v-toolbar-title>Share</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-btn icon  @click="shareDialog = !shareDialog">
+                            <v-btn icon @click="shareDialog = !shareDialog">
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                         </v-layout>
@@ -111,6 +133,14 @@ export default {
     computed: {
         windowWidth() {
             return this.$store.state.window.width;
+        },
+        currentIndex() {
+            return this.$store.getters.photos.findIndex(
+                e => e.id === this.$route.params.id
+            );
+        },
+        totalPhotos() {
+            return this.$store.getters.photos.length;
         }
     },
     methods: {
@@ -139,6 +169,23 @@ export default {
                 this.$store.dispatch("showSnackBar", "Oops, unable to copy");
             }
             this.shareDialog = false;
+        },
+        routeToPreviousPhoto() {
+            if (this.currentIndex === 0)
+                this.routeToPhoto(this.totalPhotos - 1, false);
+            else this.routeToPhoto(this.currentIndex - 1, false);
+        },
+        routeToNextPhoto() {
+            if (this.currentIndex === this.totalPhotos - 1)
+                this.routeToPhoto(0, true);
+            else this.routeToPhoto(this.currentIndex + 1, true);
+        },
+        routeToPhoto(index, next) {
+            this.$router.replace({
+                name: "Photo",
+                params: { id: this.$store.getters.photos[index].id },
+                query: { next }
+            });
         }
     },
     mounted() {
@@ -166,5 +213,19 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.left-button,
+.right-button {
+    top: 50%;
+}
+.left-button-xs,
+.right-button-xs {
+    bottom: 24px !important;
+}
+.right-button-xs {
+    right: 24px !important;
+}
+.left-button-xs {
+    left: 24px !important;
+}
 </style>

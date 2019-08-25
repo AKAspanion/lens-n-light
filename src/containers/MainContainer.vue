@@ -8,7 +8,7 @@
         </v-snackbar>
         <v-container fluid grid-list-md class="pa-0">
             <transition :name="transitionName" mode="out-in">
-                <router-view></router-view>
+                <router-view :key="$route.fullPath"></router-view>
             </transition>
         </v-container>
     </div>
@@ -38,8 +38,13 @@ export default {
                 toDepth = to.meta.index;
                 fromDepth = from.meta.index;
             }
-            this.transitionName =
-                toDepth < fromDepth ? "slide-right" : "slide-left";
+            if(to.query.hasOwnProperty('next')){
+                this.transitionName =
+                    to.query.next ? "slide-left" : "slide-right";
+            }else{
+                this.transitionName =
+                    toDepth < fromDepth ? "slide-right" : "slide-left";
+            }
             next();
         });
     },
