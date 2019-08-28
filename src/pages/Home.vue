@@ -2,10 +2,10 @@
     <div>
         <!-- loading shimmer -->
         <template v-if="pageLoading">
-            <v-card flat tile class="pt-3">
+            <v-card flat tile class="pt-1">
                 <v-toolbar
                     flat
-                    height="64"
+                    height="84"
                     :color=" themeModel? '#424242':'#fff'"
                     class="toolbar-xs"
                 >
@@ -187,7 +187,8 @@
                     </v-tabs>
                 </v-card>
             </v-card>
-        </template>
+        </template>        
+        <l-n-l-search v-if="!pageLoading"></l-n-l-search>
     </div>
 </template>
 
@@ -195,13 +196,15 @@
 import { getAllPhotos, getAllCategories } from "../helper";
 import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
+import LNLSearch from "../components/LNLSearch.vue";
 import { Promise } from "q";
 var _ = require("lodash");
 export default {
     name: "Home",
     components: {
         LNLGrid,
-        LNLLoader
+        LNLLoader,
+        LNLSearch
     },
     data() {
         return {
