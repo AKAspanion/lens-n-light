@@ -38,13 +38,40 @@
             <v-card-text
                 class="px-10 pb-6 pt-3"
                 style="text-align: justify; max-width: 600px; margin: 0 auto;"
-            >{{$t('sahoo.desc')}}</v-card-text>
+            >
+                <v-expansion-panels popout>
+                    <v-expansion-panel v-for="(item,i) in panelItems" :key="i">
+                        <v-expansion-panel-header>{{$t(item.header)}}</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <div class="grey--text">{{$t(item.content)}}</div>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-card-text>
         </v-card>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            panelItems: [
+                {
+                    header: "sahoo.bio.label",
+                    content: "sahoo.desc"
+                },
+                {
+                    header: "sahoo.education.label",
+                    content: "sahoo.education"
+                },
+                {
+                    header: "sahoo.experience.label",
+                    content: "sahoo.experience"
+                }
+            ]
+        };
+    },
     methods: {
         goBack() {
             this.$router.push({ path: "/home" });

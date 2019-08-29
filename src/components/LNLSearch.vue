@@ -35,7 +35,7 @@
                         <div class="subtitle-2 grey--text">
                             <template
                                 v-if="currentLanguage !='en'"
-                            >Search doesn't work in selected language</template>
+                            >{{$t('search.error')}}</template>
                             <template v-else>Search in Lens-n-Light</template>
                         </div>
                     </v-card>
@@ -53,6 +53,7 @@
                             <template v-if="searchListItems.length">
                                 <v-list-item
                                     link
+                                    dense
                                     class="px-3"
                                     v-for="(item, i) in searchListItems"
                                     :key="i"
