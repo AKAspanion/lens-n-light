@@ -21,7 +21,7 @@
                         <div class="text-center">
                             <div class="pb-12 mb-4">
                                 <v-btn color="primary" @click="navigateToHome">
-                                    Explore
+                                    Enter
                                     <v-icon
                                         right
                                         style="transform: rotate(-45deg)"

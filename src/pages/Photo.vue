@@ -4,8 +4,8 @@
             fab
             left
             absolute
-            :small="windowWidth <= 600"
-            elevation="1"
+            small
+            elevation="3"
             @click="routeToPreviousPhoto"
             :class=" windowWidth > 600 ?'left-button' :'left-button-xs'"
         >
@@ -15,8 +15,8 @@
             fab
             right
             absolute
-            :small="windowWidth <= 600"
-            elevation="1"
+            small
+            elevation="3"
             @click="routeToNextPhoto"
             :class=" windowWidth > 600 ?'right-button' :'right-button-xs'"
         >
@@ -216,7 +216,13 @@ export default {
 <style scoped>
 .left-button,
 .right-button {
-    top: 50%;
+    top: 47.5%;
+}
+.left-button{
+    left: 6% !important;
+}
+.right-button{
+    right: 6% !important;
 }
 .left-button-xs,
 .right-button-xs {

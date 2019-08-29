@@ -12,7 +12,7 @@
         style="position: fixed;"
     >
         <template v-slot:activator="{ on }">
-            <v-btn fab fixed small bottom right v-on="on" class="mr-2 mb-2" @click="onSearchClick">
+            <v-btn fab fixed small bottom right v-on="on" class="mr-2 mb-2" style="z-index: 999;" @click="onSearchClick">
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
         </template>
@@ -22,7 +22,7 @@
                     <v-text-field
                         ref="searchInput"
                         v-model="searchText"
-                        solo
+                        outlined
                         height
                         v-if="currentLanguage == 'en'"
                         placeholder="Search"
@@ -49,23 +49,26 @@
                         </v-list-item>
                     </template>
                     <template v-else>
-                        <template v-if="searchListItems.length">
-                            <v-list-item
-                                link
-                                class="px-3"
-                                v-for="(item, i) in searchListItems"
-                                :key="i"
-                                @click="onSearchListItemClick(item); menuSearch = !menuSearch; searchText = ''"
-                            >
-                                <v-list-item-content class="pa-0 px-2">{{item.title}}</v-list-item-content>
-                                <v-list-item-avatar>
-                                    <v-icon>{{item.icon}}</v-icon>
-                                </v-list-item-avatar>
-                            </v-list-item>
-                        </template>
-                        <template v-else>
-                            <v-card flat tile height="156" class="loader-container">no result found</v-card>
-                        </template>
+                        <v-card flat tile>
+                            <template v-if="searchListItems.length">
+                                <v-list-item
+                                    link
+                                    class="px-3"
+                                    v-for="(item, i) in searchListItems"
+                                    :key="i"
+                                    @click="onSearchListItemClick(item); menuSearch = !menuSearch; searchText = ''"
+                                >
+                                    <v-list-item-content class="pa-0 px-2">{{item.title}}</v-list-item-content>
+                                    <v-list-item-avatar>
+                                        <v-icon>{{item.icon}}</v-icon>
+                                    </v-list-item-avatar>
+                                </v-list-item>
+                            </template>
+                            <template v-else>
+                                <v-card flat tile height="156" class="loader-container">no result found</v-card>
+                            </template>
+                            
+                        </v-card>
                     </template>
                 </template>
             </div>
@@ -94,7 +97,6 @@ export default {
                     return;
                 } else {
                     this.showHelp = false;
-                    if (this.listLoading) return;
                     this.onSearchChange();
                 }
             }
