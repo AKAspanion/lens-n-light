@@ -187,8 +187,13 @@
                     </v-tabs>
                 </v-card>
             </v-card>
-        </template>        
-        <l-n-l-search v-if="!pageLoading"></l-n-l-search>
+        </template>
+        <l-n-l-search
+            v-if="!pageLoading"
+            @category-clicked="onCategorySearch"
+            @photo-clicked="onPhotoSearch"
+            @link-clicked="onLinkSearch"
+        ></l-n-l-search>
     </div>
 </template>
 
@@ -230,7 +235,7 @@ export default {
         windowWidth() {
             return this.$store.state.window.width;
         },
-        socialLinks(){
+        socialLinks() {
             return this.$store.state.socialLinks;
         }
     },
@@ -247,6 +252,12 @@ export default {
         routeToSpanion() {
             window.open("http://www.spanion.xyz", "_blank");
         },
+        routeToPhoto(val) {
+            this.$router.push({ name: "Photo", params: { id: val.id } });
+        },
+        goToCategory(val) {
+            this.tab = this.categories.findIndex(e => e.id === val.id);
+        },
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);
         },
@@ -258,7 +269,28 @@ export default {
             });
         },
         imageClicked(val) {
-            this.$router.push({ name: "Photo", params: { id: val.id } });
+            this.routeToPhoto(val);
+        },
+        onLinkSearch(val) {
+            switch (val.title) {
+                case "Admin":
+                    this.routeToAdmin();
+                    break;
+                case "Contact":
+                    this.routeToContact();
+                    break;
+                case "About":
+                    this.routeToPortfolio();
+                    break;
+                default:
+                    break;
+            }
+        },
+        onPhotoSearch(val) {
+            this.routeToPhoto(val);
+        },
+        onCategorySearch(val) {
+            this.goToCategory(val);
         }
     },
     mounted() {

@@ -11,7 +11,7 @@
                 </v-card-title>
                 <v-card-text class="px-4 mt-n2 pb-1">
                     <template v-if="!messages.length">
-                        <v-card :key="message" class="pa-2 my-3 text-center">No messages yet</v-card>
+                        <v-card class="pa-2 my-3 text-center">No messages yet</v-card>
                     </template>
                     <template v-else v-for="(message, index) in messages">
                         <v-card :key="index" class="pa-2 my-3">

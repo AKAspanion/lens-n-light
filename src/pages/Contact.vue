@@ -89,10 +89,10 @@ export default {
             contactForm: false,
             addingMessage: false,
             rules: {
-                required: value => !!value || $t('field.required'),
+                required: value => !!value || this.$t('field.required'),
                 emailRules: value =>
                     /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ||
-                    $t('field.email')
+                    this.$t('field.email')
             },
             message: {}
         };
