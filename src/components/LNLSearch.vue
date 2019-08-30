@@ -12,7 +12,17 @@
         style="position: fixed;"
     >
         <template v-slot:activator="{ on }">
-            <v-btn fab fixed small bottom right v-on="on" class="mr-2 mb-2" style="z-index: 999;" @click="onSearchClick">
+            <v-btn
+                fab
+                fixed
+                small
+                bottom
+                right
+                v-on="on"
+                class="mr-2 mb-2"
+                style="z-index: 999;"
+                @click="onSearchClick"
+            >
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
         </template>
@@ -31,12 +41,15 @@
             </v-list-item>
             <div class="mt-n5">
                 <template v-if="showHelp">
-                    <v-card flat tile :height="currentLanguage == 'en' ? '156':'0'" class="loader-container">
+                    <v-card
+                        flat
+                        tile
+                        :height="currentLanguage == 'en' ? '156':'0'"
+                        class="loader-container"
+                    >
                         <div class="subtitle-2 grey--text">
-                            <template
-                                v-if="currentLanguage !='en'"
-                            >{{$t('search.error')}}</template>
-                            <template v-else>Search in Lens-n-Light</template>
+                            <template v-if="currentLanguage !='en'">{{$t('search.error')}}</template>
+                            <template v-else>Search in Lens-and-Light</template>
                         </div>
                     </v-card>
                 </template>
@@ -59,16 +72,27 @@
                                     :key="i"
                                     @click="onSearchListItemClick(item); menuSearch = !menuSearch; searchText = ''"
                                 >
-                                    <v-list-item-content class="pa-0 px-2">{{item.title}}</v-list-item-content>
+                                    <v-list-item-content class="pa-0 px-2" style="width: 150px">
+                                        <v-list-item-title
+                                            style="text-overflow: ellipsis"
+                                        >{{item.title}}</v-list-item-title>
+                                        <v-list-item-subtitle
+                                            style="text-overflow: ellipsis"
+                                        >{{item.category}}</v-list-item-subtitle>
+                                    </v-list-item-content>
                                     <v-list-item-avatar>
                                         <v-icon>{{item.icon}}</v-icon>
                                     </v-list-item-avatar>
                                 </v-list-item>
                             </template>
                             <template v-else>
-                                <v-card flat tile height="156" class="loader-container">no result found</v-card>
+                                <v-card
+                                    flat
+                                    tile
+                                    height="156"
+                                    class="loader-container"
+                                >no result found</v-card>
                             </template>
-                            
                         </v-card>
                     </template>
                 </template>
@@ -78,7 +102,7 @@
 </template>
 
 <script>
-import { constants } from "crypto";
+import { getCategory } from "../helper";
 import { setTimeout } from "timers";
 export default {
     data() {
@@ -119,17 +143,17 @@ export default {
             let searchItems = [];
             let linkItems = [];
             searchItems.push(
-                ...categories.filter(e => {
-                    let { title } = e;
-                    return title
+                ...photos.filter(e => {
+                    let { caption } = e;
+                    return caption
                         .toLowerCase()
                         .includes(this.lowerCaseSearchText);
                 })
             );
             searchItems.push(
-                ...photos.filter(e => {
-                    let { caption } = e;
-                    return caption
+                ...categories.filter(e => {
+                    let { title } = e;
+                    return title
                         .toLowerCase()
                         .includes(this.lowerCaseSearchText);
                 })
@@ -138,21 +162,24 @@ export default {
                 linkItems.push({
                     title: "About",
                     type: "link",
-                    icon: "mdi-face"
+                    icon: "mdi-face",
+                    category: "Link"
                 });
             }
             if ("contact".includes(this.lowerCaseSearchText)) {
                 linkItems.push({
                     title: "Contact",
                     type: "link",
-                    icon: "mdi-message-text"
+                    icon: "mdi-message-text",
+                    category: "Link"
                 });
             }
             if ("admin".includes(this.lowerCaseSearchText)) {
                 linkItems.push({
                     title: "Admin",
                     type: "link",
-                    icon: "mdi-settings"
+                    icon: "mdi-settings",
+                    category: "Settings"
                 });
             }
             setTimeout(() => {
@@ -168,7 +195,10 @@ export default {
                                 : "photo",
                             icon: e.hasOwnProperty("title")
                                 ? "mdi-shape"
-                                : "mdi-image"
+                                : "mdi-image",
+                            category: e.hasOwnProperty("caption")
+                                ? getCategory(e.categoryId).title
+                                : "Category"
                         };
                     }),
                     ...linkItems
@@ -180,8 +210,7 @@ export default {
             this.$emit(`${item.type}-clicked`, item);
         },
         onSearchClick() {
-            if(this.currentLanguage == 'en')
-                this.focusSearch();
+            if (this.currentLanguage == "en") this.focusSearch();
         },
         focusSearch() {
             setTimeout(() => {

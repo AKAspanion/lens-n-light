@@ -26,6 +26,15 @@
                                         class="mx-auto"
                                         :elevation="getElevation(flat, hover)"
                                     >
+                                        <v-expand-transition>
+                                            <div v-if="hover" class="lnl-photo-hover">
+                                                <div class="lnl-photo-hover-item">
+                                                    <div
+                                                        class="overline lnl-photo-hover-text"
+                                                        >{{image.caption}}</div>
+                                                </div>
+                                            </div>
+                                        </v-expand-transition>
                                         <l-n-l-photo
                                             :image="image"
                                             :no-details="noDetails"
@@ -85,4 +94,34 @@ export default {
 </script>
 
 <style>
+.lnl-photo-hover {
+    cursor: default;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+    height: 50px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.25);
+}
+.lnl-photo-hover-item {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 150px;
+    height: 50px;
+    margin: 0 auto;
+}
+.lnl-photo-hover-text {
+    white-space: nowrap;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>

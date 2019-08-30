@@ -1,16 +1,16 @@
 <template>
     <div>
-        <template v-if="photosLoading || categoriesLoading">
+        <template v-if="pageLoading">
             <div class="loader-container page-loader">
-                <l-n-l-loader :loading="photosLoading || categoriesLoading"></l-n-l-loader>
+                <l-n-l-loader :loading="pageLoading"></l-n-l-loader>
             </div>
         </template>
-        <template v-if="!(photosLoading && categoriesLoading)">
+        <template v-else>
             <v-card height="100vh" width="100vw">
                 <v-container grid-list-md fluid fill-height>
                     <v-layout column wrap justify-space-between align-center>
                         <div class="text-center pt-4">
-                            <div class="display-1 font-weight-bold pt-12">LENS-N-LIGHT</div>
+                            <div class="display-1 font-weight-bold pt-12">LENS-AND-LIGHT</div>
                             <div class="pt-2">
                                 <v-label>Amit Sahoo Photography</v-label>
                             </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getAllPhotos, getAllCategories } from "../helper";
+import { getAllPhotos, getAllCategories, getImagesByCategory } from "../helper";
 import LNLLoader from "../components/LNLLoader.vue";
 export default {
     components: {
@@ -46,40 +46,36 @@ export default {
     },
     data() {
         return {
-            photosLoading: false,
-            categoriesLoading: false
+            pageLoading: false
         };
     },
     methods: {
         navigateToHome() {
-            this.$store.dispatch("landingVisited", true);
+            this.$store.dispatch("LANDING_VISITED", true);
             this.$router.push({ name: "Home" });
+        },
+        loadPage() {
+            return Promise.all([getAllCategories(), getAllPhotos()]);
         }
     },
     mounted() {
         if (!this.$store.getters.landingVisited) {
-            this.photosLoading = true;
-            this.categoriesLoading = true;
-            getAllCategories()
+            this.pageLoading = true;
+            this.loadPage()
                 .then(response => {
-                    this.$store.dispatch("LOAD_CATEGORIES", response);
+                    this.$store.dispatch("LOAD_CATEGORIES", response[0]);
+                    this.$store.dispatch("LOAD_PHOTOS", response[1]);
+                    this.$store.dispatch("ACTIVE_CATEGORY", response[0].id);
+                    return getImagesByCategory();
+                })
+                .then(response => {
+                    this.$store.dispatch("LOAD_PHOTOS_BY_CATEGORIES", response);
                 })
                 .catch(err => {
                     this.$store.dispatch("showSnackBar", err);
                 })
                 .then(() => {
-                    this.categoriesLoading = false;
-                });
-
-            getAllPhotos()
-                .then(response => {
-                    this.$store.dispatch("LOAD_PHOTOS", response);
-                })
-                .catch(err => {
-                    this.$store.dispatch("showSnackBar", err);
-                })
-                .then(() => {
-                    this.photosLoading = false;
+                    this.pageLoading = false;
                 });
         }
     }

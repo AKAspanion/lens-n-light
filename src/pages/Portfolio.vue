@@ -6,6 +6,8 @@
                     <v-icon style="transform: rotate(135deg)">mdi-arrow-bottom-right</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
+                <v-chip outlined>{{$t('portfolio')}}</v-chip>
+                <v-spacer></v-spacer>
                 <v-btn icon @click="routeToContact">
                     <v-icon>mdi-message-text</v-icon>
                 </v-btn>
@@ -27,6 +29,7 @@
                         :key="index"
                         outlined
                         ripple
+                        small
                         class="mr-3"
                         :href="link.href"
                         target="_blank"

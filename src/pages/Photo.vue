@@ -3,10 +3,12 @@
         <v-btn
             fab
             left
-            absolute
+            fixed
             small
             elevation="3"
+            v-if="!pageLoading"
             @click="routeToPreviousPhoto"
+            :disabled="currentPhotoIndex === 0"
             :class=" windowWidth > 600 ?'left-button' :'left-button-xs'"
         >
             <v-icon>mdi-chevron-left</v-icon>
@@ -14,10 +16,12 @@
         <v-btn
             fab
             right
-            absolute
+            fixed
             small
             elevation="3"
+            v-if="!pageLoading"
             @click="routeToNextPhoto"
+            :disabled="currentPhotoIndex === totalPhotos - 1"
             :class=" windowWidth > 600 ?'right-button' :'right-button-xs'"
         >
             <v-icon>mdi-chevron-right</v-icon>
@@ -49,65 +53,87 @@
                         <v-icon style="transform: rotate(135deg)">mdi-arrow-bottom-right</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
+                    <v-chip outlined>{{activeCategory.title}}</v-chip>
+                    <v-spacer></v-spacer>
                     <v-btn icon @click="shareDialog = !shareDialog; createLink()">
                         <v-icon>mdi-share-variant</v-icon>
                     </v-btn>
                 </v-toolbar>
-                <v-card
-                    flat
-                    class="px-7"
-                    style="border-radius: 4px !important;"
-                    min-height="calc(100vh - 76px)"
-                    v-if="windowWidth >= 960"
-                >
-                    <v-container fluid grid-list-md fill-height class="ma-0 pa-0">
-                        <v-layout row wrap justify-center align-start class="ma-0 pa-0">
-                            <v-flex xs6 class="ma-0 pa-0 text-center">
-                                <v-layout
-                                    row
-                                    justify-center
-                                    align-center
-                                    style="height: calc(100vh - 110px)"
-                                    class="ma-0 pa-0"
-                                >
-                                    <v-flex
+                <template v-if="windowWidth >= 1160">
+                    <v-card
+                        flat
+                        class="px-7"
+                        style="border-radius: 4px !important;"
+                        min-height="calc(100vh - 76px)"
+                    >
+                        <v-container fluid grid-list-md fill-height class="ma-0 pa-0">
+                            <v-layout row wrap justify-center align-start class="ma-0 pa-0">
+                                <v-flex xs6 class="ma-0 pa-0 text-center">
+                                    <v-layout
+                                        row
+                                        justify-center
+                                        align-center
+                                        style="height: calc(100vh - 110px)"
                                         class="ma-0 pa-0"
-                                        style="padding-left: calc(((100vw / 2) - 400px) / 2) !important"
                                     >
-                                        <l-n-l-photo :image="photo" no-details full-height></l-n-l-photo>
-                                    </v-flex>
-                                </v-layout>
-                            </v-flex>
-                            <v-flex xs6 class="ma-0 pa-0">
-                                <v-layout
-                                    row
-                                    justify-center
-                                    align-center
-                                    style="height: calc(100vh - 110px)"
-                                    class="ma-0 pa-0"
-                                >
-                                    <v-flex
+                                        <v-flex
+                                            class="ma-0 pa-0"
+                                            style="padding-left: calc(((100vw / 2) - 400px) / 2) !important"
+                                        >
+                                            <l-n-l-photo :image="photo" no-details full-height></l-n-l-photo>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-flex>
+                                <v-flex xs6 class="ma-0 pa-0">
+                                    <v-layout
+                                        row
+                                        justify-center
+                                        align-center
+                                        style="height: calc(100vh - 110px)"
                                         class="ma-0 pa-0"
-                                        style="min-height: 440px; padding-right: calc((50vw - 400px) / 2) !important;"
                                     >
-                                        <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
-                                        <v-card-text class="px-0">{{photo.description}}</v-card-text>
-                                    </v-flex>
-                                </v-layout>
-                            </v-flex>
+                                        <v-flex
+                                            class="ma-0 pa-0"
+                                            style="min-height: 440px; padding-right: calc((50vw - 400px) / 2) !important;"
+                                        >
+                                            <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
+                                            <v-card-text class="px-0">{{photo.description}}</v-card-text>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-card>
+                </template>
+                <template v-else>
+                    <v-container fluid class="ma-0 pa-0" v-if="windowWidth < 1160">
+                        <v-layout column justify-center align-center fill-height class="ma-0 pa-0">
+                            <v-card
+                                flat
+                                class="px-8 py-4"
+                                width="456"
+                                style="border-radius: 4px !important;"
+                            >
+                                <l-n-l-photo :image="photo" no-details full-height></l-n-l-photo>
+                                <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
+                                <v-card-text class="px-0">
+                                    {{photo.description}}
+                                    <v-chip
+                                        outlined
+                                        small
+                                        link
+                                        class="mr-1"
+                                        style="margin: 2px 0; "
+                                        :href="`https://www.instagram.com/explore/tags/${tag}/?hl=en`"
+                                        target="_blank"
+                                        v-for="(tag, index) in photo.hashtags"
+                                        :key="index"
+                                    >{{'#'+tag}}</v-chip>
+                                </v-card-text>
+                            </v-card>
                         </v-layout>
                     </v-container>
-                </v-card>
-                <v-card
-                    flat
-                    class="px-7 py-4"
-                    style="border-radius: 4px !important;"
-                    v-if="windowWidth < 960"
-                >
-                    <l-n-l-photo :image="photo" no-details full-height></l-n-l-photo>
-                    <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
-                    <v-card-text class="px-0">{{photo.description}}</v-card-text>
-                </v-card>
+                </template>
             </v-card>
         </template>
     </div>
@@ -116,7 +142,14 @@
 <script>
 import LNLPhoto from "../components/LNLPhoto.vue";
 import LNLLoader from "../components/LNLLoader.vue";
-import { getAllPhotos, getAllCategories } from "../helper";
+import {
+    getTags,
+    getAllPhotos,
+    getAllCategories,
+    getImagesByCategory,
+    getActiveCategory
+} from "../helper";
+import { Promise } from "q";
 export default {
     components: {
         LNLPhoto,
@@ -127,30 +160,39 @@ export default {
             pageLoading: false,
             shareDialog: false,
             shareLink: "amitsahoophotography.xyz",
-            photo: {}
+            photo: {},
+            scrollList: [],
+            activeCategory: {},
+            hashtags: []
         };
     },
     computed: {
         windowWidth() {
             return this.$store.state.window.width;
         },
-        currentIndex() {
-            return this.$store.getters.photos.findIndex(
+        currentPhotoIndex() {
+            return this.scrollList.findIndex(
                 e => e.id === this.$route.params.id
             );
         },
         totalPhotos() {
-            return this.$store.getters.photos.length;
+            return this.scrollList.length;
         }
     },
     methods: {
         goBack() {
             this.$router.push({ path: "/home" });
         },
-        getPhoto() {
+        setPhoto() {
             this.photo = this.$store.getters.photos.filter(
                 e => e.id === this.$route.params.id
             )[0];
+        },
+        setScrollList() {
+            this.activeCategory = getActiveCategory();
+            this.scrollList = this.$store.getters.photosByCategory[
+                this.activeCategory.id
+            ];
         },
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);
@@ -171,19 +213,19 @@ export default {
             this.shareDialog = false;
         },
         routeToPreviousPhoto() {
-            if (this.currentIndex === 0)
+            if (this.currentPhotoIndex === 0)
                 this.routeToPhoto(this.totalPhotos - 1, false);
-            else this.routeToPhoto(this.currentIndex - 1, false);
+            else this.routeToPhoto(this.currentPhotoIndex - 1, false);
         },
         routeToNextPhoto() {
-            if (this.currentIndex === this.totalPhotos - 1)
+            if (this.currentPhotoIndex === this.totalPhotos - 1)
                 this.routeToPhoto(0, true);
-            else this.routeToPhoto(this.currentIndex + 1, true);
+            else this.routeToPhoto(this.currentPhotoIndex + 1, true);
         },
         routeToPhoto(index, next) {
             this.$router.replace({
                 name: "Photo",
-                params: { id: this.$store.getters.photos[index].id },
+                params: { id: this.scrollList[index].id },
                 query: { next }
             });
         }
@@ -193,12 +235,22 @@ export default {
             this.pageLoading = true;
             this.loadPage()
                 .then(response => {
-                    this.categories = response[0];
-                    this.photos = response[1];
                     this.$store.dispatch("LOAD_CATEGORIES", response[0]);
                     this.$store.dispatch("LOAD_PHOTOS", response[1]);
-                    this.$store.dispatch("landingVisited", true);
-                    this.getPhoto();
+                    this.$store.dispatch("LANDING_VISITED", true);
+                    this.setPhoto();
+                    this.$store.dispatch(
+                        "ACTIVE_CATEGORY",
+                        this.photo.categoryId
+                    );
+                    return getImagesByCategory();
+                })
+                .then(imagesByCategory => {
+                    this.$store.dispatch(
+                        "LOAD_PHOTOS_BY_CATEGORIES",
+                        imagesByCategory
+                    );
+                    this.setScrollList();
                 })
                 .catch(err => {
                     this.$store.dispatch("showSnackBar", err);
@@ -207,7 +259,9 @@ export default {
                     this.pageLoading = false;
                 });
         } else {
-            this.getPhoto();
+            this.setPhoto();
+            this.$store.dispatch("ACTIVE_CATEGORY", this.photo.categoryId);
+            this.setScrollList();
         }
     }
 };
@@ -218,10 +272,10 @@ export default {
 .right-button {
     top: 47.5%;
 }
-.left-button{
+.left-button {
     left: 6% !important;
 }
-.right-button{
+.right-button {
     right: 6% !important;
 }
 .left-button-xs,

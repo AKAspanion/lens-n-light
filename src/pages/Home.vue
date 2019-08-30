@@ -64,7 +64,6 @@
                             </template>
                         </div>
                     </template>
-
                     <div style="width: 40px; height: 40px;">
                         <v-menu
                             bottom
@@ -172,11 +171,15 @@
                         style="margin-left: -24px; width: calc(100% + 24px);"
                     >
                         <v-tab v-for="(i, index) in categories" :key="'tab-'+index">{{ i.title }}</v-tab>
-                        <v-tab-item v-for="(j, index) in imagesByCategory" :key="'item-'+index">
+                        <v-tab-item
+                            eager
+                            v-for="(value, propertyName) in photosByCategory"
+                            :key="'item-'+propertyName"
+                        >
                             <v-divider class="ma-0 pa-0"></v-divider>
                             <v-card flat tile class="home-grid-xs" min-height="calc(100vh - 145px)">
                                 <l-n-l-grid
-                                    :images="j"
+                                    :images="value"
                                     gutter="xl"
                                     no-details
                                     no-dialog
@@ -198,12 +201,16 @@
 </template>
 
 <script>
-import { getAllPhotos, getAllCategories } from "../helper";
+import {
+    getAllPhotos,
+    getAllCategories,
+    getImagesByCategory,
+    getActiveCategory
+} from "../helper";
 import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
 import LNLSearch from "../components/LNLSearch.vue";
 import { Promise } from "q";
-var _ = require("lodash");
 export default {
     name: "Home",
     components: {
@@ -218,10 +225,22 @@ export default {
             langs: ["en", "hi", "ba"],
             photos: [],
             categories: [],
-            imagesByCategory: [],
+            photosByCategory: {},
             pageLoading: false,
             swipeDirection: "None"
         };
+    },
+    watch: {
+        tab: {
+            handler(newV) {
+                if(this.tab < 0 || this.tab > this.categories.length)
+                    return
+                this.$store.dispatch(
+                    "ACTIVE_CATEGORY",
+                    this.categories[newV].id
+                );
+            }
+        }
     },
     computed: {
         themeModel: {
@@ -261,13 +280,6 @@ export default {
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);
         },
-        parseImages() {
-            this.imagesByCategory = this.categories.map(c => {
-                return _.shuffle(
-                    this.photos.filter(e => e.categoryId === c.id)
-                );
-            });
-        },
         imageClicked(val) {
             this.routeToPhoto(val);
         },
@@ -298,12 +310,21 @@ export default {
             this.pageLoading = true;
             this.loadPage()
                 .then(response => {
-                    this.categories = response[0];
-                    this.photos = response[1];
                     this.$store.dispatch("LOAD_CATEGORIES", response[0]);
                     this.$store.dispatch("LOAD_PHOTOS", response[1]);
-                    this.$store.dispatch("landingVisited", true);
-                    this.parseImages();
+                    this.$store.dispatch("ACTIVE_CATEGORY", response[0][0].id);
+                    this.$store.dispatch("LANDING_VISITED", true);
+                    this.categories = response[0];
+                    this.photos = response[1];
+                    return getImagesByCategory();
+                })
+                .then(imagesByCategory => {
+                    this.$store.dispatch(
+                        "LOAD_PHOTOS_BY_CATEGORIES",
+                        imagesByCategory
+                    );
+                    this.photosByCategory = imagesByCategory;
+                    this.tab = getActiveCategory().index;
                 })
                 .catch(err => {
                     this.$store.dispatch("showSnackBar", err);
@@ -314,7 +335,8 @@ export default {
         } else {
             this.photos = this.$store.getters.photos;
             this.categories = this.$store.getters.categories;
-            this.parseImages();
+            this.photosByCategory = this.$store.getters.photosByCategory;
+            this.tab = getActiveCategory().index;
         }
     }
 };

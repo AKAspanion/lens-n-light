@@ -12,6 +12,8 @@ export default new Vuex.Store({
             model: false,
             text: ''
         },
+        activeCategory: '',
+        photosByCategory: {},
         categories: [],
         photos: [],
         window: {},
@@ -51,9 +53,20 @@ export default new Vuex.Store({
         },
         loadPhotos(state, payload) {
             state.photos = payload;
-        }
+        },
+        loadPhotosByCategory(state, payload) {
+            state.photosByCategory = payload;
+        },
+        setCurrentCategory(state, payload) {
+            state.activeCategory = payload;
+        },
     },
     actions: {
+        LOAD_PHOTOS_BY_CATEGORIES({
+            commit
+        }, payload) {
+            commit('loadPhotosByCategory', payload)
+        },
         LOAD_CATEGORIES({
             commit
         }, payload) {
@@ -63,8 +76,13 @@ export default new Vuex.Store({
             commit
         }, payload) {
             commit('loadPhotos', payload)
-        },
-        landingVisited({
+        },        
+        ACTIVE_CATEGORY({
+            commit
+        }, payload) {
+            commit('setCurrentCategory', payload)
+        },  
+        LANDING_VISITED({
             commit
         }, payload) {
             commit('landingVisited', payload)
@@ -106,11 +124,17 @@ export default new Vuex.Store({
         landingVisited(state) {
             return state.landingVisited;
         },
+        photosByCategory(state) {
+            return state.photosByCategory;
+        },
         categories(state) {
             return state.categories;
         },
         photos(state) {
             return state.photos;
         },
+        activeCategory(state){
+            return state.activeCategory;
+        }
     }
 })

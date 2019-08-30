@@ -439,6 +439,7 @@ export default {
             this.getPhotosByCategory();
         },
         onPhotoUpload(uploadData) {
+            this.$store.dispatch("LANDING_VISITED", false);
             this.addPhoto(uploadData);
         },
         goToUpload() {

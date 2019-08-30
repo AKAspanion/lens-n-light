@@ -37,7 +37,7 @@ const router = new VueRouter({
             meta: {
                 index: 1
             }
-        },  
+        }, 
         {
             id: 2,
             path: '/photo/:id',

@@ -6,24 +6,33 @@
                     <v-icon style="transform: rotate(135deg)">mdi-arrow-bottom-right</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-menu left transition="scale-transition" origin="right" z-index="9999">
-                    <template v-slot:activator="{ on }">
-                        <v-btn icon v-on="on">
-                            <v-icon>mdi-link-variant</v-icon>
-                        </v-btn>
-                    </template>
-                    <v-card>
-                        <v-layout>
-                            <template v-for="(link, index) in socialLinks">
-                                <v-list-item :key="index" link :href="link.href" target="_blank">
-                                    <v-list-item-title>
-                                        <v-icon :color="link.color">{{link.iconName}}</v-icon>
-                                    </v-list-item-title>
-                                </v-list-item>
-                            </template>
-                        </v-layout>
-                    </v-card>
-                </v-menu>
+                <v-chip outlined>{{$t('contact')}}</v-chip>
+                <v-spacer></v-spacer>
+                <div style="width: 48px; height: 48px;">
+                    <v-menu left transition="scale-transition" origin="right" z-index="9999">
+                        <template v-slot:activator="{ on }">
+                            <v-btn icon v-on="on">
+                                <v-icon>mdi-link-variant</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-card>
+                            <v-layout>
+                                <template v-for="(link, index) in socialLinks">
+                                    <v-list-item
+                                        :key="index"
+                                        link
+                                        :href="link.href"
+                                        target="_blank"
+                                    >
+                                        <v-list-item-title>
+                                            <v-icon :color="link.color">{{link.iconName}}</v-icon>
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                </template>
+                            </v-layout>
+                        </v-card>
+                    </v-menu>
+                </div>
             </v-toolbar>
             <v-card flat tile height="calc(100vh - 68px)">
                 <v-layout column fill-height justify-center align-center>
@@ -89,16 +98,16 @@ export default {
             contactForm: false,
             addingMessage: false,
             rules: {
-                required: value => !!value || this.$t('field.required'),
+                required: value => !!value || this.$t("field.required"),
                 emailRules: value =>
                     /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) ||
-                    this.$t('field.email')
+                    this.$t("field.email")
             },
             message: {}
         };
     },
-    computed: {        
-        socialLinks(){
+    computed: {
+        socialLinks() {
             return this.$store.state.socialLinks;
         }
     },
