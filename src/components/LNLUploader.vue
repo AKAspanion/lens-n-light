@@ -22,6 +22,18 @@
                         <v-flex xs12 md6>
                             <v-text-field
                                 outlined
+                                v-model="file.location"
+                                label="Location"
+                                :rules="[rules.required]"
+                                persistent-hint
+                                clearable
+                                prepend-icon="mdi-map-marker"
+                                hint="Give a location for the photo."
+                            ></v-text-field>
+                        </v-flex>                        
+                        <v-flex xs12>
+                            <v-text-field
+                                outlined
                                 v-model="file.caption"
                                 label="Caption"
                                 :rules="[rules.required]"
@@ -95,6 +107,7 @@ export default {
             file: {
                 imageUrl: "",
                 caption: "",
+                location: "",
                 description: ""
             },
             rules: {
@@ -139,6 +152,7 @@ export default {
                             fullPath,
                             src,
                             caption: this.file.caption,
+                            location: this.file.location,
                             description: this.file.description
                         });
                     })

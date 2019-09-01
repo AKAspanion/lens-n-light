@@ -233,8 +233,7 @@ export default {
     watch: {
         tab: {
             handler(newV) {
-                if(this.tab < 0 || this.tab > this.categories.length)
-                    return
+                if (this.tab < 0 || this.tab > this.categories.length) return;
                 this.$store.dispatch(
                     "ACTIVE_CATEGORY",
                     this.categories[newV].id

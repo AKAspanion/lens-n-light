@@ -64,6 +64,12 @@ export const getTags = (description) =>{
     }
 }
 
+export const getPhoto = (id) => {
+    return store.getters.photos.find(
+        e => e.id == id
+    )
+}
+
 export const getCategory = (id) => {
     return store.getters.categories.find(
         e => e.id == id
@@ -125,7 +131,7 @@ const parseAllPhotos = (snapshot) => {
             description = description.replace(hashtagRE, "");
             description = description.replace(/#/g, "");
             let newHashtags = [];
-            if (hashtags !== null) newHashtags = hashtags.map(e => e.substr(1))
+            if (hashtags !== null) newHashtags = hashtags.map(e => e.substr(1).toLowerCase())
             photos.push({
                 id: doc.id,
                 ...data,

@@ -36,7 +36,7 @@
                 </v-list-item-action>
             </v-list-item>
         </div>
-        <v-card flat v-show="!loading" class="pa-0 ma-0" :class="noDetails? 'selectable':''">
+        <v-card flat v-show="!loading" class="pa-0 ma-0" >
             <v-img
                 :src="image.src"
                 :alt="image.caption"
@@ -45,6 +45,7 @@
                 max-width="400"
                 width="auto"
                 @click="onImageClick"
+                :class="noDetails? 'selectable':''"
             ></v-img>
             <v-card-title class="pt-2" v-if="!noDetails">
                 <v-layout row justify-space-between align-center>

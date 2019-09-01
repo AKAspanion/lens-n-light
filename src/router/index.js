@@ -87,6 +87,7 @@ const router = new VueRouter({
         {
             id: 7,
             path: '*',
+            name: 'NotFound',
             component: NotFound,
             meta: {
                 index: 10

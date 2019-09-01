@@ -92,6 +92,14 @@
                                 hint="Caption for the photo."
                                 persistent-hint
                             ></v-text-field>
+                            <v-text-field
+                                v-model="photo.location"
+                                outlined
+                                label="Location"
+                                :rules="[rules.required]"
+                                hint="Location for the photo."
+                                persistent-hint
+                            ></v-text-field>
                             <v-textarea
                                 v-model="photo.description"
                                 outlined
@@ -366,6 +374,7 @@ export default {
             photo: {
                 id: "",
                 caption: "",
+                location: "",
                 description: ""
             },
             photosLoading: false,
@@ -404,6 +413,7 @@ export default {
             this.photo = {
                 id: image.id,
                 caption: image.caption,
+                location: image.location,
                 categoryId: image.categoryId,
                 description: image.description
             };
@@ -504,10 +514,11 @@ export default {
         },
         editPhoto() {
             this.editingPhoto = true;
-            let { id, caption, description, categoryId } = this.photo;
+            let { id, caption, location, description, categoryId } = this.photo;
             editPhoto({
                 id,
                 caption,
+                location,
                 categoryId,
                 description
             })

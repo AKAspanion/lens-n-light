@@ -12,7 +12,7 @@
                     <v-icon>mdi-message-text</v-icon>
                 </v-btn>
             </v-toolbar>
-            <v-layout column align-center class="ma-0 pa-0 pb-4">
+            <v-layout column align-center class="ma-0 pa-0 py-4">
                 <v-avatar :size="windowWidth > 600 ? '250':'150'">
                     <img class="pa-1" src="../assets/images/profile.jpg" />
                 </v-avatar>
@@ -40,79 +40,89 @@
                         <v-icon small>{{link.iconName}}</v-icon>
                     </v-chip>
                 </template>
-                <br>
-                <template v-for="(link, index) in otherLinks">
-                    <v-chip
-                        :key="link.name + index"
-                        outlined
-                        ripple
-                        small
-                        class="mr-2"
-                        :href="link.href"
-                        target="_blank"
-                    >
-                        <template v-if="link.iconName === 'flickr'">
-                            <img
-                                v-if="isDarkTheme"
-                                src="../assets/images/flickr-dark.svg"
-                                style="width: 16px; height: 16px;"
-                            />
-                            <img
-                                v-else
-                                src="../assets/images/flickr-light.svg"
-                                style="width: 16px; height: 16px;"
-                            />
+                <v-btn x-small icon class="mb-1">
+                    <v-icon small @click="showMoreLinks =! showMoreLinks">
+                        <template v-if="showMoreLinks">mdi-chevron-up</template>
+                        <template v-else>mdi-chevron-down</template>
+                    </v-icon>
+                </v-btn>
+                <br />
+                <v-expand-transition>
+                    <div v-show="showMoreLinks">
+                        <template v-for="(link, index) in otherLinks">
+                            <v-chip
+                                :key="link.name + index"
+                                outlined
+                                ripple
+                                small
+                                class="mr-2"
+                                :href="link.href"
+                                target="_blank"
+                            >
+                                <template v-if="link.iconName === 'flickr'">
+                                    <img
+                                        v-if="isDarkTheme"
+                                        src="../assets/images/flickr-dark.svg"
+                                        style="width: 16px; height: 16px;"
+                                    />
+                                    <img
+                                        v-else
+                                        src="../assets/images/flickr-light.svg"
+                                        style="width: 16px; height: 16px;"
+                                    />
+                                </template>
+                                <template v-if="link.iconName === 'getty'">
+                                    <img
+                                        v-if="isDarkTheme"
+                                        src="../assets/images/getty-dark.svg"
+                                        style="width: 16px; height: 16px; padding: 2px;"
+                                    />
+                                    <img
+                                        v-else
+                                        src="../assets/images/getty-light.svg"
+                                        style="width: 16px; height: 16px; padding: 2px;"
+                                    />
+                                </template>
+                                <template v-if="link.iconName === '500px'">
+                                    <img
+                                        v-if="isDarkTheme"
+                                        src="../assets/images/500px-dark.svg"
+                                        style="width: 16px; height: 16px; padding: 2px;"
+                                    />
+                                    <img
+                                        v-else
+                                        src="../assets/images/500px-light.svg"
+                                        style="width: 16px; height: 16px; padding: 2px;"
+                                    />
+                                </template>
+                                <template v-if="link.iconName === 'gurushots'">
+                                    <img
+                                        v-if="isDarkTheme"
+                                        src="../assets/images/gurushots-dark.svg"
+                                        style="width: 16px; height: 16px; padding: 2px;"
+                                    />
+                                    <img
+                                        v-else
+                                        src="../assets/images/gurushots-light.svg"
+                                        style="width: 16px; height: 16px; padding: 2px;"
+                                    />
+                                </template>
+                                <template v-if="link.iconName === 'eyeem'">
+                                    <img
+                                        v-if="isDarkTheme"
+                                        src="../assets/images/eyeem-dark.svg"
+                                        style="width: 24px; height: 24px;"
+                                    />
+                                    <img
+                                        v-else
+                                        src="../assets/images/eyeem-light.svg"
+                                        style="width: 24px; height: 24px;"
+                                    />
+                                </template>
+                            </v-chip>
                         </template>
-                        <template v-if="link.iconName === 'getty'">
-                            <img
-                                v-if="isDarkTheme"
-                                src="../assets/images/getty-dark.svg"
-                                style="width: 16px; height: 16px; padding: 2px;"
-                            />
-                            <img
-                                v-else
-                                src="../assets/images/getty-light.svg"
-                                style="width: 16px; height: 16px; padding: 2px;"
-                            />
-                        </template>
-                        <template v-if="link.iconName === '500px'">
-                            <img
-                                v-if="isDarkTheme"
-                                src="../assets/images/500px-dark.svg"
-                                style="width: 16px; height: 16px; padding: 2px;"
-                            />
-                            <img
-                                v-else
-                                src="../assets/images/500px-light.svg"
-                                style="width: 16px; height: 16px; padding: 2px;"
-                            />
-                        </template>
-                        <template v-if="link.iconName === 'gurushots'">
-                            <img
-                                v-if="isDarkTheme"
-                                src="../assets/images/gurushots-dark.svg"
-                                style="width: 16px; height: 16px; padding: 2px;"
-                            />
-                            <img
-                                v-else
-                                src="../assets/images/gurushots-light.svg"
-                                style="width: 16px; height: 16px; padding: 2px;"
-                            />
-                        </template>
-                        <template v-if="link.iconName === 'eyeem'">
-                            <img
-                                v-if="isDarkTheme"
-                                src="../assets/images/eyeem-dark.svg"
-                                style="width: 24px; height: 24px;"
-                            />
-                            <img
-                                v-else
-                                src="../assets/images/eyeem-light.svg"
-                                style="width: 24px; height: 24px;"
-                            />
-                        </template>
-                    </v-chip>
-                </template>
+                    </div>
+                </v-expand-transition>
             </div>
             <v-card-text
                 class="px-10 pb-6 pt-3"
@@ -144,6 +154,7 @@
 export default {
     data() {
         return {
+            showMoreLinks: false,
             panelItems: [
                 {
                     header: "sahoo.bio.label",
@@ -193,7 +204,7 @@ export default {
         otherLinks() {
             return this.$store.state.otherLinks;
         },
-        isDarkTheme(){
+        isDarkTheme() {
             return this.$vuetify.theme.dark;
         }
     }

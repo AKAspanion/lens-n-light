@@ -58,6 +58,7 @@ export const addPhoto = (photo) => {
 export const editPhoto = (photo) => {
     return photosRef.doc(photo.id).update({
         caption: photo.caption,
+        location: photo.location,
         categoryId: photo.categoryId,
         description: photo.description
     });

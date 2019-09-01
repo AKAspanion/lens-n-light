@@ -9,7 +9,7 @@
             v-if="!pageLoading"
             @click="routeToPreviousPhoto"
             :disabled="currentPhotoIndex === 0"
-            :class=" windowWidth > 600 ?'left-button' :'left-button-xs'"
+            :class=" windowWidth > 1160 ?'left-button' :'left-button-xs'"
         >
             <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -22,7 +22,7 @@
             v-if="!pageLoading"
             @click="routeToNextPhoto"
             :disabled="currentPhotoIndex === totalPhotos - 1"
-            :class=" windowWidth > 600 ?'right-button' :'right-button-xs'"
+            :class=" windowWidth > 1160 ?'right-button' :'right-button-xs'"
         >
             <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -96,8 +96,30 @@
                                             class="ma-0 pa-0"
                                             style="min-height: 440px; padding-right: calc((50vw - 400px) / 2) !important;"
                                         >
-                                            <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
-                                            <v-card-text class="px-0">{{photo.description}}</v-card-text>
+                                            <v-card-title class="px-0 pt-4 pb-0">
+                                                <div class="photo-caption">{{photo.caption}}</div>
+                                            </v-card-title>
+                                            <v-card-title
+                                                class="px-0 subtitle-1 py-0 mt-n2 font-weight-light"
+                                                @click="goToMaps(photo.location)"
+                                            >{{photo.location}}</v-card-title>
+                                            <v-card-text class="px-0 pt-1">
+                                                {{photo.description}}
+                                                <div class="py-1">
+                                                    <v-chip
+                                                        outlined
+                                                        small
+                                                        link
+                                                        label
+                                                        class="mr-1"
+                                                        style="margin: 2px 0; "
+                                                        :href="`https://www.instagram.com/explore/tags/${tag}/?hl=en`"
+                                                        target="_blank"
+                                                        v-for="(tag, index) in photo.hashtags"
+                                                        :key="index"
+                                                    >{{'#'+tag}}</v-chip>
+                                                </div>
+                                            </v-card-text>
                                         </v-flex>
                                     </v-layout>
                                 </v-flex>
@@ -106,7 +128,7 @@
                     </v-card>
                 </template>
                 <template v-else>
-                    <v-container fluid class="ma-0 pa-0" v-if="windowWidth < 1160">
+                    <v-container fluid class="ma-0 pa-0">
                         <v-layout column justify-center align-center fill-height class="ma-0 pa-0">
                             <v-card
                                 flat
@@ -115,20 +137,29 @@
                                 style="border-radius: 4px !important;"
                             >
                                 <l-n-l-photo :image="photo" no-details full-height></l-n-l-photo>
-                                <v-card-title class="px-0 pt-5">{{photo.caption}}</v-card-title>
-                                <v-card-text class="px-0">
+                                <v-card-title class="px-0 pt-4 pb-0">
+                                    <div class="photo-caption">{{photo.caption}}</div>
+                                </v-card-title>
+                                <v-card-title
+                                    class="px-0 subtitle-1 py-0 mt-n2 font-weight-light"
+                                    @click="goToMaps(photo.location)"
+                                >{{photo.location}}</v-card-title>
+                                <v-card-text class="px-0 pt-1">
                                     {{photo.description}}
-                                    <v-chip
-                                        outlined
-                                        small
-                                        link
-                                        class="mr-1"
-                                        style="margin: 2px 0; "
-                                        :href="`https://www.instagram.com/explore/tags/${tag}/?hl=en`"
-                                        target="_blank"
-                                        v-for="(tag, index) in photo.hashtags"
-                                        :key="index"
-                                    >{{'#'+tag}}</v-chip>
+                                    <div class="py-1">
+                                        <v-chip
+                                            outlined
+                                            small
+                                            link
+                                            label
+                                            class="mr-1"
+                                            style="margin: 2px 0; "
+                                            :href="`https://www.instagram.com/explore/tags/${tag}/?hl=en`"
+                                            target="_blank"
+                                            v-for="(tag, index) in photo.hashtags"
+                                            :key="index"
+                                        >{{'#'+tag}}</v-chip>
+                                    </div>
                                 </v-card-text>
                             </v-card>
                         </v-layout>
@@ -144,6 +175,7 @@ import LNLPhoto from "../components/LNLPhoto.vue";
 import LNLLoader from "../components/LNLLoader.vue";
 import {
     getTags,
+    getPhoto,
     getAllPhotos,
     getAllCategories,
     getImagesByCategory,
@@ -160,10 +192,12 @@ export default {
             pageLoading: false,
             shareDialog: false,
             shareLink: "amitsahoophotography.xyz",
-            photo: {},
+            photo: {
+                caption: "",
+                categoryId: ""
+            },
             scrollList: [],
-            activeCategory: {},
-            hashtags: []
+            activeCategory: {}
         };
     },
     computed: {
@@ -183,9 +217,15 @@ export default {
         goBack() {
             this.$router.push({ path: "/home" });
         },
+        goToMaps(term) {
+            window.open(`https://maps.google.com/?q=${term}`, "_blank");
+        },
         setPhoto() {
+            let photoId = this.$route.params.id;
+            if (getPhoto(photoId) === undefined)
+                throw new Error("Photo not found");
             this.photo = this.$store.getters.photos.filter(
-                e => e.id === this.$route.params.id
+                e => e.id === photoId
             )[0];
         },
         setScrollList() {
@@ -228,6 +268,9 @@ export default {
                 params: { id: this.scrollList[index].id },
                 query: { next }
             });
+        },
+        routeToNotFound() {
+            this.$router.push({ name: "NotFound" });
         }
     },
     mounted() {
@@ -237,8 +280,8 @@ export default {
                 .then(response => {
                     this.$store.dispatch("LOAD_CATEGORIES", response[0]);
                     this.$store.dispatch("LOAD_PHOTOS", response[1]);
-                    this.$store.dispatch("LANDING_VISITED", true);
                     this.setPhoto();
+                    this.$store.dispatch("LANDING_VISITED", true);
                     this.$store.dispatch(
                         "ACTIVE_CATEGORY",
                         this.photo.categoryId
@@ -253,6 +296,7 @@ export default {
                     this.setScrollList();
                 })
                 .catch(err => {
+                    this.routeToNotFound();
                     this.$store.dispatch("showSnackBar", err);
                 })
                 .then(() => {
@@ -287,5 +331,11 @@ export default {
 }
 .left-button-xs {
     left: 24px !important;
+}
+.photo-caption {
+    overflow: hidden;
+    max-width: 500px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 </style>
