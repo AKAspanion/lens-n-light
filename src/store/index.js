@@ -28,6 +28,44 @@ export default new Vuex.Store({
                 name: "instagram",
                 iconName: "mdi-instagram",
                 href: "https://www.instagram.com/amitsahoophotography/"
+            },
+            {
+                color: "#1DA1F2",
+                name: "twitter",
+                iconName: "mdi-twitter",
+                href: "https://twitter.com/amitsahoo94/"
+            }
+        ],
+        otherLinks: [
+            {
+                color: "secondary",
+                name: "getty-images",
+                iconName: "getty",
+                href: "https://www.gettyimages.in/photos/amit-kumar-sahoo"
+            },
+            {
+                color: "#959595",
+                name: "guru-shots",
+                iconName: "gurushots",
+                href: "https://gurushots.com/amitsahoo94/"
+            },
+            {
+                color: "secondary",
+                name: "eyeem",
+                iconName: "eyeem",
+                href: "https://www.eyeem.com/u/amitsahoophotography"
+            },
+            {
+                color: "secondary",
+                name: "500px",
+                iconName: "500px",
+                href: "https://500px.com/amits_click"
+            },
+            {
+                color: "#FF0084",
+                name: "flickr",
+                iconName: "flickr",
+                href: "https://www.flickr.com/photos/clickaddictamit/"
             }
         ]
     },
@@ -76,12 +114,12 @@ export default new Vuex.Store({
             commit
         }, payload) {
             commit('loadPhotos', payload)
-        },        
+        },
         ACTIVE_CATEGORY({
             commit
         }, payload) {
             commit('setCurrentCategory', payload)
-        },  
+        },
         LANDING_VISITED({
             commit
         }, payload) {
@@ -133,7 +171,7 @@ export default new Vuex.Store({
         photos(state) {
             return state.photos;
         },
-        activeCategory(state){
+        activeCategory(state) {
             return state.activeCategory;
         }
     }

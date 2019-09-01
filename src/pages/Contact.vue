@@ -9,7 +9,7 @@
                 <v-chip outlined>{{$t('contact')}}</v-chip>
                 <v-spacer></v-spacer>
                 <div style="width: 48px; height: 48px;">
-                    <v-menu left transition="scale-transition" origin="right" z-index="9999">
+                    <v-menu left transition="scale-transition" origin="top right" z-index="9999">
                         <template v-slot:activator="{ on }">
                             <v-btn icon v-on="on">
                                 <v-icon>mdi-link-variant</v-icon>
@@ -30,6 +30,50 @@
                                     </v-list-item>
                                 </template>
                             </v-layout>
+                            <v-layout column>                                
+                                <template v-for="(link, index) in otherLinks">
+                                    <v-list-item
+                                        :key="link.name + index"
+                                        link
+                                        :href="link.href"
+                                        target="_blank"
+                                    >
+                                        <v-list-item-avatar tile>
+                                            <template v-if="link.iconName === 'flickr'">
+                                                <img
+                                                    src="../assets/images/flickr.svg"
+                                                    style="width: 24px; height: 24px;"
+                                                />
+                                            </template>
+                                            <template v-if="link.iconName === 'getty'">
+                                                <img
+                                                    src="../assets/images/getty.svg"
+                                                    style="width: 24px; height: 24px; padding: 2px;"
+                                                />
+                                            </template>
+                                            <template v-if="link.iconName === '500px'">
+                                                <img
+                                                    src="../assets/images/500px.svg"
+                                                    style="width: 24px; height: 24px; padding: 2px;"
+                                                />
+                                            </template>
+                                            <template v-if="link.iconName === 'gurushots'">
+                                                <img
+                                                    src="../assets/images/gurushots.svg"
+                                                    style="width: 24px; height: 24px; padding: 2px;"
+                                                />
+                                            </template>
+                                            <template v-if="link.iconName === 'eyeem'">
+                                                <img
+                                                    src="../assets/images/eyeem.svg"
+                                                    style="width: 36px; height: 36px;"
+                                                />
+                                            </template>
+                                        </v-list-item-avatar >
+                                        <v-list-item-subtitle>{{$t(link.name)}}</v-list-item-subtitle>
+                                    </v-list-item>
+                                </template>
+                                </v-layout>
                         </v-card>
                     </v-menu>
                 </div>
@@ -109,6 +153,9 @@ export default {
     computed: {
         socialLinks() {
             return this.$store.state.socialLinks;
+        },
+        otherLinks() {
+            return this.$store.state.otherLinks;
         }
     },
     methods: {

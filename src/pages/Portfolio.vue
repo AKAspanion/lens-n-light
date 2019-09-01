@@ -23,18 +23,94 @@
                     <span>{{$t('sahoo.owner')}}</span>
                 </div>
             </v-layout>
-            <div class="px-10 pb-3 text-center">
+            <div
+                class="px-10 pb-3 text-center"
+                style="text-align: justify; max-width: 400px; margin: 0 auto;"
+            >
                 <template v-for="(link, index) in socialLinks">
                     <v-chip
                         :key="index"
                         outlined
                         ripple
                         small
-                        class="mr-3"
+                        class="mr-2 mb-1"
                         :href="link.href"
                         target="_blank"
                     >
                         <v-icon small>{{link.iconName}}</v-icon>
+                    </v-chip>
+                </template>
+                <br>
+                <template v-for="(link, index) in otherLinks">
+                    <v-chip
+                        :key="link.name + index"
+                        outlined
+                        ripple
+                        small
+                        class="mr-2"
+                        :href="link.href"
+                        target="_blank"
+                    >
+                        <template v-if="link.iconName === 'flickr'">
+                            <img
+                                v-if="isDarkTheme"
+                                src="../assets/images/flickr-dark.svg"
+                                style="width: 16px; height: 16px;"
+                            />
+                            <img
+                                v-else
+                                src="../assets/images/flickr-light.svg"
+                                style="width: 16px; height: 16px;"
+                            />
+                        </template>
+                        <template v-if="link.iconName === 'getty'">
+                            <img
+                                v-if="isDarkTheme"
+                                src="../assets/images/getty-dark.svg"
+                                style="width: 16px; height: 16px; padding: 2px;"
+                            />
+                            <img
+                                v-else
+                                src="../assets/images/getty-light.svg"
+                                style="width: 16px; height: 16px; padding: 2px;"
+                            />
+                        </template>
+                        <template v-if="link.iconName === '500px'">
+                            <img
+                                v-if="isDarkTheme"
+                                src="../assets/images/500px-dark.svg"
+                                style="width: 16px; height: 16px; padding: 2px;"
+                            />
+                            <img
+                                v-else
+                                src="../assets/images/500px-light.svg"
+                                style="width: 16px; height: 16px; padding: 2px;"
+                            />
+                        </template>
+                        <template v-if="link.iconName === 'gurushots'">
+                            <img
+                                v-if="isDarkTheme"
+                                src="../assets/images/gurushots-dark.svg"
+                                style="width: 16px; height: 16px; padding: 2px;"
+                            />
+                            <img
+                                v-else
+                                src="../assets/images/gurushots-light.svg"
+                                style="width: 16px; height: 16px; padding: 2px;"
+                            />
+                        </template>
+                        <template v-if="link.iconName === 'eyeem'">
+                            <img
+                                v-if="isDarkTheme"
+                                src="../assets/images/eyeem-dark.svg"
+                                style="width: 24px; height: 24px;"
+                            />
+                            <img
+                                v-else
+                                src="../assets/images/eyeem-light.svg"
+                                style="width: 24px; height: 24px;"
+                            />
+                        </template>
                     </v-chip>
                 </template>
             </div>
@@ -46,7 +122,16 @@
                     <v-expansion-panel v-for="(item,i) in panelItems" :key="i">
                         <v-expansion-panel-header>{{$t(item.header)}}</v-expansion-panel-header>
                         <v-expansion-panel-content>
-                            <div class="grey--text">{{$t(item.content)}}</div>
+                            <template v-if="Array.isArray(item.content)">
+                                <div
+                                    class="pb-2 caption"
+                                    v-for="(content, i) in item.content"
+                                    :key="i"
+                                >{{$t(content)}}</div>
+                            </template>
+                            <template v-else>
+                                <div class="pb-2 caption">{{$t(item.content)}}</div>
+                            </template>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
@@ -62,7 +147,12 @@ export default {
             panelItems: [
                 {
                     header: "sahoo.bio.label",
-                    content: "sahoo.desc"
+                    content: [
+                        "sahoo.bio.1",
+                        "sahoo.bio.2",
+                        "sahoo.bio.3",
+                        "sahoo.bio.4"
+                    ]
                 },
                 {
                     header: "sahoo.education.label",
@@ -70,7 +160,14 @@ export default {
                 },
                 {
                     header: "sahoo.experience.label",
-                    content: "sahoo.experience"
+                    content: [
+                        "sahoo.experience",
+                        "sahoo.experience.1",
+                        "sahoo.experience.2",
+                        "sahoo.experience.3",
+                        "sahoo.experience.4",
+                        "sahoo.experience.5"
+                    ]
                 }
             ]
         };
@@ -81,6 +178,9 @@ export default {
         },
         routeToContact() {
             this.$router.push({ name: "Contact" });
+        },
+        getLink() {
+            return "../assets/images/flickr.svg";
         }
     },
     computed: {
@@ -89,6 +189,12 @@ export default {
         },
         socialLinks() {
             return this.$store.state.socialLinks;
+        },
+        otherLinks() {
+            return this.$store.state.otherLinks;
+        },
+        isDarkTheme(){
+            return this.$vuetify.theme.dark;
         }
     }
 };

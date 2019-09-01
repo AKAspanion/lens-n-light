@@ -27,7 +27,7 @@
                                         :elevation="getElevation(flat, hover)"
                                     >
                                         <v-expand-transition>
-                                            <div v-if="hover" class="lnl-photo-hover">
+                                            <div v-if="hover && noDetails" class="lnl-photo-hover">
                                                 <div class="lnl-photo-hover-item">
                                                     <div
                                                         class="overline lnl-photo-hover-text"
