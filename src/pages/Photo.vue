@@ -100,7 +100,7 @@
                                                 <div class="photo-caption">{{photo.caption}}</div>
                                             </v-card-title>
                                             <v-card-title
-                                                class="px-0 subtitle-1 py-0 mt-n2 font-weight-light"
+                                                class="px-0 subtitle-1 py-0 mt-n2 font-weight-light selectable"
                                                 @click="goToMaps(photo.location)"
                                             >{{photo.location}}</v-card-title>
                                             <v-card-text class="px-0 pt-1">
@@ -141,7 +141,7 @@
                                     <div class="photo-caption">{{photo.caption}}</div>
                                 </v-card-title>
                                 <v-card-title
-                                    class="px-0 subtitle-1 py-0 mt-n2 font-weight-light"
+                                    class="px-0 subtitle-1 py-0 mt-n2 font-weight-light selectable"
                                     @click="goToMaps(photo.location)"
                                 >{{photo.location}}</v-card-title>
                                 <v-card-text class="px-0 pt-1">
