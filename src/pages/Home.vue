@@ -197,7 +197,7 @@
             @photo-clicked="onPhotoSearch"
             @link-clicked="onLinkSearch"
         ></l-n-l-search>
-        <l-n-l-help-overlay></l-n-l-help-overlay>
+        <!-- <l-n-l-help-overlay></l-n-l-help-overlay> -->
     </div>
 </template>
 
@@ -211,7 +211,7 @@ import {
 import LNLLoader from "../components/LNLLoader.vue";
 import LNLGrid from "../components/LNLGrid.vue";
 import LNLSearch from "../components/LNLSearch.vue";
-import LNLHelpOverlay from "../components/LNLHelpOverlay.vue";
+// import LNLHelpOverlay from "../components/LNLHelpOverlay.vue";
 import { Promise } from "q";
 export default {
     name: "Home",
@@ -219,7 +219,7 @@ export default {
         LNLGrid,
         LNLLoader,
         LNLSearch,
-        LNLHelpOverlay
+        // LNLHelpOverlay
     },
     data() {
         return {

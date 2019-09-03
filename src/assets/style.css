@@ -211,7 +211,7 @@
 
 @media (min-width: 1264px) {
     .photo-shimmer {
-        height: calc(100vw / 6 - 32px);
+        height: calc(100vw / 4 - 36px);
     }
 
     .photo-card-shimmer {

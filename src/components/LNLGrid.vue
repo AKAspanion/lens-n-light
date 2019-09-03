@@ -16,9 +16,9 @@
                                 xs6
                                 sm4
                                 md3
-                                lg2
                                 d-flex
                                 child-flex
+                                :class="!noDetails ? 'lg2':''"
                             >
                                 <v-hover v-slot:default="{ hover }">
                                     <v-card

@@ -96,9 +96,18 @@
                                             class="ma-0 pa-0"
                                             style="min-height: 440px; padding-right: calc((50vw - 400px) / 2) !important;"
                                         >
-                                            <v-card-title class="px-0 pt-4 pb-0">
-                                                <div class="photo-caption">{{photo.caption}}</div>
+                                            <v-card-title class="px-0 pt-4 pb-0 selectable">
+                                                <div
+                                                    class="photo-caption"
+                                                    @click="show =! show"
+                                                >{{photo.caption}}</div>
                                             </v-card-title>
+                                            <v-tooltip v-model="show" top nudge-top="36">
+                                                <template v-slot:activator="{ on }">
+                                                    <span v-on="on"></span>
+                                                </template>
+                                                <span>{{photo.caption}}</span>
+                                            </v-tooltip>
                                             <v-card-title
                                                 class="px-0 subtitle-1 py-0 mt-n2 font-weight-light selectable"
                                                 @click="goToMaps(photo.location)"
@@ -189,6 +198,7 @@ export default {
     },
     data() {
         return {
+            show: false,
             pageLoading: false,
             shareDialog: false,
             shareLink: "amitsahoophotography.xyz",
