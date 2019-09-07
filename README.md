@@ -1,12 +1,14 @@
 # Lens-n-Light
 
+![](https://firebasestorage.googleapis.com/v0/b/lens-n-light.appspot.com/o/photos%2Fsmartmockups_k0a3apv1.png?alt=media&token=0ba2d720-1f53-449a-8319-7899ec857381)
+
 This is a web application.
 
 * People visiting here, view it as a Portfolio/Photography website.
 * Owner of this site can perform CRUD operations from Admin page and manage photos that appear on site.
 
 ## Live View
-* View the production site at [Lens-and-Light](https://amitsahoophotograpy.xyz)
+* View the production site at [Lens-and-Light](https://amitsahoophotography.xyz)
 * To enter the Admin page you can login as **Demo** user using the following credentials [ _Note: Demo user can't use CUD operations_ ]
   * Email: `demouser@lnl.com`
   * Password: `password`
@@ -54,8 +56,7 @@ VUE_APP_STORAGE_BUCKET=...
 VUE_APP_MESSAGING_SENDER_ID=...
 VUE_APP_APP_ID=...
 ```
-Project is now pointing to your firebase.\
-Your environment setup is done.
+Project is now pointing to your firebase.
 ```bash
 # install dependency
 npm install
@@ -70,11 +71,10 @@ Project will launch at http://localhost:8080
 #compiles and minifies for production
 npm run buid
 ```
-`/dist` folder is ready to be deployed
+The `/dist` directory is ready to be deployed
 ## Built With
 * [Vue.js]() - SPA JavaScript Framework
 * [Vuetify]() - Frontend Components Framework
 * [Firebase]() - Backend and Hosting
----
 ## Author
-Ankit Kumar Pandit - _all work_
+[**Ankit Kumar Pandit**](http://spanion.xyz)
