@@ -71,13 +71,13 @@
                             text
                             :loading="addingCategory || editingCategory"
                             @click="onCategorySubmit()"
-                            :disabled="!categoryForm"
+                            :disabled="!categoryForm || isDemo"
                         >{{isCategoryAdd ? 'Add' : 'Edit'}}</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-form>
         </v-dialog>
-        <!-- dialog for editing phot -->
+        <!-- dialog for editing photo -->
         <v-dialog persistent v-model="photoDialog" max-width="450">
             <v-form v-model="photoForm" ref="formPhoto">
                 <v-card>
@@ -136,7 +136,7 @@
                             text
                             :loading="editingPhoto"
                             @click="onPhotoSubmit()"
-                            :disabled="!photoForm"
+                            :disabled="!photoForm || isDemo"
                         >Edit</v-btn>
                     </v-card-actions>
                 </v-card>
@@ -160,6 +160,7 @@
                     <v-btn
                         color="primary"
                         text
+                        :disabled="isDemo"
                         :loading="deletingPhoto || deletingCategory"
                         @click="onDelete()"
                     >Yes</v-btn>
@@ -174,7 +175,13 @@
             </v-toolbar-title>
             <v-btn light @click="logout">Sign out</v-btn>
             <template #extension>
-                <v-list-item-title>Manage Photos</v-list-item-title>
+                <v-list-item-title>
+                    Manage Photos 
+                    <span class="caption pl-2">
+                        {{isDemo ? '[ Demo users cannot perform CUD operations ]':''}}
+                    </span>
+                </v-list-item-title>
+                
                 <v-spacer></v-spacer>
                 <div>
                     <v-tooltip left offset-overflow transition="scroll-x-reverse-transition">
@@ -424,6 +431,9 @@ export default {
         },
         windowWidth() {
             return this.$store.state.window.width;
+        },
+        isDemo(){
+            return this.userName === 'Admin';
         }
     },
     methods: {
@@ -450,11 +460,11 @@ export default {
             }
         },
         onDeleteCancel() {
-            deleteDialog = !deleteDialog;
-            imageToDelete = null;
-            categoryToDelete = null;
-            isPhotoDelete = false;
-            isCategoryDelete = false;
+            this.deleteDialog = false;
+            this.imageToDelete = null;
+            this.categoryToDelete = null;
+            this.isPhotoDelete = false;
+            this.isCategoryDelete = false;
         },
         onCategoryEdit() {
             this.category = {

@@ -30,7 +30,7 @@
                                 prepend-icon="mdi-map-marker"
                                 hint="Give a location for the photo."
                             ></v-text-field>
-                        </v-flex>                        
+                        </v-flex>
                         <v-flex xs12>
                             <v-text-field
                                 outlined
@@ -84,7 +84,7 @@
             <v-card-actions class="pa-0 pt-2">
                 <v-spacer></v-spacer>
                 <v-btn
-                    :disabled="!uploadForm"
+                    :disabled="!uploadForm || getUser().email === 'demouser@lnl.com'"
                     color="primary"
                     @click="uploadPhoto"
                     :loading="uploading"
@@ -96,7 +96,7 @@
 
 <script>
 import { setTimeout } from "timers";
-import { uploadFile, getURL } from "../firebase";
+import { uploadFile, getURL, getUser } from "../firebase";
 export default {
     data() {
         return {
@@ -141,10 +141,10 @@ export default {
         uploadPhoto() {
             if (this.image !== null) {
                 this.uploading = true;
-                let fullPath = '';
+                let fullPath = "";
                 uploadFile(this.image)
                     .then(data => {
-                        fullPath = data.metadata.fullPath.toString()
+                        fullPath = data.metadata.fullPath.toString();
                         return getURL(fullPath);
                     })
                     .then(src => {
