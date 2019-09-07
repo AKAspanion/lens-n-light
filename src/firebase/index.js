@@ -1,5 +1,6 @@
 import * as firebase from 'firebase'
 
+
 var auth = null;
 var storage = null;
 var storageRef = null;
@@ -8,13 +9,13 @@ var messagesRef = null;
 var photoCategoryRef = null;
 
 var firebaseConfig = {
-    apiKey: 'AIzaSyBPHctcMw8Zi7aWL93VHYv4n84QH2zLvpY',
-    authDomain: 'lens-n-light.firebaseapp.com',
-    databaseURL: 'https://lens-n-light.firebaseio.com',
-    projectId: 'lens-n-light',
-    storageBucket: 'gs://lens-n-light.appspot.com',
-    messagingSenderId: '623142729883',
-    appId: '1:623142729883:web:9b73126a0be9f357'
+    apiKey: process.env.VUE_APP_API_KEY,
+    authDomain: process.env.VUE_APP_DOMAIN,
+    databaseURL: process.env.VUE_APP_URL,
+    projectId: process.env.VUE_APP_PROJECT_ID,
+    storageBucket: process.env.VUE_APP_STORAGE,
+    messagingSenderId: process.env.VUE_APP_MESSAGING_ID,
+    appId: process.env.VUE_APP_APP_ID
 };
 
 export const initializeFirebase = () => {
@@ -109,6 +110,6 @@ export const fetchPhotosByCategory = (category) => {
     return photosRef.where("categoryId", '==', category.id).get();
 }
 
-const _id = () =>{
+const _id = () => {
     return '_' + Math.random().toString(36).substr(2, 18);
 }
