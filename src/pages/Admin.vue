@@ -142,24 +142,26 @@
                 </v-card>
             </v-form>
         </v-dialog>
-        <!-- dialog for deleting category -->
+        <!-- dialog for deleting photo/category -->
         <v-dialog persistent v-model="deleteDialog" max-width="450">
             <v-card>
                 <v-card-title class="pa-4">Delete photo</v-card-title>
-                <v-card-text class="pa-4">Are you sure you want to delete the photo?</v-card-text>
+                <v-card-text
+                    class="pa-4"
+                >Are you sure you want to delete the {{isPhotoDelete?'photo':'category'}}?</v-card-text>
                 <v-card-actions class="pa-4">
                     <v-spacer></v-spacer>
                     <v-btn
                         color="primary"
                         text
-                        @click="deleteDialog = !deleteDialog; imageToDelete = null;"
-                        :disabled="deletingPhoto"
+                        @click="onDeleteCancel()"
+                        :disabled="deletingPhoto || deletingCategory"
                     >No</v-btn>
                     <v-btn
                         color="primary"
                         text
-                        :loading="deletingPhoto"
-                        @click="onDeletePhoto()"
+                        :loading="deletingPhoto || deletingCategory"
+                        @click="onDelete()"
                     >Yes</v-btn>
                 </v-card-actions>
             </v-card>
@@ -251,6 +253,17 @@
                                                 <v-icon small>mdi-pencil</v-icon>
                                             </v-btn>
                                         </v-list-item-action>
+                                        <v-list-item-action class="pl-2">
+                                            <v-btn
+                                                icon
+                                                small
+                                                v-if="active"
+                                                color="primary"
+                                                @click="onCategoryDelete"
+                                            >
+                                                <v-icon small>mdi-delete</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
                                         <v-list-item-action>
                                             <v-icon v-if="active">
                                                 <template
@@ -303,7 +316,7 @@
                                 <l-n-l-grid
                                     :images="photos"
                                     @grid-image-edit-clicked="onEditImage"
-                                    @grid-image-delete-clicked="onDeleteImage"
+                                    @grid-image-delete-clicked="onDeletePhoto"
                                 ></l-n-l-grid>
                             </template>
                         </template>
@@ -330,6 +343,7 @@ import {
     deletePhoto,
     addCategory,
     editCategory,
+    deleteCategory,
     fetchAllMessages,
     fetchAllCategory,
     fetchPhotosByCategory,
@@ -350,7 +364,10 @@ export default {
             photoDialog: false,
             deleteDialog: false,
             deletingPhoto: false,
+            deletingCategory: false,
             isCategoryAdd: false,
+            isCategoryDelete: false,
+            isPhotoDelete: false,
             categoryDialog: false,
             addingCategory: false,
             editingCategory: false,
@@ -358,6 +375,7 @@ export default {
             messagesDialog: false,
             messagesLoading: false,
             imageToDelete: null,
+            categoryToDelete: null,
             categoryIndex: 0,
             selectedCategory: null,
             panel: [0],
@@ -419,12 +437,24 @@ export default {
             };
             this.photoDialog = true;
         },
-        onDeleteImage(image) {
+        onDeletePhoto(image) {
             this.deleteDialog = true;
+            this.isPhotoDelete = true;
             this.imageToDelete = image;
         },
-        onDeletePhoto() {
-            this.deletePhoto(this.imageToDelete);
+        onDelete() {
+            if (this.isPhotoDelete) {
+                this.deletePhoto(this.imageToDelete);
+            } else{
+                this.deleteCategory(this.categoryToDelete.id);
+            }
+        },
+        onDeleteCancel() {
+            deleteDialog = !deleteDialog;
+            imageToDelete = null;
+            categoryToDelete = null;
+            isPhotoDelete = false;
+            isCategoryDelete = false;
         },
         onCategoryEdit() {
             this.category = {
@@ -433,6 +463,18 @@ export default {
             };
             this.isCategoryAdd = false;
             this.categoryDialog = true;
+        },
+        onCategoryDelete() {
+            if (this.photos.length) {
+                this.$store.dispatch(
+                    "showSnackBar",
+                    "Sorry! This category has photos."
+                );
+            } else {
+                this.deleteDialog = true;
+                this.isCategoryDelete = true;
+                this.categoryToDelete = this.selectedCategory;
+            }
         },
         onPhotoSubmit() {
             this.editPhoto();
@@ -509,6 +551,35 @@ export default {
                 this.$store.dispatch(
                     "showSnackBar",
                     "Error deleting photo. Please try later!"
+                );
+            }
+        },
+        deleteCategory(category) {
+            if (category) {
+                this.deletingCategory = true;
+                deleteCategory(category)
+                    .then(() => {
+                        this.$store.dispatch(
+                            "showSnackBar",
+                            "Category deleted successfully!"
+                        );
+                        this.getAllCatgories();
+                    })
+                    .catch(() => {
+                        this.$store.dispatch(
+                            "showSnackBar",
+                            "Error deleting category. Please try later!"
+                        );
+                    })
+                    .then(() => {
+                        this.deletingCategory = false;
+                        this.deleteDialog = false;
+                        this.categoryToDelete = null;
+                    });
+            } else {
+                this.$store.dispatch(
+                    "showSnackBar",
+                    "Error deleting category. Please try later!"
                 );
             }
         },

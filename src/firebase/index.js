@@ -69,6 +69,10 @@ export const deletePhoto = (id) => {
     return photosRef.doc(id).delete();
 }
 
+export const deleteCategory = (id) => {
+    return photoCategoryRef.doc(id).delete();
+}
+
 export const deletePhotoFromStorage = (fileName) => {
     return storageRef.child(fileName).delete();
 }
