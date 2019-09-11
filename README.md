@@ -57,6 +57,9 @@ VUE_APP_MESSAGING_SENDER_ID=...
 VUE_APP_APP_ID=...
 ```
 Project is now pointing to your firebase.
+
+Create authentication in firebase using email and password which can be used to login to admin page.
+
 ```bash
 # install dependency
 npm install
