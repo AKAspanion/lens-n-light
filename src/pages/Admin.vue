@@ -24,7 +24,7 @@
             </v-card>
         </v-dialog>
         <!-- dialog for adding/editing category -->
-        <v-dialog persistent v-model="categoryDialog" max-width="450">
+        <v-dialog persistent v-model="categoryDialog" max-width="80vw">
             <v-form v-model="categoryForm" ref="formCategory">
                 <v-card>
                     <v-card-title class="pa-4">{{isCategoryAdd ? 'Add' : 'Edit'}} category</v-card-title>
@@ -78,7 +78,7 @@
             </v-form>
         </v-dialog>
         <!-- dialog for editing photo -->
-        <v-dialog persistent v-model="photoDialog" max-width="450">
+        <v-dialog persistent v-model="photoDialog" max-width="80vw">
             <v-form v-model="photoForm" ref="formPhoto">
                 <v-card>
                     <v-card-title class="pa-4">Edit photo</v-card-title>

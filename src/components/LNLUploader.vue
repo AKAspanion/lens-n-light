@@ -84,19 +84,21 @@
             <v-card-actions class="pa-0 pt-2">
                 <v-spacer></v-spacer>
                 <v-btn
-                    :disabled="!uploadForm || getUser().email === 'demouser@lnl.com'"
+                    :disabled="!uploadForm"
                     color="primary"
                     @click="uploadPhoto"
                     :loading="uploading"
-                >Upload</v-btn>
+                >
+                    Upload
+                </v-btn>
             </v-card-actions>
         </v-card>
     </div>
 </template>
 
 <script>
-import { setTimeout } from "timers";
-import { uploadFile, getURL, getUser } from "../firebase";
+import { setTimeout } from 'timers';
+import { uploadFile, getURL, getUser } from '../firebase';
 export default {
     data() {
         return {
@@ -105,25 +107,30 @@ export default {
             loading: false,
             uploading: false,
             file: {
-                imageUrl: "",
-                caption: "",
-                location: "",
-                description: ""
+                imageUrl: '',
+                caption: '',
+                location: '',
+                description: '',
             },
             rules: {
-                required: value => !!value || "Field is Required."
-            }
+                required: (value) => !!value || 'Field is Required.',
+            },
         };
+    },
+    computed: {
+        user() {
+            return getUser();
+        },
     },
     methods: {
         onFilePick(event) {
-            if ((this.image ? this.image.size : "") === (event.size || {}))
+            if ((this.image ? this.image.size : '') === (event.size || {}))
                 return;
             if (event) {
                 this.loading = true;
                 const file = event;
                 const fileReader = new FileReader();
-                fileReader.addEventListener("load", () => {
+                fileReader.addEventListener('load', () => {
                     this.file.imageUrl = fileReader.result;
                 });
                 fileReader.readAsDataURL(file);
@@ -133,38 +140,45 @@ export default {
                 this.file.imageUrl = null;
             }
         },
-        onImageLoad(val) {
+        onImageLoad() {
             setTimeout(() => {
                 this.loading = false;
             }, 500);
         },
         uploadPhoto() {
+            if (this.user.email === 'demouser@lnl.com') {
+                this.$store.dispatch(
+                    'showSnackBar',
+                    'Sorry! Demo account cannot upload files'
+                );
+                return;
+            }
             if (this.image !== null) {
                 this.uploading = true;
-                let fullPath = "";
+                let fullPath = '';
                 uploadFile(this.image)
-                    .then(data => {
+                    .then((data) => {
                         fullPath = data.metadata.fullPath.toString();
                         return getURL(fullPath);
                     })
-                    .then(src => {
-                        this.$emit("upload", {
+                    .then((src) => {
+                        this.$emit('upload', {
                             fullPath,
                             src,
                             caption: this.file.caption,
                             location: this.file.location,
-                            description: this.file.description
+                            description: this.file.description,
                         });
                     })
-                    .catch(err => {
-                        this.$emit("error", err);
+                    .catch((err) => {
+                        this.$emit('error', err);
                     })
                     .then(() => {
                         this.uploading = false;
                     });
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
