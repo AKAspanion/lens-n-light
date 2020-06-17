@@ -6,32 +6,41 @@
             </div>
         </template>
         <template v-else>
-            <v-card height="100vh" width="100vw">
-                <v-container grid-list-md fluid fill-height>
-                    <v-layout column wrap justify-space-between align-center>
-                        <div class="text-center pt-4">
-                            <div class="display-1 font-weight-bold pt-12">LENS-AND-LIGHT</div>
-                            <div class="pt-2">
-                                <v-label>Amit Sahoo Photography</v-label>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="../assets/images/logo-fav.png" height="100px" />
-                        </div>
-                        <div class="text-center">
-                            <div class="pb-12 mb-4">
-                                <v-btn color="primary" @click="navigateToHome">
-                                    Enter
-                                    <v-icon
-                                        right
-                                        style="transform: rotate(-45deg)"
-                                    >mdi-arrow-bottom-right</v-icon>
-                                </v-btn>
-                            </div>
-                            <div class="overline grey--text">&copy; Amit Sahoo | 2019</div>
-                        </div>
-                    </v-layout>
-                </v-container>
+            <v-card min-height="100vh" width="100vw">
+                <div class="d-flex align-center justify-center flex-wrap">
+                    <div class="pa-0 img-container" :class="`item-${small ? 'small-top':'large'}`">
+                        <img src="../assets/images/profile.jpg" />
+                    </div>
+                    <div :class="`item-${small ? 'small-bottom':'large'}`">                        
+                        <v-container grid-list-md fluid fill-height>
+                            <v-layout column wrap justify-space-between align-center>
+                                <div class="text-center pt-4">
+                                    <div class="display-1 font-weight-bold pt-12">LENS-AND-LIGHT</div>
+                                    <div class="pt-2">
+                                        <v-label>Amit Sahoo Photography</v-label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <img src="../assets/images/logo-fav.png" height="100px" />
+                                </div>
+                                <div class="text-center">
+                                    <div class="pb-12 mb-4 d-flex flex-wrap align-center justify-center">
+                                        <v-btn class="ma-4" height="40" dark @click="navigateTo('Home')">
+                                            Showcase
+                                        </v-btn>
+                                        <v-btn class="ma-4" height="40" dark @click="navigateTo('Portfolio')">
+                                            Amit's Life
+                                        </v-btn>
+                                        <v-btn class="ma-4" height="40" dark @click="navigateTo('Contact')">
+                                            INQUIRIES
+                                        </v-btn>
+                                    </div>
+                                    <div class="overline grey--text">&copy; Amit Sahoo | 2019</div>
+                                </div>
+                            </v-layout>
+                        </v-container>
+                    </div>
+                </div>
             </v-card>
         </template>
     </div>
@@ -49,10 +58,15 @@ export default {
             pageLoading: false
         };
     },
+    computed: {
+        small() {
+            return this.$vuetify.breakpoint.smAndDown
+        }
+    },
     methods: {
-        navigateToHome() {
+        navigateTo(name) {
             this.$store.dispatch("LANDING_VISITED", true);
-            this.$router.push({ name: "Home" });
+            this.$router.push({ name });
         },
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);
@@ -81,3 +95,24 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+.item-small-top {
+    height: 40vh;
+    width: 100vw;
+}
+.item-small-bottom {
+    height: 100vh;
+    width: 100vw;
+}
+.item-large {
+    width: 50%;
+    height: 100vh;
+}
+</style>
