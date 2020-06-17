@@ -55,7 +55,7 @@
                     <v-spacer></v-spacer>
                     <v-chip outlined>{{activeCategory.title}}</v-chip>
                     <v-spacer></v-spacer>
-                    <v-btn icon @click="shareDialog = !shareDialog; createLink()">
+                    <v-btn icon @click="shareDialog = !shareDialog">
                         <v-icon>mdi-share-variant</v-icon>
                     </v-btn>
                 </v-toolbar>
@@ -183,7 +183,6 @@
 import LNLPhoto from "../components/LNLPhoto.vue";
 import LNLLoader from "../components/LNLLoader.vue";
 import {
-    getTags,
     getPhoto,
     getAllPhotos,
     getAllCategories,
@@ -201,7 +200,6 @@ export default {
             show: false,
             pageLoading: false,
             shareDialog: false,
-            shareLink: "amitsahoophotography.xyz",
             photo: {
                 caption: "",
                 categoryId: ""
@@ -211,6 +209,9 @@ export default {
         };
     },
     computed: {
+        shareLink() {
+            return window.location
+        },
         windowWidth() {
             return this.$store.state.window.width;
         },
@@ -247,15 +248,10 @@ export default {
         loadPage() {
             return Promise.all([getAllCategories(), getAllPhotos()]);
         },
-        createLink() {
-            this.shareLink =
-                "amitsahoophotography.xyz" + this.$router.currentRoute.fullPath;
-        },
         copyLink() {
             document.querySelector("#share-link").select();
             try {
-                var successful = document.execCommand("copy");
-                var msg = successful ? "successful" : "unsuccessful";
+                document.execCommand("copy");
                 this.$store.dispatch("showSnackBar", "Copied to clipboard");
             } catch (err) {
                 this.$store.dispatch("showSnackBar", "Oops, unable to copy");
