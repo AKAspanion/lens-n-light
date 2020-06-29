@@ -8,7 +8,7 @@ This is a web application.
 * Owner of this site can perform CRUD operations from Admin page and manage photos that appear on site.
 
 ## Live View
-* View the production site at [Lens-and-Light](https://amitsahoophotography.xyz)
+* View the production site at [Lens-and-Light](https://lens-n-light.web.app)
 * To enter the Admin page you can login as **Demo** user using the following credentials [ _Note: Demo user can't use CUD operations_ ]
   * Email: `demouser@lnl.com`
   * Password: `password`
